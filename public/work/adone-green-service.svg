@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="ADONE Green Services — huit agents en réseau autour d'une parcelle">
+  <!--
+    Miniature générée, pas illustrative : elle DIT le projet.
+    Une parcelle découpée en zones, et huit nœuds reliés au centre — les huit
+    agents IA de l'architecture ADONE 4.0. La couleur est celle de la
+    discipline agritech (#4ADE80), au même code que le reste du site.
+  -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#121215"/>
+      <stop offset="1" stop-color="#050506"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.3" cy="0.22" r="0.75">
+      <stop offset="0" stop-color="#4ADE80" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#4ADE80" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+
+  <!-- parcelle : bandes de culture en perspective légère -->
+  <g stroke="#4ADE80" stroke-opacity="0.16" stroke-width="1.5">
+    <path d="M90 690 L710 640"/>
+    <path d="M90 730 L710 686"/>
+    <path d="M90 770 L710 732"/>
+    <path d="M90 810 L710 778"/>
+    <path d="M90 850 L710 824"/>
+    <path d="M90 890 L710 870"/>
+  </g>
+  <path d="M90 640 L710 596 L710 910 L90 930 Z" fill="none" stroke="#4ADE80" stroke-opacity="0.35" stroke-width="2"/>
+
+  <!-- huit agents reliés au noyau -->
+  <g stroke="#4ADE80" stroke-opacity="0.42" stroke-width="1.25">
+    <line x1="400" y1="360" x2="400" y2="170"/>
+    <line x1="400" y1="360" x2="571" y2="228"/>
+    <line x1="400" y1="360" x2="640" y2="360"/>
+    <line x1="400" y1="360" x2="571" y2="492"/>
+    <line x1="400" y1="360" x2="400" y2="550"/>
+    <line x1="400" y1="360" x2="229" y2="492"/>
+    <line x1="400" y1="360" x2="160" y2="360"/>
+    <line x1="400" y1="360" x2="229" y2="228"/>
+  </g>
+  <g fill="#4ADE80">
+    <circle cx="400" cy="170" r="7"/>
+    <circle cx="571" cy="228" r="7"/>
+    <circle cx="640" cy="360" r="7"/>
+    <circle cx="571" cy="492" r="7"/>
+    <circle cx="400" cy="550" r="7"/>
+    <circle cx="229" cy="492" r="7"/>
+    <circle cx="160" cy="360" r="7"/>
+    <circle cx="229" cy="228" r="7"/>
+  </g>
+  <circle cx="400" cy="360" r="26" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+  <circle cx="400" cy="360" r="9" fill="#4ADE80"/>
+
+  <!-- filet de discipline, en tête, comme sur les plaques photo -->
+  <rect x="0" y="0" width="800" height="3" fill="#4ADE80"/>
+
+  <text x="60" y="962" fill="#ECECEE" fill-opacity="0.55"
+        font-family="ui-monospace, monospace" font-size="19" letter-spacing="5">
+    08 AGENTS — ADONE 4.0
+  </text>
+</svg>

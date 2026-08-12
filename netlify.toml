@@ -1,0 +1,49 @@
+# Déploiement Netlify — site 100 % statique.
+#
+# Le site n'a aucune route dynamique : tout est prérendu au build (`output:
+# "export"`). On publie donc un dossier de fichiers, sans le runtime Next de
+# Netlify — pas de fonction serverless, pas de démarrage à froid, rien à
+# facturer à l'invocation. Pour un site vitrine consulté depuis le Bénin, c'est
+# la configuration la plus rapide et la moins chère.
+
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  # Aligné sur la version locale ayant servi à valider le build.
+  NODE_VERSION = "24"
+  # Les scripts d'installation de sharp sont bloqués côté npm et sharp est
+  # inutile ici : les images sont déjà optimisées en WebP à la main.
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# ── En-têtes de sécurité ────────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# ── Cache ───────────────────────────────────────────────────────────────────
+# Les fichiers de /_next/static portent un hash dans leur nom : ils ne changent
+# jamais à contenu égal, on peut donc les figer un an.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/work/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+
+# Le site de soutien AquaControl est servi tel quel depuis /public.
+# Il est exclu de l'indexation (voir robots.ts) pour ne pas faire doublon
+# avec la fiche projet qui y renvoie.
+[[headers]]
+  for = "/sites/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

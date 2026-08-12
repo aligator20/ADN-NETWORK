@@ -1,0 +1,244 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   ADN NETWORK — DESIGN TOKENS
+   Tailwind v4 : @theme génère automatiquement les utilitaires
+   (--color-signal → bg-signal / text-signal / border-signal, etc.)
+   ========================================================================= */
+
+@theme {
+  /* — Surfaces : monochrome titane ————————————————————————— */
+  --color-void: #050506;
+  --color-carbon: #0a0a0c;
+  --color-graphite: #121215;
+  --color-ash: #1c1c20;
+  --color-steel: #2a2a30;
+
+  /* — Texte ————————————————————————————————————————————— */
+  --color-fog: #7d7d86;
+  --color-bone: #ececee;
+
+  /* — Signature de marque ————————————————————————————— */
+  --color-signal: #c6f24e;
+
+  /* — Les 7 couleurs de discipline ————————————————————————
+     Le système de marque : une teinte par métier, réparties sur la roue
+     chromatique pour rester distinguables au premier coup d'œil, et toutes
+     calibrées pour passer AA sur le fond #050506.
+     Elles servent de CODE : catégorie d'un projet, brin de l'hélice, état
+     actif. Jamais de dégradé décoratif, jamais deux teintes sur un même bloc. */
+  --color-digital: #4d93ff;
+  --color-ai: #a855f7;
+  --color-automation: #ff8a1f;
+  --color-network: #22d3ee;
+  --color-cyber: #ff4d58;
+  --color-creative: #ff5fae;
+  --color-agritech: #4ade80;
+
+  /* — Typographie ——————————————————————————————————————— */
+  --font-display: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
+
+  /* — Courbes ——————————————————————————————————————————— */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-power: cubic-bezier(0.65, 0.05, 0, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+
+  /* — Grille ————————————————————————————————————————————— */
+  --spacing-gutter: 1.5rem;
+  --spacing-gutter-lg: 2.5rem;
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================= */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    /* Lenis pilote le scroll : on désactive le natif pour éviter le conflit */
+    scroll-behavior: auto;
+    /* La gouttière est réservée en permanence. Sans ça, le verrou du préloader
+       fait disparaître la barre de défilement, la page s'élargit de ~15px, et
+       ScrollTrigger fige cette largeur dans le pin-spacer du Hero — le
+       document déborde alors horizontalement pour le reste de la session. */
+    scrollbar-gutter: stable;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-void);
+    color: var(--color-bone);
+    font-family: var(--font-display);
+    overflow-x: hidden;
+  }
+
+  /* Verrou du scroll pendant le préchargement */
+  body[data-locked="true"] {
+    overflow: hidden;
+    height: 100svh;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-void);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  /* Curseur custom actif → on masque le natif sur pointeur fin uniquement */
+  @media (pointer: fine) {
+    html[data-cursor-enabled="true"],
+    html[data-cursor-enabled="true"] * {
+      cursor: none;
+    }
+  }
+}
+
+/* ============================================================================
+   PRIMITIVES DE DIRECTION ARTISTIQUE
+   ========================================================================= */
+
+@layer components {
+  /* — Label machine : index, coordonnées, métadonnées ——————————— */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    line-height: 1;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-fog);
+  }
+
+  @media (min-width: 768px) {
+    .label {
+      font-size: 0.6875rem;
+    }
+  }
+
+  /* — Titre massif ——————————————————————————————————————— */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+  }
+
+  /* — Contre-masse : titre en contour ——————————————————————— */
+  .display-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-bone);
+    /* le stroke standard n'est pas encore universel, on garde le préfixe */
+  }
+
+  @media (min-width: 768px) {
+    .display-outline {
+      -webkit-text-stroke-width: 1.5px;
+    }
+  }
+
+  /* — Masque de révélation : le parent coupe, l'enfant glisse ————— */
+  .mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    /* de l'air pour les jambages, repris en marge négative */
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
+
+  .mask > span {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  /* — Hairline : le séparateur signature ————————————————————— */
+  .hairline {
+    height: 1px;
+    width: 100%;
+    background: var(--color-steel);
+    transform-origin: left center;
+  }
+
+  /* — Gouttière de page ——————————————————————————————————— */
+  .gutter {
+    padding-inline: var(--spacing-gutter);
+  }
+
+  @media (min-width: 768px) {
+    .gutter {
+      padding-inline: var(--spacing-gutter-lg);
+    }
+  }
+}
+
+/* ============================================================================
+   ANIMATIONS CSS (uniquement les boucles infinies — le reste est piloté GSAP)
+   ========================================================================= */
+
+@keyframes scrollcue {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  25%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(300%);
+    opacity: 0;
+  }
+}
+
+/* ============================================================================
+   UTILITAIRES SUR-MESURE
+   ========================================================================= */
+
+@utility text-balance-tight {
+  text-wrap: balance;
+}
+
+/* Repli si WebGL indisponible : l'ambiance ne s'effondre pas */
+@utility webgl-fallback {
+  background:
+    radial-gradient(
+      60% 50% at 68% 42%,
+      color-mix(in srgb, var(--color-signal) 7%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(90% 70% at 50% 100%, var(--color-carbon) 0%, var(--color-void) 70%);
+}
+
+/* ============================================================================
+   ACCESSIBILITÉ — mouvement réduit
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  @media (pointer: fine) {
+    html[data-cursor-enabled="true"],
+    html[data-cursor-enabled="true"] * {
+      cursor: auto;
+    }
+  }
+}
