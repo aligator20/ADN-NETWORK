@@ -148,6 +148,54 @@ leurs chiffres proviennent des mêmes sources que les fiches projet. Le
 générateur et la procédure de régénération sont documentés dans
 `../decks/LISEZ-MOI.md`.
 
+## Déploiement — GitHub + Netlify
+
+Le site est exporté en **statique pur** (`output: "export"`) : 69 fichiers,
+2,7 Mo, aucune fonction serverless. Netlify sert un dossier, rien de plus.
+
+> ⚠️ **Le dépôt git est volontairement limité à `adn-network/`.** Le dossier
+> parent contient les plans d'affaires et les dossiers investisseurs, marqués
+> confidentiels. Ne jamais faire `git init` au niveau au-dessus.
+
+### 1. Avant le premier déploiement
+
+Renseigner **`site.url`** dans `src/content/site.ts` avec l'adresse réelle —
+d'abord l'URL Netlify (`https://xxx.netlify.app`), puis le domaine définitif.
+Sans elle, l'image de partage ne s'affichera sur aucun réseau social : ils
+exigent des URL absolues.
+
+### 2. Envoyer sur GitHub
+
+Créer un dépôt **privé** vide sur github.com (sans README ni .gitignore), puis :
+
+```bash
+git remote add origin https://github.com/VOTRE-COMPTE/adn-network.git
+git push -u origin main
+```
+
+### 3. Brancher Netlify
+
+Sur app.netlify.com → **Add new site → Import an existing project → GitHub**,
+choisir le dépôt. `netlify.toml` fournit déjà toute la configuration :
+
+| Réglage | Valeur | Origine |
+|---|---|---|
+| Build command | `npm run build` | `netlify.toml` |
+| Publish directory | `out` | `netlify.toml` |
+| Node version | 24 | `netlify.toml` |
+
+Ne rien saisir à la main : si l'interface propose autre chose, c'est que le
+`netlify.toml` n'a pas été lu — vérifier qu'il est bien à la racine du dépôt.
+
+Chaque `git push` sur `main` redéploie. Les pull requests reçoivent une preview.
+
+### 4. Domaine
+
+Netlify → **Domain settings → Add a domain**. Le certificat HTTPS est émis
+automatiquement. Une fois le domaine actif, remettre `site.url` à jour et
+pousser : c'est cette valeur qui alimente le sitemap, le fichier robots et les
+aperçus de partage.
+
 ### Avant mise en ligne
 
 1. **`site.url`** dans `src/content/site.ts` — le domaine réel. Sans lui, les
