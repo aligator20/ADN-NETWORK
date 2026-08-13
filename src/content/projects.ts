@@ -26,6 +26,36 @@ import { disciplineColor, services, type ServiceId } from "@/content/services";
  * ────────────────────────────────────────────────────────────────────────────
  */
 
+/**
+ * État réel d'un projet — obligatoire, et c'est délibéré.
+ *
+ * Sans ce champ, un plan d'affaires et une réalisation livrée s'affichaient
+ * exactement pareil : même mise en page, mêmes chiffres en grand, même
+ * autorité. Un lecteur pressé n'y voit rien ; un investisseur repère les dates,
+ * comprend que certains projets n'existent pas encore, et doute alors de TOUS
+ * les autres. Le mélange indifférencié abîme les projets réels au lieu de
+ * porter les autres.
+ *
+ * Annoncer « ce projet cherche son financement » ne coûte aucune crédibilité :
+ * c'est le laisser deviner qui en coûte.
+ */
+export type ProjectStatus = "livre" | "exploitation" | "construction" | "financement";
+
+export const statusLabel: Record<ProjectStatus, string> = {
+  livre: "Livré",
+  exploitation: "En exploitation",
+  construction: "En construction",
+  financement: "Recherche de financement",
+};
+
+/** Le lime de la marque signale le seul état qui appelle une action. */
+export const statusColor: Record<ProjectStatus, string> = {
+  livre: "var(--color-fog)",
+  exploitation: "var(--color-agritech)",
+  construction: "var(--color-automation)",
+  financement: "var(--color-signal)",
+};
+
 export type Project = {
   /** Identifiant d'URL — doit rester stable, il sert de lien permanent. */
   slug: string;
@@ -34,6 +64,8 @@ export type Project = {
   year: number;
   /** Détermine à lui seul la catégorie ET la couleur du projet. */
   discipline: ServiceId;
+  /** Où en est réellement le projet. Voir `ProjectStatus`. */
+  status: ProjectStatus;
   /** Une phrase. Ce que le projet change, pas la liste de ce qui a été fait. */
   summary: string;
   /**
@@ -91,6 +123,7 @@ export const projects: readonly Project[] = [
     client: "ADN Network",
     year: 2026,
     discipline: "agritech",
+    status: "construction",
     summary:
       "L'irrigation pilotée par les capteurs et la météo : l'eau va là où le rendement se joue.",
     stack: ["IoT", "Pilotage edge", "Prévision", "Tableau de bord"],
@@ -151,6 +184,7 @@ export const projects: readonly Project[] = [
     client: "Groupe ADONE",
     year: 2026,
     discipline: "agritech",
+    status: "financement",
     summary:
       "Aménagement paysager et entretien d'espaces verts, avec huit agents IA qui tiennent le devis, le planning et la qualité.",
     stack: ["Agents IA", "Devis & planning", "Suivi de chantier", "Pilotage"],
@@ -204,6 +238,7 @@ export const projects: readonly Project[] = [
     title: "FullMesh Shop",
     year: 2026,
     discipline: "digital",
+    status: "livre",
     summary:
       "Une boutique de produits numériques bâtie sur une règle : être vu avant d'être cru. Noir et jaune électrique, quatre couleurs, pas une de plus.",
     stack: ["Charte de marque", "Boutique en ligne", "Réseau de revendeurs"],
@@ -264,6 +299,7 @@ export const projects: readonly Project[] = [
     // inventaire, manuel de formation, plan d'affaires. Si la commande portait
     // d'abord sur l'identité de la marque, basculer en `creative`.
     discipline: "automation",
+    status: "financement",
     summary:
       "Une manufacture de résines structurée de bout en bout : plan d'affaires, outils de gestion et d'inventaire, manuel de formation professionnelle.",
     stack: ["Plan d'affaires", "Gestion & inventaire", "Manuel de formation"],
@@ -321,11 +357,15 @@ export const projects: readonly Project[] = [
     title: "T-Shirt Gemini",
     year: 2026,
     discipline: "creative",
+    status: "livre",
     summary:
       "Une typographie qui porte le message avant le vêtement : composition rouge, verticale, lisible à trois mètres.",
     stack: ["Design graphique", "Typographie", "Textile"],
-    cover: "/work/tshirt-gemini.webp",
-    coverFit: "contain", // affiche verticale : le recadrage n'en laissait qu'une bande
+    // Mockups portés plutôt que le visuel à plat : on voit le vêtement sur
+    // quelqu'un, ce qui vaut mieux qu'un fichier d'impression pour juger d'un
+    // projet textile. Extrait du dossier de marque GEMINI.
+    cover: "/work/gemini-mockups.webp",
+    coverFit: "contain",
     detail: [
       {
         title: "L'idée",
@@ -353,6 +393,8 @@ export const projects: readonly Project[] = [
     client: "Groupe ADONE",
     year: 2026,
     discipline: "farming",
+    // 1,5 ha sont deja cultives : c'est le seul projet du groupe qui produit.
+    status: "exploitation",
     summary:
       "Une exploitation qui rachète ses terres avec ses propres revenus : de 1,5 hectare à cent, sans levée successive.",
     stack: ["Plan parcellaire", "Mécanisation par paliers", "Élevage intégré", "Agrotransformation"],
@@ -411,6 +453,7 @@ export const projects: readonly Project[] = [
     client: "Groupe ADONE",
     year: 2026,
     discipline: "farming",
+    status: "financement",
     summary:
       "Naisseur-engraisseur en intégration verticale : l'aliment, l'élevage, la transformation et la vente sous le même toit.",
     stack: ["Naisseur-engraisseur", "Formulation d'aliment", "Biosécurité", "Transformation B2B"],
@@ -471,6 +514,7 @@ export const projects: readonly Project[] = [
     client: "Groupe ADONE",
     year: 2026,
     discipline: "food",
+    status: "financement",
     summary:
       "Une maison d'épicerie qui ne lance une gamme que lorsque la précédente est rentable, maîtrisée et distribuée.",
     stack: ["Marque produit", "Conditionnement premium", "Épices & condiments", "Distribution"],

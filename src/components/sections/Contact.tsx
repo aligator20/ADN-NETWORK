@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef } from "react";
 
 import { Magnetic } from "@/components/ui/Magnetic";
+import { Whatsapp } from "@/components/ui/Whatsapp";
 import { contact, sequences, site, ui } from "@/content/site";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
@@ -70,6 +71,18 @@ export function Contact() {
               <span className="mt-3 block h-px w-full origin-left scale-x-0 bg-signal transition-transform duration-500 ease-expo group-hover:scale-x-100" />
             </a>
           </Magnetic>
+
+          {/* WhatsApp à côté de l'email : sur téléphone, c'est le canal que
+              le visiteur ouvrira réellement. */}
+          <div className="cta-fade">
+            <p className="label">Réponse rapide</p>
+            <Whatsapp
+              message={`Bonjour, je vous contacte depuis le site ${site.name}.`}
+              label="Écrire sur WhatsApp"
+              showNumber
+              className="mt-4"
+            />
+          </div>
 
           {/* réseaux — `url` vide → libellé simple, jamais un lien mort */}
           <div className="cta-fade">

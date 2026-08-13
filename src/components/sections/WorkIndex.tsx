@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 
 import { Cover } from "@/components/ui/Cover";
+import { Status } from "@/components/ui/Status";
 import {
   disciplineName,
   projectCategories,
@@ -178,6 +179,12 @@ export function WorkIndex() {
 
                 <span className="col-span-4 mt-3 label text-right tabular-nums md:col-span-1 md:mt-0">
                   {p.year}
+                </span>
+
+                {/* L'état sous le titre : un lecteur doit savoir en un coup
+                    d'œil si le projet tourne ou s'il cherche son financement. */}
+                <span className="col-span-12 mt-2 block md:col-span-6 md:col-start-2 md:mt-1">
+                  <Status project={p} />
                 </span>
 
                 {/* Sur mobile, pas de survol : l'aperçu est inline. */}

@@ -5,6 +5,8 @@ import { useRef } from "react";
 
 import { Cover } from "@/components/ui/Cover";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { Status } from "@/components/ui/Status";
+import { Whatsapp } from "@/components/ui/Whatsapp";
 import { disciplineName, type Project } from "@/content/projects";
 import { disciplineColor } from "@/content/services";
 import { site, ui } from "@/content/site";
@@ -81,11 +83,14 @@ export function ProjectView({
       <article className="mx-auto max-w-[1800px] gutter pt-36 md:pt-44">
         {/* — repère + retour ————————————————————————————— */}
         <div className="pv-fade flex items-baseline justify-between gap-6">
-          <p className="flex items-baseline gap-4">
+          <p className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
             <span className="label" style={{ color }}>
               [{pad(index)}]
             </span>
             <span className="label">{disciplineName(project.discipline)}</span>
+            {/* L'état est annoncé avant le titre : ce que le lecteur doit
+                savoir en premier, c'est si le projet tourne ou s'il cherche. */}
+            <Status project={project} />
           </p>
           <Link
             href="/work"
@@ -306,6 +311,12 @@ export function ProjectView({
                 </a>
               </Magnetic>
               <p className="label mt-5">{site.email}</p>
+              <Whatsapp
+                message={`Bonjour, je souhaite en savoir plus sur le projet ${project.title}.`}
+                label="Ou sur WhatsApp"
+                showNumber
+                className="mt-7"
+              />
             </div>
           </div>
         </div>

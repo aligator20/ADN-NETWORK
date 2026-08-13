@@ -10,6 +10,7 @@ import {
   projectsByCategory,
 } from "@/content/projects";
 import { Cover } from "@/components/ui/Cover";
+import { Status } from "@/components/ui/Status";
 import { disciplineColor, type ServiceId } from "@/content/services";
 import { sequences, ui } from "@/content/site";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
@@ -319,6 +320,7 @@ function ProjectPanel({
         <h3 className="display mt-3 text-[clamp(1.5rem,2.6vw,2.5rem)] leading-[0.95] text-bone">
           {project.title}
         </h3>
+        <Status project={project} className="mt-3" />
       </div>
     </Link>
   );

@@ -34,6 +34,17 @@ export const site = {
    */
   email: "sylvereadone20@gmail.com",
   /**
+   * WhatsApp — le canal réel en Afrique de l'Ouest.
+   *
+   * Un prospect sur téléphone n'ouvrira pas son client mail. Ne pas offrir ce
+   * canal, c'est perdre le contact au moment précis où il est acquis.
+   *
+   * `wa` ne contient que des chiffres, indicatif compris et sans « + » :
+   * c'est le format exigé par wa.me. `waDisplay` est la forme lisible.
+   * Numéro repris des dossiers FDR, porcin et du site AquaControl.
+   */
+  whatsapp: { wa: "2290156223776", display: "+229 01 56 22 37 76" },
+  /**
    * ⚠️ À REMPLACER par le domaine réel avant mise en ligne.
    *
    * Cette URL n'est pas cosmétique : elle sert de `metadataBase`. Les aperçus

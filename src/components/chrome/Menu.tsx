@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 import { disciplineColor, services } from "@/content/services";
 import { nav, site, ui, type NavItem } from "@/content/site";
+import { Whatsapp } from "@/components/ui/Whatsapp";
 import { getLenis, scrollTo } from "@/lib/scroll";
 import { pad } from "@/lib/utils";
 import { useAppState } from "@/providers/app-context";
@@ -211,6 +212,11 @@ export function Menu() {
                   >
                     {site.email}
                   </a>
+                  <Whatsapp
+                    message={`Bonjour, je vous contacte depuis le site ${site.name}.`}
+                    label="WhatsApp"
+                    className="mt-5 md:flex-row-reverse"
+                  />
                   <p className="label mt-4 leading-[1.9]">
                     {site.base.city.toUpperCase()} — {site.base.country}
                     <br />
