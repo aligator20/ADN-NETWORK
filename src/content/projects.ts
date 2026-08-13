@@ -357,6 +357,7 @@ export const projects: readonly Project[] = [
       "Une exploitation qui rachète ses terres avec ses propres revenus : de 1,5 hectare à cent, sans levée successive.",
     stack: ["Plan parcellaire", "Mécanisation par paliers", "Élevage intégré", "Agrotransformation"],
     cover: "/work/fdr-adone.webp",
+    coverFit: "contain", // plan technique : le recadrer le rendrait illisible
     figures: [
       { value: "1,5→100", label: "hectares, horizon 10 ans" },
       { value: "3→300", label: "M FCFA — CA annuel projeté" },
@@ -413,6 +414,8 @@ export const projects: readonly Project[] = [
     summary:
       "Naisseur-engraisseur en intégration verticale : l'aliment, l'élevage, la transformation et la vente sous le même toit.",
     stack: ["Naisseur-engraisseur", "Formulation d'aliment", "Biosécurité", "Transformation B2B"],
+    cover: "/work/complexe-porcin.svg",
+    coverFit: "contain",
     figures: [
       { value: "10→50", label: "truies reproductrices" },
       { value: "14 M", label: "FCFA — capital Phase 1" },
@@ -471,6 +474,8 @@ export const projects: readonly Project[] = [
     summary:
       "Une maison d'épicerie qui ne lance une gamme que lorsque la précédente est rentable, maîtrisée et distribuée.",
     stack: ["Marque produit", "Conditionnement premium", "Épices & condiments", "Distribution"],
+    cover: "/work/adn-taste.svg",
+    coverFit: "contain",
     figures: [
       { value: "10 M", label: "FCFA — financement initial" },
       { value: "06", label: "formats, de 7 g à 150 g" },

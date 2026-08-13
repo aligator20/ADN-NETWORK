@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { services } from "@/content/services";
+import { disciplineColor, services } from "@/content/services";
 import { sequences, ui } from "@/content/site";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
@@ -56,22 +56,30 @@ export function Services() {
       if (reduced || !fine) return;
 
       const BONE = cssVar("--color-bone", "#ececee");
-      const SIGNAL = cssVar("--color-signal", "#c6f24e");
       const FOG = cssVar("--color-fog", "#7d7d86");
 
-      const cleanups = rows.map((row) => {
+      // Chaque ligne se remplit de SA couleur de discipline, pas d'un accent
+      // commun. La liste au repos est monochrome ; sous le curseur, elle
+      // affiche le code couleur du site — c'est là que la section prend vie.
+      const teintes = services.map((s) =>
+        cssVar(disciplineColor[s.id].replace(/var\(|\)/g, ""), BONE),
+      );
+
+      const cleanups = rows.map((row, ri) => {
+        const teinte = teintes[ri] ?? BONE;
         const name = row.querySelector(".svc-name");
         const idx = row.querySelector(".svc-idx");
         const detail = row.querySelector(".svc-detail");
-        const wipe = row.querySelector(".svc-wipe");
+        const wipe = row.querySelector<HTMLElement>(".svc-wipe");
+        if (wipe) wipe.style.background = teinte;
 
         // Timeline construite une fois, jouée/rembobinée : aucune allocation
         // pendant l'interaction, donc aucun à-coup au survol rapide.
         const tl = gsap
           .timeline({ paused: true, defaults: { duration: 0.55, ease: EASE.expo } })
           // Le contour se remplit : c'est le même mot qui prend corps.
-          .to(name, { color: BONE, x: 12 }, 0)
-          .to(idx, { color: SIGNAL }, 0)
+          .to(name, { color: teinte, x: 12 }, 0)
+          .to(idx, { color: teinte }, 0)
           .to(detail, { autoAlpha: 1, x: 0 }, 0.05)
           .to(wipe, { scaleX: 1, duration: 0.7 }, 0);
 
@@ -140,7 +148,9 @@ export function Services() {
             >
               {/* hairline de tête + trait d'accent qui balaie au survol */}
               <div className="svc-rule hairline origin-left" />
-              <div className="svc-wipe absolute inset-x-0 top-0 h-px origin-left bg-signal" />
+              {/* La couleur est posée en JS depuis `disciplineColor` : Tailwind
+                  ne peut pas générer de classe dynamique par discipline. */}
+              <div className="svc-wipe absolute inset-x-0 top-0 h-px origin-left" />
 
               <div className="grid grid-cols-12 items-baseline gap-x-4 py-7 md:gap-x-10 md:py-10">
                 {/* index */}
