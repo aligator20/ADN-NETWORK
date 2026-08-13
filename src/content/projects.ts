@@ -522,14 +522,16 @@ export const projects: readonly Project[] = [
     discipline: "food",
     status: "financement",
     summary:
-      "Une maison d'épicerie qui ne lance une gamme que lorsque la précédente est rentable, maîtrisée et distribuée.",
-    stack: ["Marque produit", "Conditionnement premium", "Épices & condiments", "Distribution"],
-    cover: "/work/maison-adone.webp",
-    coverFit: "contain", // logo sur fond noir : il se pose seul sur la plaque
+      "Quatre piments, un seul procédé, un sachet de 7 grammes : le goût de chez nous en format d'essai.",
+    stack: ["Marque produit", "Conditionnement 7 g", "Épices & condiments", "Distribution"],
+    // La gamme réelle plutôt que le logo : quatre sachets alignés montrent en
+    // une image le produit, le conditionnement et l'étendue de la gamme.
+    cover: "/work/adn-taste-gamme.webp",
+    coverFit: "contain",
     figures: [
+      { value: "04", label: "recettes au catalogue" },
       { value: "10 M", label: "FCFA — financement initial" },
-      { value: "06", label: "formats, de 7 g à 150 g" },
-      { value: "350→3500", label: "FCFA — prix par bocal" },
+      { value: "7 g", label: "le sachet, format individuel" },
       { value: "2033", label: "horizon, 15+ pays visés" },
     ],
     opportunity: [
@@ -538,8 +540,8 @@ export const projects: readonly Project[] = [
         body: "Ne jamais lancer un produit avant que le précédent soit rentable, maîtrisé et distribué. C'est une contrainte volontaire : elle interdit la dispersion qui épuise la trésorerie des jeunes marques alimentaires.",
       },
       {
-        title: "Le produit fondateur",
-        body: "Un piment séché, décliné en cinq formes de bocaux et six contenances. Un seul produit maîtrisé de bout en bout vaut mieux qu'un catalogue dont rien n'est reproductible à l'identique.",
+        title: "La gamme fondatrice",
+        body: "Quatre recettes de piment — rouge en poudre, fumé au gingembre, Double Hot au clou de girofle, et noir grillé — toutes déclinées d'une même matière première et d'un même procédé. Quatre goûts, une seule chaîne de production à maîtriser.",
       },
       {
         title: "Où vont les 10 millions",
@@ -547,7 +549,7 @@ export const projects: readonly Project[] = [
       },
       {
         title: "Ce qui se transpose",
-        body: "Un produit fondateur, une charte tenue sans exception, une gamme élargie par paliers. La matière première change avec le terroir — piment ici, une autre épice ailleurs — mais la règle qui gouverne l'élargissement ne change pas.",
+        body: "Une matière première, un procédé, plusieurs recettes, un format d'essai. L'emballage revendique « produit en Afrique » et non un seul pays : la marque est pensée dès le départ pour une matière qui change de terroir sans que la méthode change.",
       },
     ],
     detail: [
@@ -557,11 +559,11 @@ export const projects: readonly Project[] = [
       },
       {
         title: "Le conditionnement",
-        body: "Bocal de verre, bouchon doré, fond sombre, étiquette bilingue français-anglais avec code QR, valeurs nutritionnelles et allergènes. Sur une étagère, c'est le contenant qui décide de la première main tendue.",
+        body: "Sachet individuel de 7 grammes, fond noir et or, avec conseils d'utilisation, conservation, allergènes, valeurs nutritionnelles et code-barres. Le format individuel règle d'un coup l'hygiène, le prix d'entrée et l'essai.",
       },
       {
-        title: "L'échelle de prix",
-        body: "Six contenances de 7 à 150 grammes, de 350 à 3 500 FCFA. Le petit format fait essayer, le grand fidélise. La gamme couvre l'achat d'impulsion comme la consommation régulière.",
+        title: "Le format d'essai",
+        body: "Sept grammes, c'est la dose d'un plat. Le sachet fait goûter sans engager, et c'est le meilleur argument d'un condiment que personne ne connaît encore. Les contenances supérieures viendront quand la recette sera adoptée.",
       },
       {
         title: "L'horizon",
