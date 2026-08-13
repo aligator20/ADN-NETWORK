@@ -15,7 +15,9 @@ export type ServiceId =
   | "network"
   | "cybersecurity"
   | "creative"
-  | "agritech";
+  | "agritech"
+  | "farming"
+  | "food";
 
 /**
  * Deux natures d'offre, et la distinction est affichée.
@@ -54,6 +56,8 @@ export const disciplineColor: Record<ServiceId, string> = {
   cybersecurity: "var(--color-cyber)",
   creative: "var(--color-creative)",
   agritech: "var(--color-agritech)",
+  farming: "var(--color-farming)",
+  food: "var(--color-food)",
 };
 
 export const services: readonly Service[] = [
@@ -117,6 +121,27 @@ export const services: readonly Service[] = [
     kind: "delivery",
     statement: "Le capteur, l'eau et la donnée — du champ au tableau de bord.",
     capabilities: ["Capteurs IoT", "Pilotage d'irrigation", "Analyse de rendement", "Traçabilité"],
+  },
+  {
+    id: "farming",
+    name: "Agriculture & Élevage",
+    kind: "delivery",
+    statement:
+      "Des exploitations conçues pour grandir avec leurs propres revenus, pas avec des levées successives.",
+    capabilities: [
+      "Plan parcellaire",
+      "Mécanisation par paliers",
+      "Élevage intégré",
+      "Économie circulaire",
+    ],
+  },
+  {
+    id: "food",
+    name: "Agroalimentaire",
+    kind: "delivery",
+    statement:
+      "Transformer sur place ce qui partait brut : la valeur reste là où elle est produite.",
+    capabilities: ["Marque produit", "Unité de transformation", "Conditionnement", "Distribution"],
   },
 ] as const;
 

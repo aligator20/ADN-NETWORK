@@ -146,6 +146,8 @@ export const disciplines = [
   "Cybersécurité",
   "Création",
   "Agritech",
+  "Agriculture",
+  "Agroalimentaire",
 ] as const;
 
 /**

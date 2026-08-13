@@ -345,6 +345,175 @@ export const projects: readonly Project[] = [
       },
     ],
   },
+
+  /* ═══════════════════════════════════ AGRICULTURE & ÉLEVAGE ══ */
+  {
+    slug: "ferme-fdr-adone",
+    title: "Ferme FDR-Adone",
+    client: "Groupe ADONE",
+    year: 2026,
+    discipline: "farming",
+    summary:
+      "Une exploitation qui rachète ses terres avec ses propres revenus : de 1,5 hectare à cent, sans levée successive.",
+    stack: ["Plan parcellaire", "Mécanisation par paliers", "Élevage intégré", "Agrotransformation"],
+    cover: "/work/fdr-adone.webp",
+    figures: [
+      { value: "1,5→100", label: "hectares, horizon 10 ans" },
+      { value: "3→300", label: "M FCFA — CA annuel projeté" },
+      { value: "02→50", label: "emplois directs" },
+      { value: "05", label: "paliers autofinancés" },
+    ],
+    opportunity: [
+      {
+        title: "Le principe",
+        body: "Chaque palier finance le suivant. On ne mécanise pas avant que la surface le justifie, et on n'achète pas de terre avant que la production la paie. Il n'y a donc jamais de seconde levée à négocier en position de faiblesse.",
+      },
+      {
+        title: "Les cinq paliers",
+        body: "Motopompe à essence supprimée, puis motoculteur, tracteur de moyenne puissance, tracteur lourd avec accessoires, enfin parc complet. Chaque étape est déclenchée par un seuil de revenu atteint, jamais par une date au calendrier.",
+      },
+      {
+        title: "Ce qui se transpose",
+        body: "La règle d'autofinancement, la répartition parcellaire par horizon de revenu, et l'ordre d'investissement — l'eau d'abord, la mécanisation ensuite, la transformation en dernier. Ce triptyque vaut sous n'importe quelle latitude.",
+      },
+      {
+        title: "Ce qui s'adapte",
+        body: "Les filières, les prix, les fournisseurs de matériel, les dispositifs publics de soutien. Un plan bâti pour le Mono se réécrit pour la Côte d'Ivoire, le Sahel ou une plaine tempérée en changeant ces quatre variables — pas la méthode.",
+      },
+    ],
+    detail: [
+      {
+        title: "L'origine",
+        body: "« Mon père a passé sa vie à se battre pour 1 000 m². Je construis de quoi produire sur 100 hectares. » Le problème constaté n'était ni le manque de terre ni le manque de travail : c'était l'absence de mécanisation, d'organisation et d'horizon.",
+      },
+      {
+        title: "Le plan parcellaire",
+        body: "La moitié de la surface en cultures pérennes à revenu tardif, un quart en cultures rapides qui font vivre l'exploitation, 15 % en diversification, 10 % en infrastructure. La parcelle est découpée par horizon de revenu, pas par convenance.",
+      },
+      {
+        title: "L'eau d'abord",
+        body: "Forage, pompe solaire et goutte-à-goutte avant toute autre dépense. Une exploitation qui dépend du carburant pour arroser voit ses marges partir en essence et ses récoltes souffrir à chaque panne.",
+      },
+      {
+        title: "L'élevage intégré",
+        body: "Volailles et lapins sur la même parcelle : trésorerie à cycle court, et déjections compostées qui remplacent l'engrais acheté. L'élevage n'est pas une activité annexe, c'est ce qui ferme le cycle.",
+      },
+      {
+        title: "La transformation en bout de chaîne",
+        body: "Une fois la production stabilisée, transformer sur place plutôt que vendre brut. C'est la marche qui fait passer d'un revenu agricole à un revenu industriel — et elle n'est franchie qu'en dernier.",
+      },
+    ],
+  },
+  {
+    slug: "complexe-porcin",
+    title: "Complexe Porcin Intégré",
+    client: "Groupe ADONE",
+    year: 2026,
+    discipline: "farming",
+    summary:
+      "Naisseur-engraisseur en intégration verticale : l'aliment, l'élevage, la transformation et la vente sous le même toit.",
+    stack: ["Naisseur-engraisseur", "Formulation d'aliment", "Biosécurité", "Transformation B2B"],
+    figures: [
+      { value: "10→50", label: "truies reproductrices" },
+      { value: "14 M", label: "FCFA — capital Phase 1" },
+      { value: "24", label: "mois — retour sur investissement" },
+      { value: "×1,6", label: "valeur ajoutée par transformation" },
+    ],
+    opportunity: [
+      {
+        title: "Trois paliers chiffrés",
+        body: "10 truies : 184 porcs par an, 29,4 M FCFA de chiffre d'affaires, 9,5 M de bénéfice net. 30 truies : 552 porcs, 88,3 M, 33,9 M. 50 truies : 920 porcs, 147,2 M, 56,4 M. Chaque palier est déclenché par la rentabilité du précédent.",
+      },
+      {
+        title: "L'avantage de coût",
+        body: "Une formulation alimentaire bâtie sur les sous-produits locaux réduit de 30 à 40 % le poste le plus lourd d'un élevage porcin. C'est l'avantage concurrentiel principal, et il est durable parce qu'il tient à un savoir-faire, pas à un prix négocié.",
+      },
+      {
+        title: "La discipline financière",
+        body: "L'atelier de transformation n'est activé qu'une fois le flux de trésorerie positif et stable — soit vers le huitième mois. Lancer les deux de front est l'erreur qui tue ce type de projet.",
+      },
+      {
+        title: "Ce qui se transpose",
+        body: "Le protocole de biosécurité — ferme fermée, pédiluves, quarantaine de trente jours — répond à la peste porcine africaine, qui n'est pas un problème béninois mais mondial. Le modèle naisseur-engraisseur et la formulation sur ressources locales valent partout où il y a des sous-produits agricoles à valoriser.",
+      },
+    ],
+    detail: [
+      {
+        title: "Le modèle",
+        body: "Naisseur-engraisseur : l'exploitation produit ses propres porcelets. Le poste d'achat le plus volatil disparaît, et l'autonomie génétique se construit d'année en année.",
+      },
+      {
+        title: "L'aliment, le vrai sujet",
+        body: "L'alimentation représente l'essentiel du coût de production. La formuler soi-même à partir de matières disponibles localement, plutôt que d'acheter de l'aliment composé, change la structure de marge du projet entier.",
+      },
+      {
+        title: "La biosécurité",
+        body: "Ferme fermée, pédiluves à chaque entrée, quarantaine de trente jours pour tout animal introduit. Ce n'est pas de la précaution : un seul foyer de peste porcine anéantit un cheptel et l'investissement avec.",
+      },
+      {
+        title: "Le cycle fermé",
+        body: "Le lisier devient compost — quinze à vingt tonnes par an dès la première phase, revendues ou réinjectées dans les cultures. Zéro rejet, et un revenu complémentaire qui ne coûte que de l'organisation.",
+      },
+      {
+        title: "La transformation B2B",
+        body: "Viande fumée, produits braisés, charcuterie, abats valorisés, vendus aux restaurants et aux maquis. La même carcasse rapporte environ 1,6 fois plus qu'en vente brute.",
+      },
+    ],
+  },
+
+  /* ══════════════════════════════════════════ AGROALIMENTAIRE ══ */
+  {
+    slug: "adn-taste",
+    title: "ADN TASTE — Maison Adone",
+    client: "Groupe ADONE",
+    year: 2026,
+    discipline: "food",
+    summary:
+      "Une maison d'épicerie qui ne lance une gamme que lorsque la précédente est rentable, maîtrisée et distribuée.",
+    stack: ["Marque produit", "Conditionnement premium", "Épices & condiments", "Distribution"],
+    figures: [
+      { value: "10 M", label: "FCFA — financement initial" },
+      { value: "06", label: "formats, de 7 g à 150 g" },
+      { value: "350→3500", label: "FCFA — prix par bocal" },
+      { value: "2033", label: "horizon, 15+ pays visés" },
+    ],
+    opportunity: [
+      {
+        title: "La règle de croissance",
+        body: "Ne jamais lancer un produit avant que le précédent soit rentable, maîtrisé et distribué. C'est une contrainte volontaire : elle interdit la dispersion qui épuise la trésorerie des jeunes marques alimentaires.",
+      },
+      {
+        title: "Le produit fondateur",
+        body: "Un piment séché, décliné en cinq formes de bocaux et six contenances. Un seul produit maîtrisé de bout en bout vaut mieux qu'un catalogue dont rien n'est reproductible à l'identique.",
+      },
+      {
+        title: "Où vont les 10 millions",
+        body: "35 % en équipements de production, 20 % en matières premières sur six mois, 15 % en bocaux et emballages, 15 % de fonds de roulement, 10 % en marketing, 5 % d'imprévus. Aucun poste ne dépasse le tiers.",
+      },
+      {
+        title: "Ce qui se transpose",
+        body: "Un produit fondateur, une charte tenue sans exception, une gamme élargie par paliers. La matière première change avec le terroir — piment ici, une autre épice ailleurs — mais la règle qui gouverne l'élargissement ne change pas.",
+      },
+    ],
+    detail: [
+      {
+        title: "Le positionnement",
+        body: "Épicerie premium plutôt que produit de commodité. Cent pour cent naturel, sans conservateurs, fabrication artisanale — et ces mentions engagent, elles ne décorent pas l'étiquette.",
+      },
+      {
+        title: "Le conditionnement",
+        body: "Bocal de verre, bouchon doré, fond sombre, étiquette bilingue français-anglais avec code QR, valeurs nutritionnelles et allergènes. Sur une étagère, c'est le contenant qui décide de la première main tendue.",
+      },
+      {
+        title: "L'échelle de prix",
+        body: "Six contenances de 7 à 150 grammes, de 350 à 3 500 FCFA. Le petit format fait essayer, le grand fidélise. La gamme couvre l'achat d'impulsion comme la consommation régulière.",
+      },
+      {
+        title: "L'horizon",
+        body: "Une présence dans plus de quinze pays à l'échéance 2033, et une valorisation cible d'un milliard de FCFA. Ce sont des objectifs déclarés, pas des projections auditées — et ils sont présentés comme tels.",
+      },
+    ],
+  },
 ];
 
 /* ══════════════════════════════════════════════════════════════════════════

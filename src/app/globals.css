@@ -34,6 +34,13 @@
   --color-cyber: #ff4d58;
   --color-creative: #ff5fae;
   --color-agritech: #4ade80;
+  /* Olive et safran : les deux teintes ajoutees pour l'agriculture et
+     l'agroalimentaire. L'olive se distingue nettement de l'emeraude agritech
+     (85 deg contre 145). Le safran est la teinte la plus proche d'une autre du
+     systeme — l'orange automatisation — mais s'en separe par sa dominante
+     jaune ; c'est le point faible assume du code couleur a neuf entrees. */
+  --color-farming: #8ab833;
+  --color-food: #f2b705;
 
   /* — Typographie ——————————————————————————————————————— */
   --font-display: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;

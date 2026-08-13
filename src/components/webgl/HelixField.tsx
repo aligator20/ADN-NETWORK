@@ -45,6 +45,8 @@ const paletteTokens: readonly [string, string][] = [
   ["--color-cyber", "#ff4d58"],
   ["--color-creative", "#ff5fae"],
   ["--color-agritech", "#4ade80"],
+  ["--color-farming", "#8ab833"],
+  ["--color-food", "#f2b705"],
 ];
 
 /** Part des points qui portent une couleur de discipline plutôt que l'os. */
