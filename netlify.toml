@@ -16,6 +16,11 @@
   # Les scripts d'installation de sharp sont bloqués côté npm et sharp est
   # inutile ici : les images sont déjà optimisées en WebP à la main.
   NEXT_TELEMETRY_DISABLED = "1"
+  # Netlify détecte Next.js et active son « Next.js Runtime », prévu pour les
+  # sites à rendu serveur. Le nôtre est un export statique : il n'y a aucune
+  # fonction à héberger, et le runtime peut chercher `.next` au lieu de `out`.
+  # On le neutralise explicitement plutôt que de dépendre de sa détection.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
 
 # ── En-têtes de sécurité ────────────────────────────────────────────────────
 [[headers]]
