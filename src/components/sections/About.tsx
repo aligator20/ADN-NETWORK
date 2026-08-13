@@ -155,15 +155,32 @@ export function About() {
               <div className="ab-rule hairline origin-left" />
             </div>
 
-            {/* signature du fondateur */}
-            <div className="ab-sign mt-20 flex flex-wrap items-end justify-between gap-8 md:mt-28">
-              <div>
-                <p className="label">{site.owner.role}</p>
-                <p className="display mt-3 text-[clamp(1.5rem,3vw,2.75rem)] leading-none text-bone">
-                  {site.owner.name}
-                </p>
+            {/* Signature du fondateur — avec son visage.
+                Un site bâti sur une transmission familiale ne peut pas être
+                entièrement abstrait : c'est la seule photo de la page d'accueil,
+                et elle est à l'endroit où l'on signe. */}
+            <div className="ab-sign mt-20 flex flex-wrap items-end justify-between gap-x-10 gap-y-8 md:mt-28">
+              <div className="flex items-center gap-6">
+                <span className="relative block h-20 w-20 shrink-0 overflow-hidden rounded-full md:h-24 md:w-24">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/work/sylvere.webp"
+                    alt={site.owner.name}
+                    className="h-full w-full object-cover"
+                  />
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 rounded-full ring-1 ring-inset ring-bone/20"
+                  />
+                </span>
+                <span>
+                  <span className="label block">{site.owner.role}</span>
+                  <span className="display mt-2 block text-[clamp(1.5rem,3vw,2.75rem)] leading-none text-bone">
+                    {site.owner.name}
+                  </span>
+                </span>
               </div>
-              <p className="label max-w-[22ch] text-right leading-[1.9]">
+              <p className="label max-w-[22ch] leading-[1.9] md:text-right">
                 {site.base.city.toUpperCase()} — {site.base.country}
                 <br />
                 <span className="text-steel">{site.base.coords}</span>

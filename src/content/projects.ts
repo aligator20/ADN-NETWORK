@@ -398,8 +398,10 @@ export const projects: readonly Project[] = [
     summary:
       "Une exploitation qui rachète ses terres avec ses propres revenus : de 1,5 hectare à cent, sans levée successive.",
     stack: ["Plan parcellaire", "Mécanisation par paliers", "Élevage intégré", "Agrotransformation"],
-    cover: "/work/fdr-adone.webp",
-    coverFit: "contain", // plan technique : le recadrer le rendrait illisible
+    // La parcelle réelle, pas le plan. Un projet annoncé « en exploitation »
+    // doit le PROUVER : une photo du champ cultivé vaut mieux qu'un schéma,
+    // même excellent. Le plan reste utilisé dans le dossier investisseur.
+    cover: "/work/ferme-champ.webp",
     figures: [
       { value: "1,5→100", label: "hectares, horizon 10 ans" },
       { value: "3→300", label: "M FCFA — CA annuel projeté" },
@@ -428,6 +430,10 @@ export const projects: readonly Project[] = [
       {
         title: "L'origine",
         body: "« Mon père a passé sa vie à se battre pour 1 000 m². Je construis de quoi produire sur 100 hectares. » Le problème constaté n'était ni le manque de terre ni le manque de travail : c'était l'absence de mécanisation, d'organisation et d'horizon.",
+      },
+      {
+        title: "La phase test",
+        body: "Une première campagne a été lancée en mai sur la parcelle. Ce n'est pas une simulation : le maïs est en terre, les rangs sont tracés, et les rendements de cette campagne serviront de base aux paliers suivants.",
       },
       {
         title: "Le plan parcellaire",
@@ -518,8 +524,8 @@ export const projects: readonly Project[] = [
     summary:
       "Une maison d'épicerie qui ne lance une gamme que lorsque la précédente est rentable, maîtrisée et distribuée.",
     stack: ["Marque produit", "Conditionnement premium", "Épices & condiments", "Distribution"],
-    cover: "/work/adn-taste.svg",
-    coverFit: "contain",
+    cover: "/work/maison-adone.webp",
+    coverFit: "contain", // logo sur fond noir : il se pose seul sur la plaque
     figures: [
       { value: "10 M", label: "FCFA — financement initial" },
       { value: "06", label: "formats, de 7 g à 150 g" },
