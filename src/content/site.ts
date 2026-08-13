@@ -48,7 +48,7 @@ export const site = {
   // chaque mise en ligne et ne doit jamais être inscrite ici.
   //
   // À remplacer le jour où un vrai domaine est branché.
-  url: "https://helpful-taiyaki-27a370.netlify.app",
+  url: "https://adn-network.netlify.app",
   /** Fondateur — signe le manifeste et la page contact. */
   owner: {
     name: "ADONE Sylvere",
