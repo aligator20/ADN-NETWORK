@@ -33,7 +33,14 @@ export const site = {
    * avec un domaine faux, l'image de partage ne s'affichera nulle part.
    * Elle alimente aussi le sitemap et le fichier robots.
    */
-  url: "https://adnnetwork.com",
+  //
+  // Adresse PERMANENTE du site, pas celle d'un déploiement. Netlify sert aussi
+  // chaque build sous une URL préfixée de son identifiant
+  // (`6a7d5d4f...--helpful-taiyaki-27a370.netlify.app`) : celle-là change à
+  // chaque mise en ligne et ne doit jamais être inscrite ici.
+  //
+  // À remplacer le jour où un vrai domaine est branché.
+  url: "https://helpful-taiyaki-27a370.netlify.app",
   /** Fondateur — signe le manifeste et la page contact. */
   owner: {
     name: "ADONE Sylvere",
