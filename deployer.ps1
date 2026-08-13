@@ -28,14 +28,23 @@ if (-not $RepoUrl) {
   $RepoUrl = Read-Host "URL"
 }
 
-$RepoUrl = $RepoUrl.Trim()
+$RepoUrl = $RepoUrl.Trim().TrimEnd('/')
 
 if ($RepoUrl -match 'TON-COMPTE|<compte>|VOTRE') {
   throw "L'URL contient encore un espace reserve. Remplace-le par ton vrai pseudo GitHub."
 }
-if ($RepoUrl -notmatch '^https://github\.com/[^/]+/[^/]+\.git$') {
-  throw "URL attendue : https://github.com/<pseudo>/<depot>.git - recu : $RepoUrl"
+
+# La barre d'adresse du navigateur donne l'URL SANS le suffixe .git, et c'est
+# la forme que tout le monde copie. On accepte les deux et on normalise, plutot
+# que de renvoyer une erreur sur une URL parfaitement valide.
+if ($RepoUrl -match '^https://github\.com/([^/]+)/([^/]+?)(\.git)?$') {
+  $RepoUrl = "https://github.com/$($Matches[1])/$($Matches[2]).git"
+} else {
+  throw "URL attendue : https://github.com/<pseudo>/<depot> - recu : $RepoUrl"
 }
+
+Write-Host ""
+Write-Host ("Depot cible : {0}" -f $RepoUrl) -ForegroundColor Cyan
 
 Write-Host ""
 Write-Host "1/4  Verification du build" -ForegroundColor Cyan
