@@ -24,7 +24,15 @@ export const site = {
     /** Identifiant IANA — alimente l'horloge de la barre de statut. */
     timezone: "Africa/Porto-Novo",
   },
-  email: "contact@adnnetwork.com",
+  /**
+   * Adresse de contact — provisoire.
+   *
+   * Elle reçoit les demandes de support des fiches projet ET les candidatures
+   * au Réseau. À remplacer par une adresse au nom de domaine le jour où il
+   * existe : une adresse Gmail sur un site d'agence affaiblit la crédibilité
+   * auprès d'un donneur d'ordres ou d'un investisseur.
+   */
+  email: "sylvereadone20@gmail.com",
   /**
    * ⚠️ À REMPLACER par le domaine réel avant mise en ligne.
    *
