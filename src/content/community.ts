@@ -76,6 +76,57 @@ export const community = {
     body: "Dites-nous qui vous êtes et ce que vous apportez. La réponse arrive par email.",
     action: "Envoyer ma candidature",
   },
+
+  /**
+   * LE FORMULAIRE D'INSCRIPTION
+   *
+   * `name` est l'identifiant déclaré à Netlify Forms. Il doit être IDENTIQUE
+   * en trois endroits, sinon la candidature part dans le vide :
+   *   1. ici,
+   *   2. l'attribut `name` du <form> et le champ caché `form-name`,
+   *   3. `public/__forms.html`, que le robot de Netlify lit au déploiement.
+   *
+   * `endpoint` est la cible du POST. On ne poste pas sur `/reseau` : Netlify
+   * n'enregistre une soumission que si le formulaire a été détecté à l'URL
+   * visée, et `__forms.html` est justement le fichier qui porte la définition.
+   * Il sert aussi de page d'arrivée si JavaScript est désactivé.
+   */
+  form: {
+    name: "candidature-reseau",
+    endpoint: "/__forms.html",
+
+    roleLegend: "Je rejoins en tant que",
+    fields: {
+      name: { label: "Nom et prénom", placeholder: "" },
+      email: { label: "Email", placeholder: "" },
+      phone: {
+        label: "WhatsApp",
+        placeholder: "+229 …",
+        hint: "Facultatif — souvent plus rapide que l'email.",
+      },
+      place: { label: "Ville et pays", placeholder: "Cotonou, Bénin" },
+      project: {
+        label: "Votre projet, ou ce que vous apportez",
+        placeholder: "Le problème, où vous en êtes, ce qui vous manque.",
+      },
+    },
+    consent:
+      "J'accepte qu'ADN NETWORK conserve ces informations pour instruire ma candidature.",
+
+    incomplete: "Nom, email et ville sont nécessaires pour vous répondre.",
+    sending: "Envoi en cours",
+    /** Ce que le candidat lit une fois la candidature enregistrée. */
+    sent: {
+      title: "Candidature enregistrée.",
+      body: "Elle est arrivée. Nous la lisons entièrement — projet compris — et nous répondons par email sous quelques jours. Si vous n'avez rien reçu au bout d'une semaine, relancez-nous : c'est que quelque chose s'est perdu.",
+    },
+    /** Repli si l'envoi échoue : la candidature ne doit jamais être perdue. */
+    failed: {
+      title: "L'envoi n'a pas abouti.",
+      body: "Le serveur n'a pas répondu. Ne recommencez pas trois fois — écrivez-nous directement, cela revient au même et nous vous répondrons pareil.",
+      action: "Envoyer par email",
+    },
+  },
 } as const;
 
 export type CommunityRole = (typeof community.roles)[number];

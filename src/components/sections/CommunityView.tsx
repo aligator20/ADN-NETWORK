@@ -1,50 +1,24 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
-import { Magnetic } from "@/components/ui/Magnetic";
+import { JoinForm } from "@/components/ui/JoinForm";
 import { community } from "@/content/community";
-import { site } from "@/content/site";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { cn, pad } from "@/lib/utils";
+import { pad } from "@/lib/utils";
 
 /**
  * PAGE /reseau — LA COMMUNAUTÉ
  *
- * Le formulaire ne poste rien : il compose un email que le candidat envoie
- * lui-même. C'est un choix, pas un pis-aller — le site reste entièrement
- * statique, aucune donnée personnelle ne transite par un serveur tiers, et il
- * n'y a aucune base à sécuriser. Le jour où le volume l'exigera, on branchera
- * un vrai backend ; d'ici là, ce serait une dette pour rien.
+ * Le formulaire d'inscription est isolé dans `JoinForm` : c'est le seul endroit
+ * du site qui écrit quelque part, et il a sa propre machine à états. Le reste
+ * de la page est de l'éditorial pur.
  */
 export function CommunityView() {
   const root = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
-
-  const [role, setRole] = useState<string>(community.roles[0].id);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [project, setProject] = useState("");
-
-  const selected = community.roles.find((r) => r.id === role) ?? community.roles[0];
-  const complete = name.trim() !== "" && email.trim() !== "";
-
-  const mailto = () => {
-    const subject = `Le Réseau — ${selected.title} — ${name.trim()}`;
-    const body = [
-      `Rôle : ${selected.title}`,
-      `Nom : ${name.trim()}`,
-      `Email : ${email.trim()}`,
-      "",
-      "Projet / apport :",
-      project.trim() || "(à compléter)",
-    ].join("\n");
-    return `mailto:${site.email}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`;
-  };
 
   useGSAP(
     () => {
@@ -193,132 +167,19 @@ export function CommunityView() {
                 {community.cta.body}
               </p>
               <p className="label mt-8 leading-[1.9]">
-                Aucune donnée n&apos;est envoyée à un serveur.
+                Aucun compte à créer.
                 <br />
                 <span className="text-steel">
-                  Ce formulaire prépare un email que vous envoyez vous-même.
+                  Vos réponses ne servent qu&apos;à instruire la candidature. Elles ne
+                  sont ni cédées, ni revendues.
                 </span>
               </p>
             </div>
 
-            <form
-              className="md:col-span-8"
-              onSubmit={(e) => {
-                e.preventDefault();
-                window.location.href = mailto();
-              }}
-            >
-              {/* rôle */}
-              <fieldset>
-                <legend className="label">Je rejoins en tant que</legend>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  {community.roles.map((r) => (
-                    <button
-                      key={r.id}
-                      type="button"
-                      data-cursor="hover"
-                      onClick={() => setRole(r.id)}
-                      aria-pressed={role === r.id}
-                      className={cn(
-                        "border px-5 py-3 font-mono text-[0.6875rem] uppercase tracking-[0.22em] transition-colors duration-300",
-                        role === r.id
-                          ? "border-transparent text-void"
-                          : "border-steel text-fog hover:text-bone",
-                      )}
-                      style={role === r.id ? { background: r.color } : undefined}
-                    >
-                      {r.title}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-
-              <div className="mt-10 grid gap-8 md:grid-cols-2">
-                <Field label="Nom" value={name} onChange={setName} required />
-                <Field
-                  label="Email"
-                  type="email"
-                  value={email}
-                  onChange={setEmail}
-                  required
-                />
-              </div>
-
-              <div className="mt-8">
-                <label className="label block" htmlFor="rz-project">
-                  Votre projet, ou ce que vous apportez
-                </label>
-                <textarea
-                  id="rz-project"
-                  rows={5}
-                  value={project}
-                  onChange={(e) => setProject(e.target.value)}
-                  className="mt-4 w-full resize-none border-0 border-b border-steel bg-transparent pb-3 font-mono text-[0.875rem] text-bone outline-none transition-colors duration-300 placeholder:text-steel focus:border-signal"
-                  placeholder="Le problème, où vous en êtes, ce qui vous manque."
-                />
-              </div>
-
-              <Magnetic strength={0.25}>
-                <button
-                  type="submit"
-                  disabled={!complete}
-                  data-cursor="hover"
-                  className="group mt-12 inline-flex items-center gap-4 disabled:cursor-not-allowed disabled:opacity-35"
-                >
-                  <span className="display text-[clamp(1.15rem,2.4vw,2rem)] leading-none text-bone transition-colors duration-300 group-enabled:group-hover:text-signal">
-                    {community.cta.action}
-                  </span>
-                  <span
-                    aria-hidden
-                    className="block h-px w-10 bg-signal transition-all duration-500 ease-expo group-enabled:group-hover:w-16"
-                  />
-                </button>
-              </Magnetic>
-
-              {!complete && (
-                <p className="label mt-4 text-steel">
-                  Nom et email sont nécessaires pour vous répondre.
-                </p>
-              )}
-            </form>
+            <JoinForm />
           </div>
         </div>
       </section>
-    </div>
-  );
-}
-
-/* ───────────────────────────────────────────────────────────────────────── */
-
-/** Champ à filet, sans boîte : la même grammaire que le reste du site. */
-function Field({
-  label,
-  value,
-  onChange,
-  type = "text",
-  required,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  type?: string;
-  required?: boolean;
-}) {
-  const id = `rz-${label.toLowerCase()}`;
-  return (
-    <div>
-      <label className="label block" htmlFor={id}>
-        {label}
-        {required && <span className="ml-1 text-signal">*</span>}
-      </label>
-      <input
-        id={id}
-        type={type}
-        required={required}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="mt-4 w-full border-0 border-b border-steel bg-transparent pb-3 font-mono text-[0.875rem] text-bone outline-none transition-colors duration-300 focus:border-signal"
-      />
     </div>
   );
 }

@@ -49,7 +49,7 @@ const PARAGRAPHS = [
   },
   {
     title: "Données personnelles",
-    body: "Ce site ne collecte aucune donnée personnelle. Il n'utilise ni base de données, ni compte utilisateur, ni traceur publicitaire. Les formulaires de contact et de candidature au Réseau ne transmettent rien à un serveur : ils préparent un message dans votre propre logiciel de messagerie, que vous envoyez vous-même. Les informations que vous nous adressez par email ne servent qu'à vous répondre, et ne sont ni cédées ni revendues.",
+    body: "Une seule partie de ce site collecte des données : le formulaire de candidature au Réseau. Les informations que vous y saisissez — nom, email, téléphone si vous le renseignez, ville et description de votre projet — sont transmises et conservées par Netlify, hébergeur du site, et ne servent qu'à instruire votre candidature et à vous répondre. Elles ne sont ni cédées, ni revendues, ni utilisées pour de la prospection. Aucun compte n'est créé et aucun mot de passe ne vous est demandé. Vous pouvez à tout moment demander leur consultation, leur rectification ou leur suppression en écrivant à l'adresse de contact ci-dessus ; la suppression est effectuée sans condition et sans délai. Le formulaire de contact du site, lui, ne transmet rien : il prépare un message dans votre propre logiciel de messagerie, que vous envoyez vous-même.",
   },
   {
     title: "Cookies",

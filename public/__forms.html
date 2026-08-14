@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Candidature enregistrée — ADN NETWORK</title>
+
+    <!--
+      DEUX RÔLES POUR CE FICHIER, ET C'EST VOULU.
+
+      1. DÉCLARATION. Au déploiement, Netlify lit les fichiers HTML publiés et
+         enregistre les formulaires portant `data-netlify="true"`. Sur un site
+         Next.js exporté, le balisage du formulaire est produit par React : on
+         ne veut pas dépendre de ce que le rendu statique aura conservé. Ce
+         fichier porte donc la définition de référence, en HTML nu. Les noms de
+         champs doivent rester identiques à ceux de `JoinForm.tsx` — un champ
+         absent ici n'apparaîtra pas dans l'export CSV.
+
+      2. PAGE D'ARRIVÉE. C'est aussi l'`action` du formulaire. Si JavaScript est
+         indisponible, le navigateur poste normalement, Netlify enregistre, puis
+         sert cette page : le candidat voit une confirmation au lieu d'un écran
+         blanc. Avec JavaScript, le `fetch` intercepte et cette page n'est
+         jamais affichée.
+
+      ⚠️ La détection doit être activée une fois côté Netlify :
+         Project configuration → Forms → Enable form detection, puis redéployer.
+    -->
+
+    <style>
+      :root {
+        --void: #050506;
+        --steel: #2a2a30;
+        --fog: #7d7d86;
+        --bone: #ececee;
+        --signal: #c6f24e;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        background: var(--void);
+        color: var(--bone);
+        font-family: ui-sans-serif, system-ui, "Segoe UI", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      main {
+        width: 100%;
+        max-width: 46rem;
+        margin: 0 auto;
+        padding: 4rem 1.5rem;
+      }
+      .label {
+        font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+        font-size: 0.6875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: var(--fog);
+      }
+      .signal {
+        color: var(--signal);
+      }
+      h1 {
+        margin: 2.5rem 0 0;
+        font-size: clamp(2rem, 7vw, 4rem);
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        font-weight: 900;
+      }
+      p.corps {
+        margin: 2rem 0 0;
+        max-width: 52ch;
+        font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.95;
+        color: var(--fog);
+      }
+      hr {
+        margin: 3rem 0 0;
+        border: 0;
+        border-top: 1px solid var(--steel);
+      }
+      a.retour {
+        display: inline-block;
+        margin-top: 2rem;
+        font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+        font-size: 0.8125rem;
+        color: var(--bone);
+        text-decoration: none;
+        border-bottom: 1px solid var(--signal);
+        padding-bottom: 0.25rem;
+      }
+      a.retour:hover {
+        color: var(--signal);
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <p class="label"><span class="signal">[006]</span> &nbsp; Le Réseau</p>
+      <h1>Candidature enregistrée.</h1>
+      <p class="corps">
+        Elle est arrivée. Nous la lisons entièrement — projet compris — et nous
+        répondons par email sous quelques jours. Si vous n'avez rien reçu au bout
+        d'une semaine, relancez-nous : c'est que quelque chose s'est perdu.
+      </p>
+      <hr />
+      <a class="retour" href="/reseau">← Retour au Réseau</a>
+    </main>
+
+    <!-- Définition lue par Netlify au déploiement. Jamais affichée. -->
+    <div hidden aria-hidden="true">
+      <form
+        name="candidature-reseau"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+      >
+        <input type="hidden" name="form-name" value="candidature-reseau" />
+        <input type="text" name="role" />
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <input type="tel" name="phone" />
+        <input type="text" name="place" />
+        <textarea name="project"></textarea>
+        <input type="checkbox" name="consent" value="oui" />
+        <input type="text" name="bot-field" />
+      </form>
+    </div>
+  </body>
+</html>

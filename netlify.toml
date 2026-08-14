@@ -52,3 +52,11 @@
   for = "/sites/*"
   [headers.values]
     X-Robots-Tag = "noindex"
+
+# Page de déclaration et d'arrivée du formulaire de candidature. Elle n'a rien
+# à faire dans un index de recherche : hors contexte, elle annonce une
+# candidature enregistrée à quelqu'un qui n'en a jamais déposé.
+[[headers]]
+  for = "/__forms.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
