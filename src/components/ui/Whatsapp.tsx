@@ -1,6 +1,6 @@
 "use client";
 
-import { site } from "@/content/site";
+import { useCopy } from "@/hooks/useCopy";
 import { cn } from "@/lib/utils";
 
 /**
@@ -23,6 +23,7 @@ export function Whatsapp({
   className?: string;
   showNumber?: boolean;
 }) {
+  const { site } = useCopy();
   const href = `https://wa.me/${site.whatsapp.wa}?text=${encodeURIComponent(message)}`;
 
   return (

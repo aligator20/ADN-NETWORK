@@ -4,7 +4,8 @@ import { useRef } from "react";
 
 import { gsap, useGSAP } from "@/lib/gsap";
 import { Magnetic } from "@/components/ui/Magnetic";
-import { site, ui } from "@/content/site";
+import { LangSwitch } from "@/components/chrome/LangSwitch";
+import { useCopy } from "@/hooks/useCopy";
 import { cn } from "@/lib/utils";
 import { useAppState } from "@/providers/app-context";
 
@@ -15,6 +16,7 @@ import { useAppState } from "@/providers/app-context";
 export function Header() {
   const root = useRef<HTMLElement>(null);
   const { ready, menuOpen, toggleMenu } = useAppState();
+  const { site, ui } = useCopy();
 
   useGSAP(
     () => {
@@ -22,7 +24,13 @@ export function Header() {
       gsap.fromTo(
         ".hud-top",
         { yPercent: -140 },
-        { yPercent: 0, duration: 1, ease: "expo.out", stagger: 0.08, delay: 0.15 },
+        {
+          yPercent: 0,
+          duration: 1,
+          ease: "expo.out",
+          stagger: 0.08,
+          delay: 0.15,
+        },
       );
     },
     { scope: root, dependencies: [ready] },
@@ -47,37 +55,43 @@ export function Header() {
           </a>
         </div>
 
-        {/* — déclencheur d'index ————————————————————————— */}
-        <Magnetic strength={0.35}>
-          <div className="mask shrink-0">
-            <button
-              type="button"
-              data-cursor="hover"
-              onClick={toggleMenu}
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? ui.menuClose : ui.menuOpen}
-              className="hud-top pointer-events-auto flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.28em] text-fog transition-colors duration-300 hover:text-bone"
-            >
-              {menuOpen ? ui.menuClose : ui.menuOpen}
-              {/* Les deux barres se croisent en X : l'icône dit l'état, elle
-                  ne se contente pas de déclencher. */}
-              <span aria-hidden className="relative block h-4 w-4">
-                <span
-                  className={cn(
-                    "absolute left-0 top-1/2 block h-px w-4 bg-current transition-transform duration-400 ease-expo",
-                    menuOpen ? "rotate-45" : "-translate-y-[3px]",
-                  )}
-                />
-                <span
-                  className={cn(
-                    "absolute left-0 top-1/2 block h-px w-4 bg-current transition-transform duration-400 ease-expo",
-                    menuOpen ? "-rotate-45" : "translate-y-[3px]",
-                  )}
-                />
-              </span>
-            </button>
+        {/* — langue + déclencheur d'index ————————————————— */}
+        <div className="flex items-center gap-5 md:gap-7">
+          <div className="mask">
+            <LangSwitch className="hud-top pointer-events-auto" />
           </div>
-        </Magnetic>
+
+          <Magnetic strength={0.35}>
+            <div className="mask shrink-0">
+              <button
+                type="button"
+                data-cursor="hover"
+                onClick={toggleMenu}
+                aria-expanded={menuOpen}
+                aria-label={menuOpen ? ui.menuClose : ui.menuOpen}
+                className="hud-top pointer-events-auto flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.28em] text-fog transition-colors duration-300 hover:text-bone"
+              >
+                {menuOpen ? ui.menuClose : ui.menuOpen}
+                {/* Les deux barres se croisent en X : l'icône dit l'état, elle
+                  ne se contente pas de déclencher. */}
+                <span aria-hidden className="relative block h-4 w-4">
+                  <span
+                    className={cn(
+                      "absolute left-0 top-1/2 block h-px w-4 bg-current transition-transform duration-400 ease-expo",
+                      menuOpen ? "rotate-45" : "-translate-y-[3px]",
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "absolute left-0 top-1/2 block h-px w-4 bg-current transition-transform duration-400 ease-expo",
+                      menuOpen ? "-rotate-45" : "translate-y-[3px]",
+                    )}
+                  />
+                </span>
+              </button>
+            </div>
+          </Magnetic>
+        </div>
       </div>
     </header>
   );

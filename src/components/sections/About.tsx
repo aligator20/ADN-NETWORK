@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { about, sequences, site } from "@/content/site";
+import { useCopy } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -22,6 +22,7 @@ import { pad } from "@/lib/utils";
 export function About() {
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
+  const { about, sequences, site } = useCopy();
 
   useGSAP(
     () => {

@@ -101,16 +101,42 @@
   </head>
 
   <body>
+    <!--
+      Bilingue, et sans détection : cette page est servie par Netlify après le
+      POST, hors du routage du site. Elle ne sait pas dans quelle langue le
+      formulaire a été rempli, et deviner à partir de l'en-tête du navigateur
+      donnerait faux à un anglophone ayant délibérément choisi le français.
+      Afficher les deux est plus court que se tromper.
+    -->
     <main>
       <p class="label"><span class="signal">[006]</span> &nbsp; Le Réseau</p>
-      <h1>Candidature enregistrée.</h1>
-      <p class="corps">
+
+      <h1 lang="fr">Candidature enregistrée.</h1>
+      <p class="corps" lang="fr">
         Elle est arrivée. Nous la lisons entièrement — projet compris — et nous
         répondons par email sous quelques jours. Si vous n'avez rien reçu au bout
         d'une semaine, relancez-nous : c'est que quelque chose s'est perdu.
       </p>
+
       <hr />
-      <a class="retour" href="/reseau">← Retour au Réseau</a>
+
+      <h1 lang="en" style="font-size: clamp(1.5rem, 4vw, 2.25rem)">
+        Application recorded.
+      </h1>
+      <p class="corps" lang="en">
+        It arrived. We read it in full — project included — and we reply by email
+        within a few days. If you have heard nothing after a week, chase us:
+        something got lost.
+      </p>
+
+      <hr />
+
+      <p style="margin: 2rem 0 0">
+        <a class="retour" href="/reseau" lang="fr">← Retour au Réseau</a>
+        <a class="retour" href="/en/reseau" lang="en" style="margin-left: 2rem">
+          ← Back to The Network
+        </a>
+      </p>
     </main>
 
     <!-- Définition lue par Netlify au déploiement. Jamais affichée. -->
@@ -123,6 +149,7 @@
       >
         <input type="hidden" name="form-name" value="candidature-reseau" />
         <input type="text" name="role" />
+        <input type="text" name="lang" />
         <input type="text" name="name" />
         <input type="email" name="email" />
         <input type="tel" name="phone" />

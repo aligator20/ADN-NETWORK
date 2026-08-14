@@ -3,7 +3,7 @@
 import { useRef } from "react";
 
 import { JoinForm } from "@/components/ui/JoinForm";
-import { community } from "@/content/community";
+import { useCopy } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -19,6 +19,7 @@ import { pad } from "@/lib/utils";
 export function CommunityView() {
   const root = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
+  const { community, labels } = useCopy();
 
   useGSAP(
     () => {
@@ -59,13 +60,13 @@ export function CommunityView() {
             <span className="label text-signal">[{pad(6)}]</span>
             <span className="label">{community.name}</span>
           </p>
-          <p className="label">Ouvert — sans frais d&apos;entrée</p>
+          <p className="label">{labels.openNoFee}</p>
         </div>
 
         <h1 className="mt-10 md:mt-14">
           <span className="mask block">
             <span className="rz-reveal display block text-[clamp(2.5rem,9vw,8rem)] leading-[0.88] text-bone">
-              Le Réseau
+              {community.name}
             </span>
           </span>
         </h1>
@@ -88,7 +89,7 @@ export function CommunityView() {
 
       {/* — les trois rôles ————————————————————————————— */}
       <section className="mx-auto max-w-[1800px] gutter py-24 md:py-32">
-        <p className="label">Trois rôles, une seule table</p>
+        <p className="label">{labels.threeRoles}</p>
         <div className="mt-10 grid grid-cols-1 gap-y-10 md:grid-cols-3 md:gap-x-10">
           {community.roles.map((r) => (
             <div key={r.id}>
@@ -114,7 +115,7 @@ export function CommunityView() {
       {/* — le parcours ————————————————————————————————— */}
       <section className="rz-steps border-t border-steel/40 bg-carbon">
         <div className="mx-auto max-w-[1800px] gutter py-24 md:py-32">
-          <p className="label">Comment ça marche</p>
+          <p className="label">{labels.howItWorks}</p>
           <div className="mt-10">
             {community.steps.map((s, i) => (
               <div key={s.title}>
@@ -137,7 +138,7 @@ export function CommunityView() {
 
           {/* — les limites : elles protègent les deux côtés ————— */}
           <div className="mt-16 md:mt-20">
-            <p className="label">Ce que Le Réseau n&apos;est pas</p>
+            <p className="label">{labels.whatItIsNot}</p>
             <ul className="mt-6 space-y-3">
               {community.limits.map((l) => (
                 <li
@@ -167,12 +168,9 @@ export function CommunityView() {
                 {community.cta.body}
               </p>
               <p className="label mt-8 leading-[1.9]">
-                Aucun compte à créer.
+                {labels.noAccount}
                 <br />
-                <span className="text-steel">
-                  Vos réponses ne servent qu&apos;à instruire la candidature. Elles ne
-                  sont ni cédées, ni revendues.
-                </span>
+                <span className="text-steel">{labels.dataUse}</span>
               </p>
             </div>
 

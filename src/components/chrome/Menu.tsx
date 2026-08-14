@@ -4,8 +4,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import { disciplineColor, services } from "@/content/services";
-import { nav, site, ui, type NavItem } from "@/content/site";
+import { LangSwitch } from "@/components/chrome/LangSwitch";
+import { disciplineColor } from "@/content/services";
+import { type NavItem } from "@/content/site";
+import { useCopy } from "@/hooks/useCopy";
 import { Whatsapp } from "@/components/ui/Whatsapp";
 import { getLenis, scrollTo } from "@/lib/scroll";
 import { pad } from "@/lib/utils";
@@ -65,6 +67,7 @@ const FADE = {
 
 export function Menu() {
   const { menuOpen, closeMenu } = useAppState();
+  const { nav, services, site, ui } = useCopy();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -204,6 +207,9 @@ export function Menu() {
                 className="flex flex-col gap-10 md:col-span-4 md:items-end md:text-right"
               >
                 <div>
+                  {/* Le sélecteur est aussi ici : le menu plein écran couvre le HUD,
+                      et c'est le seul endroit atteignable une fois ouvert. */}
+                  <LangSwitch className="mb-8 md:justify-end" />
                   <p className="label">{ui.contactLabel}</p>
                   <a
                     href={`mailto:${site.email}`}

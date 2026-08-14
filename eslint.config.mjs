@@ -19,6 +19,8 @@ const eslintConfig = [
       "build/**",
       "node_modules/**",
       "next-env.d.ts",
+      // Runtime Deno, bundle par Netlify au deploiement (voir tsconfig).
+      "netlify/**",
     ],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),

@@ -4,8 +4,7 @@ import { useRef, useState } from "react";
 
 import { Magnetic } from "@/components/ui/Magnetic";
 import { Whatsapp } from "@/components/ui/Whatsapp";
-import { community } from "@/content/community";
-import { site } from "@/content/site";
+import { useCopy, useLang } from "@/hooks/useCopy";
 import { cn } from "@/lib/utils";
 
 /**
@@ -34,9 +33,11 @@ import { cn } from "@/lib/utils";
  */
 type Etat = "saisie" | "envoi" | "envoyee" | "echec";
 
-const F = community.form;
-
 export function JoinForm() {
+  const { community, site } = useCopy();
+  const lang = useLang();
+  const F = community.form;
+
   const [role, setRole] = useState<string>(community.roles[0].id);
   const [etat, setEtat] = useState<Etat>("saisie");
   const [prete, setPrete] = useState(false);
@@ -47,18 +48,21 @@ export function JoinForm() {
   /* — Repli email, construit à partir de ce qui a été saisi ———————— */
   const mailto = () => {
     const d = dernier.current;
+    // Les intitulés reprennent ceux des champs : le message de repli est lisible
+    // dans la langue où la candidature a été saisie, pas dans celle du code.
     const corps = [
-      `Rôle : ${d.role ?? choisi.title}`,
-      `Nom : ${d.name ?? ""}`,
-      `Email : ${d.email ?? ""}`,
-      `WhatsApp : ${d.phone || "—"}`,
-      `Lieu : ${d.place ?? ""}`,
+      // `d.role` porte l'identifiant stable ; dans un email on veut le libellé.
+      `${F.roleLegend} : ${choisi.title}`,
+      `${F.fields.name.label} : ${d.name ?? ""}`,
+      `${F.fields.email.label} : ${d.email ?? ""}`,
+      `${F.fields.phone.label} : ${d.phone || "—"}`,
+      `${F.fields.place.label} : ${d.place ?? ""}`,
       "",
-      "Projet / apport :",
-      d.project || "(à compléter)",
+      `${F.fields.project.label} :`,
+      d.project || "—",
     ].join("\n");
     return `mailto:${site.email}?subject=${encodeURIComponent(
-      `Le Réseau — ${d.role ?? choisi.title} — ${d.name ?? ""}`,
+      `${community.name} — ${choisi.title} — ${d.name ?? ""}`,
     )}&body=${encodeURIComponent(corps)}`;
   };
 
@@ -108,8 +112,8 @@ export function JoinForm() {
           {F.sent.body}
         </p>
         <Whatsapp
-          message={`Bonjour, je viens de déposer une candidature au Réseau (${choisi.title}).`}
-          label="Nous joindre sur WhatsApp"
+          message={F.whatsappMessage.replace("{role}", choisi.title)}
+          label={F.whatsapp}
           className="mt-10"
         />
       </div>
@@ -131,10 +135,16 @@ export function JoinForm() {
     >
       {/* Netlify identifie la soumission par ce champ, pas par l'URL. */}
       <input type="hidden" name="form-name" value={F.name} />
-      <input type="hidden" name="role" value={choisi.title} />
+      {/* L'IDENTIFIANT, pas le libellé. Les deux langues alimentent la même
+          table de candidatures : envoyer « Porteur » ici et « Founder » là
+          donnerait deux vocabulaires dans une seule colonne, et plus aucun
+          filtre possible. */}
+      <input type="hidden" name="role" value={choisi.id} />
+      {/* La langue de saisie — pour répondre dans celle du candidat. */}
+      <input type="hidden" name="lang" value={lang} />
       <p hidden>
         <label>
-          Ne pas remplir <input name="bot-field" tabIndex={-1} autoComplete="off" />
+          {F.honeypot} <input name="bot-field" tabIndex={-1} autoComplete="off" />
         </label>
       </p>
 

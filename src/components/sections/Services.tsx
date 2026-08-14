@@ -2,8 +2,8 @@
 
 import { useRef } from "react";
 
-import { disciplineColor, services } from "@/content/services";
-import { sequences, ui } from "@/content/site";
+import { disciplineColor } from "@/content/services";
+import { useCopy } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -22,6 +22,7 @@ import { cssVar, pad, withAlpha } from "@/lib/utils";
  * chaque rendu pour une animation qui n'a aucune raison de repasser par React.
  */
 export function Services() {
+  const { sequences, services, ui } = useCopy();
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
 

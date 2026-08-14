@@ -5,15 +5,15 @@ import { useRef, useState } from "react";
 
 import { Cover } from "@/components/ui/Cover";
 import { Status } from "@/components/ui/Status";
+import { type Project } from "@/content/projects";
 import {
-  disciplineName,
-  projectCategories,
-  projects,
-  projectsByCategory,
-  type Project,
-} from "@/content/projects";
+  useCopy,
+  useDisciplineName,
+  useHref,
+  useProjectCategories,
+  useProjectsByCategory,
+} from "@/hooks/useCopy";
 import { disciplineColor, type ServiceId } from "@/content/services";
-import { sequences, ui } from "@/content/site";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -38,7 +38,11 @@ export function WorkIndex() {
   const [hovered, setHovered] = useState<Project | null>(null);
   const reduced = usePrefersReducedMotion();
 
-  const list = projectsByCategory(active);
+  const { projects, sequences, ui } = useCopy();
+  const href = useHref();
+  const disciplineName = useDisciplineName();
+  const projectCategories = useProjectCategories();
+  const list = useProjectsByCategory()(active);
 
   useGSAP(
     () => {
@@ -142,7 +146,7 @@ export function WorkIndex() {
             <li key={p.slug}>
               <div className="wi-rule hairline origin-left" />
               <Link
-                href={`/work/${p.slug}`}
+                href={href(`/work/${p.slug}`)}
                 data-cursor="hover"
                 data-cursor-label={ui.view}
                 onPointerEnter={() => setHovered(p)}

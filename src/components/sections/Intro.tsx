@@ -2,8 +2,7 @@
 
 import { Fragment, useRef } from "react";
 
-import { metrics } from "@/content/services";
-import { introManifest, sequences } from "@/content/site";
+import { useCopy } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -20,6 +19,7 @@ import { cn, pad } from "@/lib/utils";
  * un compteur qui se rejoue à chaque passage devient un gadget.
  */
 export function Intro() {
+  const { introManifest, metrics, sequences } = useCopy();
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
 

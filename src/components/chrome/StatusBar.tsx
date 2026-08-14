@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { gsap, useGSAP } from "@/lib/gsap";
-import { site, ui } from "@/content/site";
+import { useCopy } from "@/hooks/useCopy";
 import { useAppState } from "@/providers/app-context";
 
 /**
@@ -14,6 +14,7 @@ import { useAppState } from "@/providers/app-context";
 export function StatusBar() {
   const root = useRef<HTMLDivElement>(null);
   const { ready } = useAppState();
+  const { site, ui } = useCopy();
   const [time, setTime] = useState("--:--:-- ---");
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export function StatusBar() {
     tick();
     const id = window.setInterval(tick, 1000);
     return () => window.clearInterval(id);
-  }, []);
+  }, [site.base.timezone]);
 
   useGSAP(
     () => {

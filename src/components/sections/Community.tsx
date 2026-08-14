@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 
-import { community } from "@/content/community";
-import { sequences } from "@/content/site";
+import { useCopy, useHref } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -21,6 +20,8 @@ import { pad } from "@/lib/utils";
  * cartes : c'est la même règle que partout ailleurs sur le site.
  */
 export function Community() {
+  const { community, labels, sequences } = useCopy();
+  const href = useHref();
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
 
@@ -68,7 +69,7 @@ export function Community() {
             <span className="label text-signal">[{pad(6)}]</span>
             <span className="label">{sequences[5].label}</span>
           </p>
-          <p className="label hidden md:block">Ouvert — sans frais d&apos;entrée</p>
+          <p className="label hidden md:block">{labels.openNoFee}</p>
         </div>
 
         {/* — l'observation qui justifie tout le reste ————————— */}
@@ -122,7 +123,7 @@ export function Community() {
         <div className="mt-20 md:mt-28">
           <div className="hairline" />
           <Link
-            href="/reseau"
+            href={href("/reseau")}
             data-cursor="hover"
             className="group flex flex-wrap items-baseline justify-between gap-6 py-8 md:py-10"
           >
@@ -130,7 +131,7 @@ export function Community() {
               {community.cta.title}
             </span>
             <span className="flex items-center gap-4">
-              <span className="label">Comment ça marche</span>
+              <span className="label">{labels.howItWorks}</span>
               <span
                 aria-hidden
                 className="block h-px w-10 bg-signal transition-all duration-500 ease-expo group-hover:w-20"

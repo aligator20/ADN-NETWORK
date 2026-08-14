@@ -4,15 +4,16 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import {
-  disciplineName,
-  projectCategories,
-  projects,
-  projectsByCategory,
-} from "@/content/projects";
+  useCopy,
+  useDisciplineName,
+  useHref,
+  useProjectCategories,
+  useProjectsByCategory,
+} from "@/hooks/useCopy";
 import { Cover } from "@/components/ui/Cover";
 import { Status } from "@/components/ui/Status";
+import { type Project } from "@/content/projects";
 import { disciplineColor, type ServiceId } from "@/content/services";
-import { sequences, ui } from "@/content/site";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -38,7 +39,10 @@ export function Work() {
   const [active, setActive] = useState<ServiceId | null>(null);
   const reduced = usePrefersReducedMotion();
 
-  const list = projectsByCategory(active);
+  const { projects, sequences, ui } = useCopy();
+  const href = useHref();
+  const projectCategories = useProjectCategories();
+  const list = useProjectsByCategory()(active);
 
   useGSAP(
     () => {
@@ -184,7 +188,7 @@ export function Work() {
                 {ui.moreOnRequest}
               </p>
               <Link
-                href="/work"
+                href={href("/work")}
                 data-cursor="hover"
                 className="group mt-8 inline-flex w-fit items-center gap-3 font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-bone transition-colors duration-300 hover:text-signal"
               >
@@ -244,18 +248,15 @@ function FilterButton({
   );
 }
 
-function ProjectPanel({
-  project,
-  index,
-}: {
-  project: (typeof projects)[number];
-  index: number;
-}) {
+function ProjectPanel({ project, index }: { project: Project; index: number }) {
+  const { ui } = useCopy();
+  const href = useHref();
+  const disciplineName = useDisciplineName();
   const color = disciplineColor[project.discipline];
 
   return (
     <Link
-      href={`/work/${project.slug}`}
+      href={href(`/work/${project.slug}`)}
       className="wk-panel group flex h-full shrink-0 snap-center flex-col justify-center will-change-transform"
       data-cursor="hover"
       data-cursor-label={ui.view}

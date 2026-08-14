@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 import { ScrambleText } from "@/components/ui/ScrambleText";
 import { SplitText } from "@/components/ui/SplitText";
-import { disciplines, site, ui } from "@/content/site";
+import { useCopy } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { useAppState } from "@/providers/app-context";
@@ -37,6 +37,7 @@ const HelixField = dynamic(
  *             déroule en réseau, ce qui enchaîne directement sur la séquence 002.
  */
 export function Hero() {
+  const { disciplines, site, ui } = useCopy();
   const root = useRef<HTMLElement>(null);
   const { ready } = useAppState();
   const reduced = usePrefersReducedMotion();

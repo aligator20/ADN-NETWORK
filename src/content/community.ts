@@ -112,6 +112,11 @@ export const community = {
     },
     consent:
       "J'accepte qu'ADN NETWORK conserve ces informations pour instruire ma candidature.",
+    /** Libellé du champ-leurre. Invisible à l'écran, lu par les robots. */
+    honeypot: "Ne pas remplir",
+    whatsapp: "Nous joindre sur WhatsApp",
+    /** Le marqueur `{role}` est remplacé par le rôle choisi. */
+    whatsappMessage: "Bonjour, je viens de déposer une candidature au Réseau ({role}).",
 
     incomplete: "Nom, email et ville sont nécessaires pour vous répondre.",
     sending: "Envoi en cours",

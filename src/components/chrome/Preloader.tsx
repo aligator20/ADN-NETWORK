@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 
 import { gsap, useGSAP } from "@/lib/gsap";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { site, ui } from "@/content/site";
+import { useCopy } from "@/hooks/useCopy";
 import { pad } from "@/lib/utils";
 
 /**
@@ -19,6 +19,7 @@ import { pad } from "@/lib/utils";
  * jusqu'au retrait complet du rideau.
  */
 export function Preloader({ onComplete }: { onComplete: () => void }) {
+  const { site, ui } = useCopy();
   const root = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
   const [done, setDone] = useState(false);

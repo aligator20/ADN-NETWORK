@@ -7,9 +7,9 @@ import { Cover } from "@/components/ui/Cover";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { Status } from "@/components/ui/Status";
 import { Whatsapp } from "@/components/ui/Whatsapp";
-import { disciplineName, type Project } from "@/content/projects";
+import { type Project } from "@/content/projects";
+import { useCopy, useDisciplineName, useHref } from "@/hooks/useCopy";
 import { disciplineColor } from "@/content/services";
-import { site, ui } from "@/content/site";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -36,6 +36,9 @@ export function ProjectView({
 }) {
   const root = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
+  const { site, ui } = useCopy();
+  const href = useHref();
+  const disciplineName = useDisciplineName();
   const color = disciplineColor[project.discipline];
 
   useGSAP(
@@ -93,7 +96,7 @@ export function ProjectView({
             <Status project={project} />
           </p>
           <Link
-            href="/work"
+            href={href("/work")}
             data-cursor="hover"
             className="label transition-colors duration-300 hover:text-bone"
           >
@@ -327,7 +330,7 @@ export function ProjectView({
         <div className="border-t border-steel/40">
           <Magnetic strength={0.16}>
             <Link
-              href={`/work/${next.slug}`}
+              href={href(`/work/${next.slug}`)}
               data-cursor="hover"
               data-cursor-label={ui.view}
               className="group mx-auto flex max-w-[1800px] flex-col gutter py-20 md:py-28"

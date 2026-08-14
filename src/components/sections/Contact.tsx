@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 import { Magnetic } from "@/components/ui/Magnetic";
 import { Whatsapp } from "@/components/ui/Whatsapp";
-import { contact, sequences, site, ui } from "@/content/site";
+import { useCopy, useHref } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -22,6 +22,8 @@ import { pad } from "@/lib/utils";
  * L'adresse est magnétique — elle vient au curseur avant d'être atteinte.
  */
 export function Contact() {
+  const { contact, labels, sequences, site, ui } = useCopy();
+  const href = useHref();
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
 
@@ -75,7 +77,7 @@ export function Contact() {
           {/* WhatsApp à côté de l'email : sur téléphone, c'est le canal que
               le visiteur ouvrira réellement. */}
           <div className="cta-fade">
-            <p className="label">Réponse rapide</p>
+            <p className="label">{labels.quickReply}</p>
             <Whatsapp
               message={`Bonjour, je vous contacte depuis le site ${site.name}.`}
               label="Écrire sur WhatsApp"
@@ -124,7 +126,7 @@ export function Contact() {
           </p>
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
             <Link
-              href="/mentions-legales"
+              href={href("/mentions-legales")}
               data-cursor="hover"
               className="label transition-colors duration-300 hover:text-bone"
             >

@@ -1,4 +1,7 @@
-import { statusColor, statusLabel, type Project } from "@/content/projects";
+"use client";
+
+import { statusColor, type Project } from "@/content/projects";
+import { useCopy } from "@/hooks/useCopy";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,6 +21,7 @@ export function Status({
   project: Project;
   className?: string;
 }) {
+  const { statusLabel } = useCopy();
   const color = statusColor[project.status];
 
   return (
