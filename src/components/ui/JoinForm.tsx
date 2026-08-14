@@ -85,7 +85,17 @@ export function JoinForm() {
 
     setEtat("envoi");
     try {
-      const res = await fetch(F.endpoint, {
+      // On poste sur l'`action` DU FORMULAIRE SERVI, pas sur la constante.
+      //
+      // Netlify réécrit le HTML au déploiement : il enregistre le formulaire,
+      // retire `data-netlify`, et son post-traitement raccourcit les URL —
+      // `/__forms.html` devient `/__forms`. Une adresse écrite en dur ici
+      // pointerait donc à côté de ce que le navigateur voit, et le jour où
+      // Netlify change sa réécriture, la candidature partirait dans le vide
+      // sans que rien ne le signale. Le DOM est la seule source fiable après
+      // post-traitement ; la constante ne sert plus que de repli.
+      const cible = form.getAttribute("action") || F.endpoint;
+      const res = await fetch(cible, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: corps.toString(),
