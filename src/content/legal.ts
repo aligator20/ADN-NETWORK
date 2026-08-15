@@ -6,10 +6,23 @@
  * dernière page qu'on pense à traduire, et la première qu'un visiteur méfiant
  * va lire.
  *
- * ⚠️ DEUX CHAMPS À COMPLÉTER AVANT MISE EN LIGNE : l'hébergeur (nom, raison
- * sociale, adresse) et le numéro RCCM / IFU de la structure. Ce sont les seuls
- * éléments qu'on ne peut pas renseigner à votre place.
+ * ⚠️ UN CHAMP RESTE À COMPLÉTER : le numéro RCCM / IFU de la structure. C'est
+ * une donnée d'immatriculation qu'on ne peut pas deviner, et l'inventer serait
+ * pire que l'absence. Elle est obligatoire pour un site commercial.
  */
+
+/**
+ * Hébergeur réel du site.
+ *
+ * Ce n'est pas du texte traduisible : une raison sociale et une adresse
+ * postale sont les mêmes dans toutes les langues. Les valeurs proviennent des
+ * conditions d'utilisation publiées par Netlify, pas de mémoire.
+ */
+export const host = {
+  name: "Netlify, Inc.",
+  address: "101 2nd Street, San Francisco, CA 94105, USA",
+  contact: "support@netlify.com",
+};
 export type LegalCopy = {
   title: string;
   kicker: string;

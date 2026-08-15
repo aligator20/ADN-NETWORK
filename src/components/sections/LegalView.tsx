@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { host } from "@/content/legal";
 import { useCopy, useLang } from "@/hooks/useCopy";
 import { pathForLang } from "@/lib/lang";
 
@@ -34,9 +35,9 @@ export function LegalView() {
     {
       title: legal.hosting.heading,
       rows: [
-        [legal.hosting.host, legal.toComplete],
-        [legal.hosting.address, legal.toComplete],
-        [legal.hosting.contact, legal.toComplete],
+        [legal.hosting.host, host.name],
+        [legal.hosting.address, host.address],
+        [legal.hosting.contact, host.contact],
       ],
     },
   ];
