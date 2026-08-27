@@ -33,7 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
       freq: "monthly" as const,
     })),
-    { path: "/mentions-legales", priority: 0.2, freq: "yearly" },
+    // Les mentions légales ne figurent PAS ici : leur page se déclare `noindex`.
+    // Les inscrire au sitemap reviendrait à donner deux ordres contradictoires
+    // au même robot — « indexe cette page » d'un côté, « ne l'indexe pas » de
+    // l'autre. Un sitemap n'est pas un plan du site, c'est une liste de pages
+    // qu'on souhaite voir apparaître dans les résultats.
   ];
 
   const absolu = (p: string) => `${site.url}${p === "/" ? "/" : p}`;

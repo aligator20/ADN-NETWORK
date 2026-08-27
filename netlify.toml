@@ -31,6 +31,19 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Le site ne charge RIEN d'un tiers : `next/font` télécharge les fontes au
+    # build et les sert depuis /_next/static, il n'y a ni régie, ni mesure
+    # d'audience, ni bouton social embarqué. Tout peut donc être verrouillé sur
+    # l'origine, et une injection de script distant devient inopérante.
+    #
+    # `unsafe-inline` sur les scripts est inévitable : Next émet son amorçage et
+    # ses données de rendu en balises inline, et un export statique n'a pas de
+    # serveur pour poser un nonce à chaque réponse. La directive garde malgré
+    # tout son intérêt principal — aucun script d'un autre domaine ne s'exécute.
+    #
+    # `form-action 'self'` couvre le formulaire de candidature : il poste sur
+    # /__forms, servi par Netlify sur la même origine.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
 
 # ── Cache ───────────────────────────────────────────────────────────────────
 # Les fichiers de /_next/static portent un hash dans leur nom : ils ne changent

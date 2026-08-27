@@ -36,6 +36,15 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+/**
+ * Les variables de police, exportées pour la page 404.
+ *
+ * Celle-ci porte son propre `<html>` — elle est servie hors des deux arbres de
+ * routes — mais elle ne doit pas recharger les polices : `next/font` appelé une
+ * seconde fois produirait un second jeu de fichiers pour les mêmes fontes.
+ */
+export const fontVariables = `${archivo.variable} ${jetbrains.variable}`;
+
 const DESCRIPTION: Record<Lang, string> = {
   fr:
     "ADN NETWORK conçoit des systèmes où la technologie, la créativité et " +
@@ -120,7 +129,7 @@ export function Shell({
   children,
 }: Readonly<{ lang: Lang; children: React.ReactNode }>) {
   return (
-    <html lang={lang} className={`${archivo.variable} ${jetbrains.variable}`}>
+    <html lang={lang} className={fontVariables}>
       <body className="bg-void text-bone antialiased">
         <AppShell>{children}</AppShell>
       </body>

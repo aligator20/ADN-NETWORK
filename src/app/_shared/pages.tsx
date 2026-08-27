@@ -77,10 +77,24 @@ const RESEAU_DESCRIPTION: Record<Lang, string> = {
 };
 
 export function reseauMetadata(lang: Lang): Metadata {
+  const { community } = copy(lang);
+
+  // Le Réseau a sa PROPRE image de partage — celle des visuels d'annonce.
+  // C'est la page qu'on colle dans une conversation WhatsApp ou sous un post :
+  // laisser l'aperçu générique du site afficherait « ADN NETWORK, agence »
+  // là où le message est « la communauté est ouverte ».
+  const image = { url: "/og/reseau.png", width: 1200, height: 630, alt: community.name };
+
   return {
-    title: copy(lang).community.name,
+    title: community.name,
     description: RESEAU_DESCRIPTION[lang],
     alternates: alternatesFor(lang, "/reseau"),
+    openGraph: {
+      title: community.name,
+      description: RESEAU_DESCRIPTION[lang],
+      images: [image],
+    },
+    twitter: { card: "summary_large_image", images: ["/og/reseau.png"] },
   };
 }
 
