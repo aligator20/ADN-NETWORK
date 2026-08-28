@@ -39,13 +39,20 @@ import { disciplineColor, services, type ServiceId } from "@/content/services";
  * Annoncer « ce projet cherche son financement » ne coûte aucune crédibilité :
  * c'est le laisser deviner qui en coûte.
  */
-export type ProjectStatus = "livre" | "exploitation" | "construction" | "financement";
+export type ProjectStatus =
+  | "livre"
+  | "exploitation"
+  | "construction"
+  | "financement"
+  /** Cadre posé, validation terrain en cours, décision non prise. */
+  | "etude";
 
 export const statusLabel: Record<ProjectStatus, string> = {
   livre: "Livré",
   exploitation: "En exploitation",
   construction: "En construction",
   financement: "Recherche de financement",
+  etude: "À l'étude",
 };
 
 /** Le lime de la marque signale le seul état qui appelle une action. */
@@ -54,6 +61,9 @@ export const statusColor: Record<ProjectStatus, string> = {
   exploitation: "var(--color-agritech)",
   construction: "var(--color-automation)",
   financement: "var(--color-signal)",
+  // Gris de corps : un projet à l'étude ne réclame rien au lecteur. Lui donner
+  // une couleur d'appel le mettrait au même rang qu'une réalisation livrée.
+  etude: "var(--color-fog)",
 };
 
 export type Project = {
@@ -568,6 +578,95 @@ export const projects: readonly Project[] = [
       {
         title: "L'horizon",
         body: "Une présence dans plus de quinze pays à l'échéance 2033, et une valorisation cible d'un milliard de FCFA. Ce sont des objectifs déclarés, pas des projections auditées — et ils sont présentés comme tels.",
+      },
+    ],
+  },
+
+  /* ═══════════════════════════════════════════════════════ SANTÉ ══
+     ⚠️ CE QUI N'EST PAS PUBLIÉ ICI, ET POURQUOI.
+
+     Le dossier source porte un avertissement explicite : aucune de ses
+     affirmations juridiques ne doit figurer dans une présentation
+     institutionnelle avant recoupement au Journal Officiel et validation par un
+     avocat inscrit au barreau du Bénin. Une fiche projet publique EST une
+     présentation institutionnelle.
+
+     Sont donc écartés de cette fiche : le détail de l'analyse juridique, les
+     numéros d'articles, les 21 normes et 134 critères du référentiel — que le
+     dossier lui-même signale comme provenant de sources secondaires — ainsi que
+     tout chiffre d'affaires, prix ou plan de financement, que le dossier
+     déclare ne pas contenir.
+
+     Ce qui est publié : le problème, la fonction, la méthode et l'état réel
+     d'avancement. C'est-à-dire ce qui se vérifie. */
+  {
+    slug: "operateur-continuite",
+    // ⚠️ NOM DE TRAVAIL. Le dossier nomme la FONCTION, pas l'entreprise : il
+    // laisse le porteur en [Prénom NOM] et ne propose aucune marque. À
+    // remplacer dès qu'un nom commercial est arrêté — changer aussi le slug
+    // casserait l'URL, donc le titre seul suffit.
+    title: "Opérateur de Continuité",
+    year: 2026,
+    discipline: "sante",
+    status: "etude",
+    summary:
+      "Dans un parcours de soins, chacun fait bien son travail et personne n'est chargé de relier ces travaux entre eux. Ce chaînage revient à la famille — la moins équipée pour le faire, et qui le paie.",
+    stack: [
+      "Étude juridique",
+      "Cadrage opérationnel",
+      "Enquête terrain",
+      "Documents contractuels",
+    ],
+    cover: "/work/operateur-continuite.svg",
+    coverFit: "contain", // schéma construit : le recadrer lui ôterait son sens
+    figures: [
+      { value: "14,74 %", label: "des usagers solvables — étude 2023" },
+      { value: "90", label: "jours avant décision écrite" },
+      { value: "04", label: "chiffres à produire, seuils fixés d'avance" },
+      { value: "04", label: "signaux d'arrêt, écrits avant de commencer" },
+    ],
+    opportunity: [
+      {
+        title: "Le retournement",
+        body: "La famille fait déjà ce travail — gratuitement et mal — et en paie les conséquences en trajets inutiles, journées perdues, examens refaits et médicaments achetés pour rien. Le projet ne vend donc pas un service nouveau : il vend la professionnalisation d'un travail déjà effectué. C'est la seule proposition qui tienne face à une capacité de paiement faible.",
+      },
+      {
+        title: "Les payeurs, dans l'ordre",
+        body: "Les familles présentes, à l'acte, pour apprendre et mesurer. Les établissements de santé, dont un texte de 2025 impose un dispositif de sécurité des patients avec une échéance datée et un budget identifiable. La diaspora, solvable en devises et géographiquement empêchée. Le grand public comme canal principal est écarté : la capacité de paiement documentée ne le permet pas.",
+      },
+      {
+        title: "Ce qui reste à prouver",
+        body: "Quatre chiffres, et rien ne se décide avant : le coût caché moyen d'un épisode pour un ménage, le délai entre la prescription d'un examen et le retour du résultat au prescripteur, le taux de conversion payant réel — on compte ceux qui paient, pas ceux qui disent oui — et le nombre de lettres d'intention d'établissements.",
+      },
+      {
+        title: "Les signaux d'arrêt",
+        body: "Quatre conditions d'abandon sont écrites avant le début, pas après. Conversion sous le seuil et aucune lettre d'intention. Risque pénal jugé non maîtrisable sur le cœur de l'activité. Coût caché mesuré trop faible et offre établissements sans preneur. Aucune convention obtenue en quatre-vingt-dix jours malgré des rendez-vous — ce ne serait pas un échec commercial mais le signal que le système ne veut pas d'un tiers dans ses murs.",
+      },
+    ],
+    detail: [
+      {
+        title: "Le problème",
+        body: "Le médecin prescrit, le laboratoire analyse, la caisse encaisse, le pharmacien dispense. Chacun de ces actes peut être irréprochable et le parcours rester chaotique. Ce qui manque n'est pas la compétence : c'est le chaînage. Et la personne qui transporte des documents qu'elle ne peut pas lire entre des gens qui ne se parlent pas est la seule à voir le parcours en entier — la seule, aussi, que personne n'interroge.",
+      },
+      {
+        title: "La fonction",
+        body: "Opérateur de continuité du parcours. Trois verbes, et rien d'autre : acheminer un document ou une question, tenir à jour un relevé daté des démarches, alerter un soignant d'un fait observable ou une famille d'une échéance. Le facilitateur agit sur le circuit, jamais sur le contenu. Il transmet la question au professionnel ; il ne transmet jamais la réponse à sa place.",
+      },
+      {
+        title: "Le relevé de parcours",
+        body: "Un document papier, daté, tenu à jour par l'opérateur, propriété de la famille, sans aucune copie conservée. Il répond à quatre questions à tout moment : où en est-on, qu'est-ce qui a été payé, qu'est-ce qui reste à faire, où sont les papiers. Il comporte un statut « sans objet », qui règle le cas des prestations payées puis devenues inutiles.",
+      },
+      {
+        title: "La frontière, en deux secondes",
+        body: "« Ma phrase resterait-elle vraie si je ne savais rien de la maladie de ce patient ? » Oui : c'est du circuit, c'est autorisé. Non : c'est du contenu, c'est interdit. Aucun diagnostic, aucune interprétation de résultat, aucune évaluation de gravité — y compris pour rassurer. Le test tient sur une ligne, ce qui est la condition pour qu'il soit réellement appliqué sur le terrain.",
+      },
+      {
+        title: "Les trois offres",
+        body: "La boucle de l'examen : le résultat revient au médecin qui l'a demandé, dans le délai utile, sous enveloppe close jamais ouverte. Le pack conformité, adossé à une échéance réglementaire qui ne vient pas du prestataire. La présence et le compte rendu pour la diaspora — un compte rendu qui décrit ce qui a été fait, jamais ce que le patient a.",
+      },
+      {
+        title: "L'état d'avancement",
+        body: "Dossier de travail achevé en août 2026 : étude, cadrage, courriers aux autorités, kit d'enquête, documents contractuels. Il ne constitue pas un avis juridique et ne contient volontairement ni prévisionnel, ni grille tarifaire, ni statuts — ils dépendent de vérifications en cours. La prochaine action est l'envoi des quatre demandes écrites aux autorités compétentes.",
       },
     ],
   },

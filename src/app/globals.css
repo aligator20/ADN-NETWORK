@@ -41,6 +41,12 @@
      jaune ; c'est le point faible assume du code couleur a neuf entrees. */
   --color-farming: #8ab833;
   --color-food: #f2b705;
+  /* Turquoise : la dixieme entree, pour la sante. Elle occupe le dernier
+     intervalle libre du cercle chromatique — 170 deg, entre le vert agritech
+     (145) et le cyan reseau (190). C'est vingt degres de chaque cote, l'ecart
+     le plus serre du systeme : au-dela de dix teintes, le code couleur cesse
+     de se lire et il faudra passer a autre chose. */
+  --color-sante: #1fd6b2;
 
   /* — Typographie ——————————————————————————————————————— */
   --font-display: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;

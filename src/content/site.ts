@@ -159,6 +159,7 @@ export const disciplines = [
   "Agritech",
   "Agriculture",
   "Agroalimentaire",
+  "Santé",
 ] as const;
 
 /**

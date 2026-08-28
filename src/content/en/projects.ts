@@ -26,7 +26,8 @@ type ProjectSlug =
   | "tshirt-gemini"
   | "ferme-fdr-adone"
   | "complexe-porcin"
-  | "adn-taste";
+  | "adn-taste"
+  | "operateur-continuite";
 
 type Traduction = {
   summary: string;
@@ -41,6 +42,7 @@ export const statusLabelEn: Record<ProjectStatus, string> = {
   exploitation: "In operation",
   construction: "In build",
   financement: "Seeking funding",
+  etude: "Under study",
 };
 
 const EN: Record<ProjectSlug, Traduction> = {
@@ -428,6 +430,73 @@ const EN: Record<ProjectSlug, Traduction> = {
       {
         title: "The horizon",
         body: "A presence in more than fifteen countries by 2033, and a target valuation of one billion FCFA. These are stated objectives, not audited projections — and they are presented as such.",
+      },
+    ],
+  },
+
+  /* ─────────────────────────────────────── OPÉRATEUR DE CONTINUITÉ ──
+     Même réserve qu'en français : l'analyse juridique du dossier source n'est
+     pas publiée, seulement le problème, la fonction, la méthode et l'état réel.
+     « Facilitator » plutôt que « operator » dans le corps du texte : en anglais,
+     « care operator » désigne un prestataire de soins — exactement le rôle que
+     le projet se refuse. */
+  "operateur-continuite": {
+    summary:
+      "In a care pathway, everyone does their own job well and nobody is responsible for joining those jobs up. That linking falls to the family — the least equipped to do it, and the one paying for it.",
+    stack: [
+      "Legal study",
+      "Operational framing",
+      "Field survey",
+      "Contractual documents",
+    ],
+    figures: [
+      { value: "14.74 %", label: "of users able to pay — 2023 study" },
+      { value: "90", label: "days to a written decision" },
+      { value: "04", label: "figures to produce, thresholds set in advance" },
+      { value: "04", label: "stop signals, written before starting" },
+    ],
+    opportunity: [
+      {
+        title: "The reversal",
+        body: "The family already does this work — for free and badly — and pays for it in wasted journeys, lost working days, repeated tests and medicines bought for nothing. So the project is not selling a new service: it is selling the professionalisation of work already being done. It is the only proposition that holds up against a low ability to pay.",
+      },
+      {
+        title: "The payers, in order",
+        body: "Families on site, per act, to learn and to measure. Health facilities, which a 2025 text requires to put a patient-safety framework in place, with a dated deadline and an identifiable budget. The diaspora, able to pay in foreign currency and geographically prevented from being there. The general public as a main channel is ruled out: the documented ability to pay does not allow it.",
+      },
+      {
+        title: "What remains to be proven",
+        body: "Four figures, and nothing is decided before them: the average hidden cost of one episode for a household, the delay between a test being ordered and the result reaching the doctor who ordered it, the real paying-conversion rate — you count the ones who pay, not the ones who say yes — and the number of letters of intent from facilities.",
+      },
+      {
+        title: "The stop signals",
+        body: "Four abandonment conditions are written before the start, not after. Conversion below threshold and no letter of intent. Criminal risk judged unmanageable on the core activity. Measured hidden cost too low and no taker for the facilities offer. No written agreement obtained in ninety days despite meetings being granted — that would not be a sales failure but the signal that the system does not want a third party inside its walls.",
+      },
+    ],
+    detail: [
+      {
+        title: "The problem",
+        body: "The doctor prescribes, the laboratory analyses, the cashier collects, the pharmacist dispenses. Every one of those acts can be faultless and the pathway still be chaotic. What is missing is not competence: it is the linking. And the person carrying documents she cannot read between people who do not speak to each other is the only one who sees the pathway whole — and the only one nobody ever asks.",
+      },
+      {
+        title: "The function",
+        body: "Continuity facilitator for the pathway. Three verbs, and nothing else: move a document or a question, keep a dated record of the steps taken, alert a clinician to an observable fact or a family to a deadline. The facilitator acts on the circuit, never on the content. He passes the question to the professional; he never passes back the answer in their place.",
+      },
+      {
+        title: "The pathway record",
+        body: "A paper document, dated, kept up to date by the facilitator, owned by the family, with no copy retained. It answers four questions at any moment: where are we, what has been paid, what is left to do, where are the papers. It carries a “no longer required” status, which settles the case of services paid for and then made pointless.",
+      },
+      {
+        title: "The boundary, in two seconds",
+        body: "“Would my sentence still be true if I knew nothing about this patient's illness?” Yes: it is circuit, it is allowed. No: it is content, it is forbidden. No diagnosis, no interpretation of a result, no assessment of severity — including to reassure. The test fits on one line, which is the condition for it actually being applied in the field.",
+      },
+      {
+        title: "The three offers",
+        body: "The test loop: the result returns to the doctor who ordered it, within a useful delay, in a sealed envelope that is never opened. The compliance pack, anchored to a regulatory deadline that does not come from the provider. Presence and written reports for the diaspora — a report that describes what was done, never what the patient has.",
+      },
+      {
+        title: "Where it stands",
+        body: "Working dossier completed in August 2026: study, framing, letters to the authorities, field survey kit, contractual documents. It does not constitute legal advice and deliberately contains no forecast, no price list and no articles of incorporation — those depend on verifications still under way. The next action is sending the four written requests to the competent authorities.",
       },
     ],
   },

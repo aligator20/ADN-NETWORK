@@ -77,6 +77,7 @@ export const disciplinesEn = [
   "Agritech",
   "Farming",
   "Food",
+  "Health",
 ];
 
 export const aboutEn = {

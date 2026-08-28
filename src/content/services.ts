@@ -17,7 +17,8 @@ export type ServiceId =
   | "creative"
   | "agritech"
   | "farming"
-  | "food";
+  | "food"
+  | "sante";
 
 /**
  * Deux natures d'offre, et la distinction est affichée.
@@ -58,6 +59,7 @@ export const disciplineColor: Record<ServiceId, string> = {
   agritech: "var(--color-agritech)",
   farming: "var(--color-farming)",
   food: "var(--color-food)",
+  sante: "var(--color-sante)",
 };
 
 export const services: readonly Service[] = [
@@ -143,11 +145,34 @@ export const services: readonly Service[] = [
       "Transformer sur place ce qui partait brut : la valeur reste là où elle est produite.",
     capabilities: ["Marque produit", "Unité de transformation", "Conditionnement", "Distribution"],
   },
+  {
+    id: "sante",
+    name: "Santé",
+    kind: "delivery",
+    /* La formulation dit le PRINCIPE et sa limite dans la même phrase. Annoncer
+       de la santé sans dire ce qu'on ne touche pas ferait fuir tout
+       professionnel du secteur — et à juste titre. */
+    statement:
+      "Faire circuler l'information là où le parcours de soins la laisse s'arrêter, sans jamais toucher au contenu médical.",
+    capabilities: [
+      "Parcours patient",
+      "Continuité des démarches",
+      "Conformité qualité",
+      "Médiation administrative",
+    ],
+  },
 ] as const;
 
-/** Chiffres de la séquence 002. `value` est la cible du compteur animé. */
+/**
+ * Chiffres de la séquence 002. `value` est la cible du compteur animé.
+ *
+ * Le nombre de disciplines est DÉRIVÉ. Il était écrit en dur, et il annonçait
+ * encore 7 alors que la liste en comptait 9 : un chiffre recopié à côté de sa
+ * source finit toujours par mentir, et sur une page qui vend de la rigueur
+ * c'est le pire endroit où se tromper.
+ */
 export const metrics = [
-  { value: 7, suffix: "", label: "Disciplines" },
+  { value: services.length, suffix: "", label: "Disciplines" },
   { value: 100, suffix: "%", label: "Sur-mesure" },
   { value: 24, suffix: "/7", label: "Supervision" },
   { value: 1, suffix: "", label: "Interlocuteur" },

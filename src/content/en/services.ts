@@ -73,6 +73,17 @@ const EN: Record<ServiceId, Traduction> = {
       "Circular economy",
     ],
   },
+  sante: {
+    name: "Health",
+    statement:
+      "Moving information through the points where a care pathway lets it stall — without ever touching clinical content.",
+    capabilities: [
+      "Patient pathway",
+      "Continuity of steps",
+      "Quality compliance",
+      "Administrative mediation",
+    ],
+  },
   food: {
     name: "Food processing",
     statement: "Processing on site what used to leave raw: the value stays where it is produced.",

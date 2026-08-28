@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Parcours de soins : quatre acteurs sans lien entre eux, la famille assure le chainage">
+  <!--
+    Aucune photo ne convient ici, et il n'en existera pas : le projet est une
+    ETUDE, pas une installation. Une image d'hopital laisserait croire a un
+    service en activite — exactement ce que le statut « A l'etude » dement.
+
+    La miniature represente donc le PROBLEME, qui est un probleme de schema :
+    quatre acteurs qui font chacun correctement leur travail, aucun lien entre
+    eux, et une seule ligne continue qui les relie — la famille.
+
+    La declaration XML est necessaire : le texte porte des accents, et sans
+    elle un serveur qui omet le charset les rendrait illisibles.
+    Couleur : turquoise #1FD6B2, discipline Sante.
+  -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#121215"/>
+      <stop offset="1" stop-color="#050506"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#bg)"/>
+
+  <!-- ── en-tête ─────────────────────────────────────────────────────── -->
+  <text x="150" y="96" fill="#1FD6B2" font-family="ui-monospace, monospace" font-size="18" letter-spacing="5">PARCOURS DE SOINS</text>
+  <rect x="150" y="118" width="104" height="1.5" fill="#1FD6B2"/>
+
+  <!-- ── les quatre acteurs ──────────────────────────────────────────────
+       Chacun est entier, fermé, correct. C'est le propos : le défaut n'est
+       dans aucun des quatre. -->
+  <g font-family="ui-monospace, monospace">
+    <g>
+      <rect x="230" y="170" width="400" height="68" fill="none" stroke="#ECECEE" stroke-opacity="0.3"/>
+      <text x="258" y="203" fill="#ECECEE" font-size="21" letter-spacing="3">MÉDECIN</text>
+      <text x="602" y="203" fill="#6E6E78" font-size="13" text-anchor="end">prescrit</text>
+    </g>
+    <g>
+      <rect x="230" y="330" width="400" height="68" fill="none" stroke="#ECECEE" stroke-opacity="0.3"/>
+      <text x="258" y="363" fill="#ECECEE" font-size="21" letter-spacing="3">LABORATOIRE</text>
+      <text x="602" y="363" fill="#6E6E78" font-size="13" text-anchor="end">analyse</text>
+    </g>
+    <g>
+      <rect x="230" y="490" width="400" height="68" fill="none" stroke="#ECECEE" stroke-opacity="0.3"/>
+      <text x="258" y="523" fill="#ECECEE" font-size="21" letter-spacing="3">CAISSE</text>
+      <text x="602" y="523" fill="#6E6E78" font-size="13" text-anchor="end">encaisse</text>
+    </g>
+    <g>
+      <rect x="230" y="650" width="400" height="68" fill="none" stroke="#ECECEE" stroke-opacity="0.3"/>
+      <text x="258" y="683" fill="#ECECEE" font-size="21" letter-spacing="3">PHARMACIE</text>
+      <text x="602" y="683" fill="#6E6E78" font-size="13" text-anchor="end">dispense</text>
+    </g>
+  </g>
+
+  <!-- ── les ruptures ────────────────────────────────────────────────────
+       Le lien s'amorce des deux côtés et n'aboutit pas. Le vide au milieu
+       n'est pas un espacement de mise en page : c'est le sujet. -->
+  <g stroke="#ECECEE" stroke-opacity="0.55" stroke-width="1.5">
+    <line x1="430" y1="238" x2="430" y2="258"/><line x1="430" y1="310" x2="430" y2="330"/>
+    <line x1="430" y1="398" x2="430" y2="418"/><line x1="430" y1="470" x2="430" y2="490"/>
+    <line x1="430" y1="558" x2="430" y2="578"/><line x1="430" y1="630" x2="430" y2="650"/>
+  </g>
+
+  <!-- ── la famille ──────────────────────────────────────────────────────
+       La seule ligne continue de tout le schéma, et la seule qui touche les
+       quatre acteurs. Elle passe par l'extérieur : personne ne l'a prévue. -->
+  <path d="M 230 204 H 150 V 684 H 230" fill="none" stroke="#1FD6B2" stroke-width="2"/>
+  <path d="M 150 364 H 230" fill="none" stroke="#1FD6B2" stroke-width="2"/>
+  <path d="M 150 524 H 230" fill="none" stroke="#1FD6B2" stroke-width="2"/>
+  <circle cx="150" cy="204" r="5" fill="#1FD6B2"/>
+  <circle cx="150" cy="364" r="5" fill="#1FD6B2"/>
+  <circle cx="150" cy="524" r="5" fill="#1FD6B2"/>
+  <circle cx="150" cy="684" r="5" fill="#1FD6B2"/>
+  <text x="126" y="444" fill="#1FD6B2" font-family="ui-monospace, monospace" font-size="15" letter-spacing="4" text-anchor="middle" transform="rotate(-90 126 444)">LA FAMILLE</text>
+
+  <!-- ── ce que le projet ajoute ────────────────────────────────────────── -->
+  <rect x="150" y="800" width="480" height="1" fill="#2A2A30"/>
+  <text x="150" y="852" fill="#ECECEE" font-family="ui-monospace, monospace" font-size="17" letter-spacing="3">RELEVÉ DE PARCOURS</text>
+  <g font-family="ui-monospace, monospace" font-size="13" fill="#6E6E78">
+    <text x="150" y="888">où en est-on</text>
+    <text x="150" y="912">ce qui a été payé</text>
+    <text x="400" y="888">ce qui reste à faire</text>
+    <text x="400" y="912">où sont les papiers</text>
+  </g>
+</svg>
