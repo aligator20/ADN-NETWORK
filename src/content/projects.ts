@@ -606,6 +606,7 @@ export const projects: readonly Project[] = [
     // remplacer dès qu'un nom commercial est arrêté — changer aussi le slug
     // casserait l'URL, donc le titre seul suffit.
     title: "Opérateur de Continuité",
+    client: "Groupe ADONE",
     year: 2026,
     discipline: "sante",
     status: "etude",
