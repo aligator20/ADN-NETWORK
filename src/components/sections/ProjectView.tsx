@@ -8,7 +8,7 @@ import { Magnetic } from "@/components/ui/Magnetic";
 import { Status } from "@/components/ui/Status";
 import { Whatsapp } from "@/components/ui/Whatsapp";
 import { type Project } from "@/content/projects";
-import { useCopy, useDisciplineName, useHref } from "@/hooks/useCopy";
+import { useCopy, useDisciplineName, useHref, useLang } from "@/hooks/useCopy";
 import { disciplineColor } from "@/content/services";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
@@ -38,6 +38,7 @@ export function ProjectView({
   const reduced = usePrefersReducedMotion();
   const { site, ui } = useCopy();
   const href = useHref();
+  const lang = useLang();
   const disciplineName = useDisciplineName();
   const color = disciplineColor[project.discipline];
 
@@ -203,6 +204,55 @@ export function ProjectView({
                   </span>
                 </a>
               </Magnetic>
+            )}
+
+            {/* Le dossier téléchargeable. Même règle que le site en ligne :
+                rendu uniquement s'il existe.
+
+                Le nombre de pages et le poids sont AFFICHÉS. Personne ne clique
+                sur un téléchargement sans savoir ce qu'il déclenche, et sur une
+                connexion mobile facturée au mégaoctet, l'information n'est pas
+                un détail de confort.
+
+                `download` propose l'enregistrement plutôt que l'ouverture, mais
+                le lien reste un lien : un visiteur qui préfère lire dans son
+                navigateur peut l'ouvrir dans un onglet. */}
+            {project.dossier && (
+              <a
+                href={project.dossier.href}
+                download
+                data-cursor="hover"
+                className="pv-visit group mt-10 inline-flex items-center gap-5 md:mt-12"
+              >
+                <span
+                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border transition-colors duration-500 ease-expo md:h-16 md:w-16"
+                  style={{ borderColor: color }}
+                >
+                  <span
+                    aria-hidden
+                    className="block text-lg transition-transform duration-500 ease-expo group-hover:translate-y-1"
+                    style={{ color }}
+                  >
+                    ↓
+                  </span>
+                </span>
+                <span>
+                  <span className="label block">
+                    {ui.dossierLabel}
+                    <span className="ml-3 text-steel">
+                      PDF · {project.dossier.pages} {ui.dossierPages} ·{" "}
+                      {project.dossier.mo.toLocaleString(lang, {
+                        minimumFractionDigits: 1,
+                        maximumFractionDigits: 1,
+                      })}{" "}
+                      {ui.dossierUnit}
+                    </span>
+                  </span>
+                  <span className="display mt-2 block text-[clamp(1.15rem,2.4vw,2rem)] leading-none text-bone">
+                    {ui.dossierAction}
+                  </span>
+                </span>
+              </a>
             )}
           </div>
         </div>

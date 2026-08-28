@@ -139,4 +139,9 @@ export const uiEn = {
   supportBody:
     "Every project has its complete file: specifications, figures, timeline, terms. Support sends it to you and answers your questions.",
   supportAction: "Contact support",
+  /* — Dossier téléchargeable ——————————————————————————— */
+  dossierLabel: "The full dossier",
+  dossierAction: "Download the PDF",
+  dossierPages: "pages",
+  dossierUnit: "MB",
 };

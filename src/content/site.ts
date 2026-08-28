@@ -226,4 +226,9 @@ export const ui = {
   supportBody:
     "Chaque projet a son dossier complet : spécifications, chiffres, calendrier, conditions. Le support vous le transmet et répond à vos questions.",
   supportAction: "Contacter le support",
+  /* — Dossier téléchargeable ——————————————————————————— */
+  dossierLabel: "Le dossier complet",
+  dossierAction: "Télécharger le PDF",
+  dossierPages: "pages",
+  dossierUnit: "Mo",
 } as const;

@@ -124,6 +124,23 @@ export type Project = {
    * s'affiche, plutôt qu'un lien mort.
    */
   url?: string;
+  /**
+   * Dossier téléchargeable, servi depuis /public.
+   *
+   * `pages` et `mo` ne sont pas décoratifs : personne ne clique sur un lien de
+   * téléchargement sans savoir ce qu'il déclenche, et une connexion mobile
+   * facturée au mégaoctet rend l'information indispensable ici. Les deux
+   * valeurs sont relevées sur le fichier, jamais estimées.
+   *
+   * `mo` est un NOMBRE, pas un texte : le français écrit « 1,9 Mo » et
+   * l'anglais « 1.9 MB ». La virgule décimale change autant que l'unité, donc
+   * la mise en forme appartient à la vue, qui connaît la langue.
+   *
+   * ⚠️ Ne pas ranger ces fichiers sous /work : ce chemin porte un cache
+   * navigateur de sept jours, prévu pour des images qui ne changent pas. Un
+   * document révisé y resterait périmé une semaine chez qui l'a déjà ouvert.
+   */
+  dossier?: { href: string; pages: number; mo: number };
 };
 
 export const projects: readonly Project[] = [
@@ -620,6 +637,9 @@ export const projects: readonly Project[] = [
     ],
     cover: "/work/operateur-continuite.svg",
     coverFit: "contain", // schéma construit : le recadrer lui ôterait son sens
+    // Converti du .docx d'origine : un PDF s'ouvre dans le navigateur et se lit
+    // sur téléphone, là où un .docx force un téléchargement et exige Word.
+    dossier: { href: "/dossiers/operateur-continuite.pdf", pages: 120, mo: 1.9 },
     figures: [
       { value: "14,74 %", label: "des usagers solvables — étude 2023" },
       { value: "90", label: "jours avant décision écrite" },

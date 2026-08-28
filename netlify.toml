@@ -53,6 +53,15 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Visuels de projet : une image de couverture ne change pas à contenu égal, on
+# la garde une semaine chez le visiteur.
+#
+# ⚠️ NE PAS RANGER DE DOCUMENT ICI. Un dossier révisé resterait périmé sept
+# jours chez quiconque l'a déjà ouvert. Les PDF vivent sous /dossiers/, qui
+# n'a volontairement AUCUNE règle : ils héritent alors du défaut Netlify,
+# `max-age=0, must-revalidate`, soit une revalidation à chaque visite. Grâce à
+# l'ETag, un document inchangé répond 304 sans retransmettre le fichier — on a
+# donc la fraîcheur sans payer la bande passante.
 [[headers]]
   for = "/work/*"
   [headers.values]
