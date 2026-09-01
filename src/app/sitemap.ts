@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", priority: 1, freq: "monthly" },
     { path: "/work", priority: 0.9, freq: "monthly" },
     { path: "/reseau", priority: 0.9, freq: "monthly" },
+    { path: "/vitrine", priority: 0.9, freq: "monthly" },
     ...projects.map((p) => ({
       path: `/work/${p.slug}`,
       priority: 0.7,

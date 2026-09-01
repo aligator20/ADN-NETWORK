@@ -98,6 +98,25 @@ export function reseauMetadata(lang: Lang): Metadata {
   };
 }
 
+/* ── La Vitrine ──────────────────────────────────────────────────────────── */
+
+const VITRINE_DESCRIPTION: Record<Lang, string> = {
+  fr:
+    "ADN NETWORK fabrique votre vitrine professionnelle : une page publiée, un " +
+    "dossier PDF, une identité de marque. Un livrable, pas un emplacement loué.",
+  en:
+    "ADN NETWORK builds your professional showcase: a published page, a PDF " +
+    "dossier, a brand identity. A deliverable, not a rented slot.",
+};
+
+export function vitrineMetadata(lang: Lang): Metadata {
+  return {
+    title: copy(lang).vitrine.name,
+    description: VITRINE_DESCRIPTION[lang],
+    alternates: alternatesFor(lang, "/vitrine"),
+  };
+}
+
 /* ── Mentions légales ────────────────────────────────────────────────────── */
 
 export function legalMetadata(lang: Lang): Metadata {

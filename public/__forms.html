@@ -158,6 +158,25 @@
         <input type="checkbox" name="consent" value="oui" />
         <input type="text" name="bot-field" />
       </form>
+
+      <!-- Second formulaire : la demande de devis. Separee des candidatures. -->
+      <form
+        name="devis-vitrine"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+      >
+        <input type="hidden" name="form-name" value="devis-vitrine" />
+        <input type="text" name="formule" />
+        <input type="text" name="lang" />
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <input type="tel" name="phone" />
+        <input type="text" name="metier" />
+        <textarea name="projet"></textarea>
+        <input type="checkbox" name="consent" value="oui" />
+        <input type="text" name="bot-field" />
+      </form>
     </div>
   </body>
 </html>

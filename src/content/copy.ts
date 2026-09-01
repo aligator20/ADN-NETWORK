@@ -22,6 +22,7 @@
 import {
   communityEn,
   legalEn,
+  vitrineEn,
   navEn,
   projectsEn,
   servicesEn,
@@ -37,6 +38,7 @@ import {
 } from "@/content/en";
 import { community as communityFr } from "@/content/community";
 import { legal as legalFr, type LegalCopy } from "@/content/legal";
+import { vitrine as vitrineFr, type VitrineCopy } from "@/content/vitrine";
 import { projects as projectsFr, statusLabel as statusLabelFr } from "@/content/projects";
 import type { Project, ProjectStatus } from "@/content/projects";
 import {
@@ -130,6 +132,7 @@ export type Copy = {
   statusLabel: Record<ProjectStatus, string>;
   community: CommunityCopy;
   legal: LegalCopy;
+  vitrine: VitrineCopy;
   /** Sert aux titres de sections dépourvus de conteneur dédié. */
   labels: {
     openNoFee: string;
@@ -160,6 +163,7 @@ const FR: Copy = {
   statusLabel: statusLabelFr,
   community: communityFr,
   legal: legalFr,
+  vitrine: vitrineFr,
   labels: {
     openNoFee: "Ouvert — sans frais d'entrée",
     threeRoles: "Trois rôles, une seule table",
@@ -190,6 +194,7 @@ const EN: Copy = {
   statusLabel: statusLabelEn,
   community: communityEn,
   legal: legalEn,
+  vitrine: vitrineEn,
   labels: {
     openNoFee: "Open — no entry fee",
     threeRoles: "Three roles, one table",

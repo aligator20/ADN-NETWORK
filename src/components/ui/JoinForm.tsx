@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { Magnetic } from "@/components/ui/Magnetic";
 import { Whatsapp } from "@/components/ui/Whatsapp";
 import { useCopy, useLang } from "@/hooks/useCopy";
+import { useNetlifyForm } from "@/hooks/useNetlifyForm";
+import { Champ } from "@/components/ui/Champ";
 import { cn } from "@/lib/utils";
 
 /**
@@ -31,17 +33,13 @@ import { cn } from "@/lib/utils";
  *   — en cas d'échec réseau, on retombe sur le mailto. Une candidature perdue
  *     à cause d'un 502 est une candidature perdue pour de bon.
  */
-type Etat = "saisie" | "envoi" | "envoyee" | "echec";
-
 export function JoinForm() {
   const { community, site } = useCopy();
   const lang = useLang();
   const F = community.form;
 
   const [role, setRole] = useState<string>(community.roles[0].id);
-  const [etat, setEtat] = useState<Etat>("saisie");
-  const [prete, setPrete] = useState(false);
-  const dernier = useRef<Record<string, string>>({});
+  const { etat, prete, dernier, envoyer, surSaisie, envoiEnCours } = useNetlifyForm(F.endpoint);
 
   const choisi = community.roles.find((r) => r.id === role) ?? community.roles[0];
 
@@ -64,47 +62,6 @@ export function JoinForm() {
     return `mailto:${site.email}?subject=${encodeURIComponent(
       `${community.name} — ${choisi.title} — ${d.name ?? ""}`,
     )}&body=${encodeURIComponent(corps)}`;
-  };
-
-  const envoyer = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    if (!form.checkValidity()) return;
-
-    // `URLSearchParams` n'accepte pas un `FormData` en entrée côté types : on
-    // recopie champ par champ, ce qui permet au passage de garder une trace
-    // des valeurs pour le repli mailto.
-    const corps = new URLSearchParams();
-    const trace: Record<string, string> = {};
-    new FormData(form).forEach((v, k) => {
-      const s = typeof v === "string" ? v : "";
-      corps.append(k, s);
-      trace[k] = s;
-    });
-    dernier.current = trace;
-
-    setEtat("envoi");
-    try {
-      // On poste sur l'`action` DU FORMULAIRE SERVI, pas sur la constante.
-      //
-      // Netlify réécrit le HTML au déploiement : il enregistre le formulaire,
-      // retire `data-netlify`, et son post-traitement raccourcit les URL —
-      // `/__forms.html` devient `/__forms`. Une adresse écrite en dur ici
-      // pointerait donc à côté de ce que le navigateur voit, et le jour où
-      // Netlify change sa réécriture, la candidature partirait dans le vide
-      // sans que rien ne le signale. Le DOM est la seule source fiable après
-      // post-traitement ; la constante ne sert plus que de repli.
-      const cible = form.getAttribute("action") || F.endpoint;
-      const res = await fetch(cible, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: corps.toString(),
-      });
-      if (!res.ok) throw new Error(String(res.status));
-      setEtat("envoyee");
-    } catch {
-      setEtat("echec");
-    }
   };
 
   /* — Accusé de réception ————————————————————————————————— */
@@ -130,8 +87,6 @@ export function JoinForm() {
     );
   }
 
-  const envoiEnCours = etat === "envoi";
-
   return (
     <form
       name={F.name}
@@ -140,7 +95,7 @@ export function JoinForm() {
       data-netlify="true"
       netlify-honeypot="bot-field"
       onSubmit={envoyer}
-      onInput={(e) => setPrete(e.currentTarget.checkValidity())}
+      onInput={surSaisie}
       className="md:col-span-8"
     >
       {/* Netlify identifie la soumission par ce champ, pas par l'URL. */}
@@ -293,54 +248,5 @@ export function JoinForm() {
         </div>
       )}
     </form>
-  );
-}
-
-/* ───────────────────────────────────────────────────────────────────────── */
-
-/** Champ à filet, sans boîte : la même grammaire que le reste du site. */
-function Champ({
-  nom,
-  label,
-  type = "text",
-  placeholder,
-  hint,
-  autoComplete,
-  requis,
-  disabled,
-}: {
-  nom: string;
-  label: string;
-  type?: string;
-  placeholder?: string;
-  hint?: string;
-  autoComplete?: string;
-  requis?: boolean;
-  disabled?: boolean;
-}) {
-  const id = `rz-${nom}`;
-  return (
-    <div>
-      <label className="label block" htmlFor={id}>
-        {label}
-        {requis && <span className="ml-1 text-signal">*</span>}
-      </label>
-      <input
-        id={id}
-        name={nom}
-        type={type}
-        required={requis}
-        disabled={disabled}
-        placeholder={placeholder}
-        autoComplete={autoComplete}
-        aria-describedby={hint ? `${id}-hint` : undefined}
-        className="mt-4 w-full border-0 border-b border-steel bg-transparent pb-3 font-mono text-[0.875rem] text-bone outline-none transition-colors duration-300 placeholder:text-steel focus:border-signal disabled:opacity-40"
-      />
-      {hint && (
-        <p id={`${id}-hint`} className="mt-3 font-mono text-[0.6875rem] text-steel">
-          {hint}
-        </p>
-      )}
-    </div>
   );
 }

@@ -94,7 +94,8 @@ export const sequences = [
   { id: "work", index: 4, label: "Réalisations" },
   { id: "about", index: 5, label: "Structure" },
   { id: "community", index: 6, label: "Le Réseau" },
-  { id: "contact", index: 7, label: "Contact" },
+  { id: "vitrine", index: 7, label: "La Vitrine" },
+  { id: "contact", index: 8, label: "Contact" },
 ] as const;
 
 export type SequenceId = (typeof sequences)[number]["id"];
@@ -126,6 +127,7 @@ export const nav: readonly NavItem[] = [
   { label: "Réalisations", href: "/work" },
   { label: "Structure", href: "/", anchor: "about" },
   { label: "Le Réseau", href: "/reseau" },
+  { label: "La Vitrine", href: "/vitrine" },
   { label: "Contact", href: "/", anchor: "contact" },
 ];
 

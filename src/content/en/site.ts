@@ -35,7 +35,8 @@ export const sequencesEn = [
   { id: "work", index: 4, label: "Work" },
   { id: "about", index: 5, label: "Structure" },
   { id: "community", index: 6, label: "The Network" },
-  { id: "contact", index: 7, label: "Contact" },
+  { id: "vitrine", index: 7, label: "The Showcase" },
+  { id: "contact", index: 8, label: "Contact" },
 ] as const;
 
 /**
@@ -50,6 +51,7 @@ const LABELS_EN = [
   "Work",
   "Structure",
   "The Network",
+  "The Showcase",
   "Contact",
 ];
 
