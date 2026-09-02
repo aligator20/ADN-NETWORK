@@ -34,6 +34,11 @@ export const vitrineEn: VitrineCopy = {
         "Permanent link, shareable on WhatsApp",
       ],
       pour: "You have a trade and nothing online that shows it.",
+      gain: {
+        ...fr.formules[0].gain,
+        avant: "You explain yourself every time, and they have to take your word for it.",
+        apres: "You send a link. They judge you before they even meet you.",
+      },
     },
     {
       ...fr.formules[1],
@@ -46,6 +51,11 @@ export const vitrineEn: VitrineCopy = {
         "Downloadable from your page",
       ],
       pour: "You approach companies or funders and leave empty-handed.",
+      gain: {
+        ...fr.formules[1].gain,
+        avant: "The meeting ends, and nothing of you stays on their desk.",
+        apres: "They leave with a document they can re-read and pass on.",
+      },
     },
     {
       ...fr.formules[2],
@@ -58,6 +68,11 @@ export const vitrineEn: VitrineCopy = {
         "Source files, yours to keep",
       ],
       pour: "You are building a brand, not only a personal reputation.",
+      gain: {
+        ...fr.formules[2].gain,
+        avant: "A logo here, a colour there, another tone elsewhere. Nothing matches.",
+        apres: "The same you everywhere, down to the source files you keep.",
+      },
     },
   ],
 
@@ -90,6 +105,8 @@ export const vitrineEn: VitrineCopy = {
 
   currency: "FCFA",
   from: "from",
+  gainBefore: "Today",
+  gainAfter: "After",
 
   form: {
     ...fr.form,

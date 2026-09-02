@@ -3,6 +3,7 @@
 import { useRef } from "react";
 
 import { BriefForm } from "@/components/ui/BriefForm";
+import { GainBand } from "@/components/ui/GainBand";
 import { useCopy, useLang } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
@@ -34,8 +35,18 @@ export function VitrineView() {
   const { vitrine, sequences } = useCopy();
   const lang = useLang();
 
-  /** « 75 000 FCFA » en français, « 75,000 FCFA » en anglais. */
-  const prix = (n: number) => `${n.toLocaleString(lang)} ${vitrine.currency}`;
+  /**
+   * « 75 000 FCFA » en français, « 75,000 FCFA » en anglais.
+   *
+   * `toLocaleString("fr")` sépare les milliers par une espace fine insécable
+   * (U+202F), qui est la règle typographique française. Elle tient en corps de
+   * texte — et elle DISPARAÎT dans la fonte d'affichage, en graisse 900 avec un
+   * crénage négatif : « 175 000 » s'y lit « 175000 ». Sur le nombre le plus
+   * regardé de la page, la lisibilité passe avant la règle : on repasse à
+   * l'espace insécable ordinaire, qui résiste au resserrement.
+   */
+  const prix = (n: number) =>
+    `${n.toLocaleString(lang).replace(/ /g, " ")} ${vitrine.currency}`;
   const minimum = Math.min(...vitrine.formules.map((f) => f.prix));
 
   useGSAP(
@@ -64,6 +75,48 @@ export function VitrineView() {
         ease: EASE.power,
         stagger: 0.1,
         scrollTrigger: { trigger: ".vt-formules", start: "top 82%" },
+      });
+
+      // — les bandes avant/après ————————————————————————
+      // Chaque bande est animée POUR ELLE-MÊME (un ScrollTrigger par bande) :
+      // un seul déclencheur global les jouerait toutes à l'entrée de la
+      // première, et les deux dernières seraient déjà finies quand on arrive
+      // dessus.
+      gsap.utils.toArray<HTMLElement>(".vt-gain").forEach((bande) => {
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: bande, start: "top 80%" },
+        });
+
+        // Le côté « aujourd'hui » se pose pièce par pièce : chaque élément du
+        // dessin arrive séparément, ce qui montre l'éparpillement au lieu de
+        // le décrire.
+        tl.from(bande.querySelectorAll(".vt-m-avant"), {
+          autoAlpha: 0,
+          y: 10,
+          duration: DUR.base,
+          ease: EASE.expo,
+          stagger: 0.08,
+        })
+          .from(
+            bande.querySelector(".vt-gain-fleche"),
+            { autoAlpha: 0, x: -14, duration: DUR.base, ease: EASE.expo },
+            "-=0.3",
+          )
+          // Le livrable, lui, se DÉCOUPE d'un bloc : une coupe, jamais un
+          // fondu — c'est la grammaire posée par le préloader et le menu. Un
+          // fondu dirait « ça apparaît », une coupe dit « ça se construit ».
+          // Le livrable se DÉCOUPE d'un bloc, de gauche à droite : une coupe,
+          // jamais un fondu — la grammaire posée par le préloader et le menu.
+          // Un fondu dirait « ça apparaît », une coupe dit « ça se construit ».
+          .from(
+            bande.querySelector(".vt-m-wipe"),
+            {
+              clipPath: "inset(0% 100% 0% 0%)",
+              duration: DUR.cinematic,
+              ease: EASE.expo,
+            },
+            "-=0.2",
+          );
       });
 
       gsap.from(".vt-step", {
@@ -156,6 +209,14 @@ export function VitrineView() {
                     </li>
                   ))}
                 </ul>
+
+                <div className="md:col-span-12">
+                  <GainBand
+                    formule={f}
+                    before={vitrine.gainBefore}
+                    after={vitrine.gainAfter}
+                  />
+                </div>
               </div>
             </div>
           ))}

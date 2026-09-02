@@ -37,6 +37,18 @@ export type Formule = {
   livrables: readonly string[];
   /** Pour qui, dit franchement. Évite au mauvais client d'acheter. */
   pour: string;
+  /**
+   * Le gain, montré plutôt que promis.
+   *
+   * Deux phrases — l'état d'aujourd'hui, celui d'après — et un motif dessiné.
+   * Une offre qu'on lit sans la voir ne se vend pas ; une offre illustrée par
+   * une image générique ne se vend pas non plus.
+   *
+   * `blocs` sont des largeurs relatives en pourcentage : elles dessinent l'état
+   * ACTUEL, morcelé. Leur irrégularité EST le propos — une suite régulière
+   * dirait le contraire de ce que la bande raconte.
+   */
+  gain: { avant: string; apres: string; blocs: readonly number[] };
 };
 
 export type VitrineCopy = {
@@ -55,6 +67,8 @@ export type VitrineCopy = {
   /** Mise en forme du prix : « 75 000 FCFA ». L'unité suit la langue. */
   currency: string;
   from: string;
+  gainBefore: string;
+  gainAfter: string;
   form: {
     /* Un formulaire Netlify DISTINCT de celui du Reseau : melanger une
        candidature gratuite et une demande de devis dans la meme table rendrait
@@ -92,6 +106,11 @@ export const vitrine: VitrineCopy = {
         "Lien permanent, partageable sur WhatsApp",
       ],
       pour: "Vous avez un métier et aucune trace en ligne qui le montre.",
+      gain: {
+        avant: "Vous vous expliquez à chaque fois, et il faut vous croire sur parole.",
+        apres: "Vous envoyez un lien. Il vous juge avant même de vous rencontrer.",
+        blocs: [22, 40, 13, 30, 17],
+      },
     },
     {
       id: "dossier",
@@ -105,6 +124,11 @@ export const vitrine: VitrineCopy = {
         "Téléchargeable depuis votre page",
       ],
       pour: "Vous démarchez des entreprises ou des bailleurs et repartez les mains vides.",
+      gain: {
+        avant: "Le rendez-vous se termine, et il ne reste rien de vous sur son bureau.",
+        apres: "Il repart avec un document qu'il peut relire et faire circuler.",
+        blocs: [48, 11, 21],
+      },
     },
     {
       id: "identite",
@@ -118,6 +142,11 @@ export const vitrine: VitrineCopy = {
         "Fichiers sources, à vous",
       ],
       pour: "Vous construisez une marque, pas seulement une réputation personnelle.",
+      gain: {
+        avant: "Un logo ici, une couleur là, un ton ailleurs. Rien ne se ressemble.",
+        apres: "Le même vous partout, jusqu'aux fichiers sources que vous gardez.",
+        blocs: [16, 34, 9, 20, 12, 26],
+      },
     },
   ],
 
@@ -150,6 +179,8 @@ export const vitrine: VitrineCopy = {
 
   currency: "FCFA",
   from: "à partir de",
+  gainBefore: "Aujourd'hui",
+  gainAfter: "Après",
 
   form: {
     name: "devis-vitrine",
