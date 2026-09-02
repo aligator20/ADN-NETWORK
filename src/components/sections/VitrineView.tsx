@@ -102,9 +102,6 @@ export function VitrineView() {
             { autoAlpha: 0, x: -14, duration: DUR.base, ease: EASE.expo },
             "-=0.3",
           )
-          // Le livrable, lui, se DÉCOUPE d'un bloc : une coupe, jamais un
-          // fondu — c'est la grammaire posée par le préloader et le menu. Un
-          // fondu dirait « ça apparaît », une coupe dit « ça se construit ».
           // Le livrable se DÉCOUPE d'un bloc, de gauche à droite : une coupe,
           // jamais un fondu — la grammaire posée par le préloader et le menu.
           // Un fondu dirait « ça apparaît », une coupe dit « ça se construit ».
@@ -215,6 +212,7 @@ export function VitrineView() {
                     formule={f}
                     before={vitrine.gainBefore}
                     after={vitrine.gainAfter}
+                    exemple={vitrine.exemple}
                   />
                 </div>
               </div>

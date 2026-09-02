@@ -107,6 +107,7 @@ export const vitrineEn: VitrineCopy = {
   from: "from",
   gainBefore: "Today",
   gainAfter: "After",
+  exemple: "Example",
 
   form: {
     ...fr.form,

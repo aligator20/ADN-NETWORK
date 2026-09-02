@@ -22,10 +22,12 @@ export function GainBand({
   formule,
   before,
   after,
+  exemple,
 }: {
   formule: Formule;
   before: string;
   after: string;
+  exemple: string;
 }) {
   const { gain } = formule;
 
@@ -35,7 +37,7 @@ export function GainBand({
       <div className="md:col-span-5">
         <p className="label text-fog">{before}</p>
         <div className="mt-5 max-w-[380px]">
-          <MotifAvant id={formule.id} />
+          <MotifAvant id={formule.id} exemple={exemple} />
         </div>
         <p className="mt-6 max-w-[38ch] font-mono text-[0.75rem] leading-[1.8] text-fog">
           {gain.avant}
@@ -63,7 +65,7 @@ export function GainBand({
             masqué en permanence. Sur une div, le comportement est celui
             attendu. */}
         <div className="vt-m-wipe mt-5 max-w-[380px]">
-          <MotifApres id={formule.id} />
+          <MotifApres id={formule.id} exemple={exemple} />
         </div>
         <p className="mt-6 max-w-[38ch] font-mono text-[0.75rem] leading-[1.8] text-bone/85">
           {gain.apres}
