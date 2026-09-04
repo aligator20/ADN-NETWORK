@@ -150,36 +150,47 @@ export const projects: readonly Project[] = [
     client: "ADN Network",
     year: 2026,
     discipline: "agritech",
-    status: "construction",
+    // ⚠️ CORRIGÉ D'APRÈS LE DOSSIER RÉVISÉ (août 2026).
+    //
+    // La fiche annonçait « En construction ». Le dossier révisé écrit noir sur
+    // blanc que « le prototype n'a pas encore été construit » et que son objet
+    // est de demander le financement pour le construire. Un projet qui cherche
+    // ses fonds affiché comme un projet en cours de fabrication, c'est
+    // exactement le mélange que le champ `status` existe pour empêcher.
+    status: "financement",
     summary:
       "L'irrigation pilotée par les capteurs et la météo : l'eau va là où le rendement se joue.",
-    stack: ["IoT", "Pilotage edge", "Prévision", "Tableau de bord"],
+    stack: ["IoT", "Pilotage par seuils", "Pompe solaire", "Suivi à distance"],
     cover: "/work/aquacontrol-ai.webp",
     // Le site de soutien est servi depuis /public : c'est un fichier HTML
     // autonome, il n'a besoin d'aucun hébergement séparé.
     url: "/sites/aquacontrol-ai.html",
+    // Chiffres repris du dossier révisé. L'ancien jeu — 4,45 M de budget, cinq
+    // exploitations pilotes, 200 ms de latence — venait du dossier d'origine,
+    // que la révision corrige : elle réduit la Phase 1 à UN prototype, ramène
+    // le budget à ce qu'il coûte réellement, et ne revendique aucune latence.
     figures: [
-      { value: "4,45 M", label: "FCFA — budget de lancement" },
+      { value: "1,52 M", label: "FCFA — budget Phase 1" },
       { value: "0 %", label: "capital cédé" },
-      { value: "05", label: "exploitations pilotes" },
-      { value: "200 ms", label: "décision locale, hors cloud" },
+      { value: "01", label: "prototype à construire" },
+      { value: "2 000 m²", label: "parcelle pilote, quatre zones" },
     ],
     opportunity: [
       {
         title: "Le besoin",
-        body: "4 450 000 FCFA pour la Phase 1 : construction du prototype et cinq démonstrations pilotes. 100 % non dilutif — aucune part de capital n'est cédée.",
+        body: "1 523 000 FCFA pour la Phase 1 : composants électroniques, énergétiques et hydrauliques d'un premier prototype, plus l'appui ponctuel d'un électronicien, d'un développeur embarqué, d'un agronome et d'un installateur. 100 % non dilutif — aucune part de capital n'est cédée.",
       },
       {
-        title: "La répartition visée",
-        body: "Fonds propres du fondateur 33 %, subventions agritech 34 %, concours et prix d'innovation 16 %, famille et pré-ventes pilotes 17 %. Aucune ligne ne dépend d'une seule source.",
+        title: "Ce que ce financement ne couvre pas",
+        body: "Ni stock commercial, ni marketing, ni dépôt de marque ou de brevet, ni équipe salariée. Ces postes relèvent de phases ultérieures, à financer seulement si la Phase 1 démontre que le système fonctionne de façon fiable et sûre.",
       },
       {
         title: "Trois façons d'entrer",
-        body: "Financer une ligne du budget contre une visibilité et un rapport d'impact chiffré. Donner quelques heures d'expertise — ingénieur, agronome, juriste, spécialiste subventions. Ou accueillir l'une des cinq démonstrations officielles sur sa parcelle.",
+        body: "Financer une ligne du budget contre une visibilité et un rapport d'impact chiffré. Donner quelques heures d'expertise — ingénieur, agronome, juriste, spécialiste subventions. Ou mettre à disposition la parcelle pilote : à ce jour, aucun terrain n'est réservé.",
       },
       {
-        title: "Ce qui est déjà vérifiable",
-        body: "Le site de soutien n'affiche aucun montant collecté fictif et annonce une échéance réelle : prototype en construction, janvier 2027. La V1 pilote 2 000 m² avec un moteur de règles ; l'IA embarquée complète est financée par les premières ventes, pas promise avant.",
+        title: "Ce qui a été retiré, et pourquoi",
+        body: "Les projections à cinq ans, le satellite, l'IA embarquée avancée, le réseau maillé et le dépôt de brevet ont été sortis de la Phase 1 par une révision du dossier. Le motif est écrit : aucune capacité ne doit être présentée comme acquise tant qu'elle n'a pas été construite et testée. Un dossier qui retire ses propres promesses est plus solide que celui qui les garde.",
       },
     ],
     detail: [
@@ -189,19 +200,19 @@ export const projects: readonly Project[] = [
       },
       {
         title: "Le boîtier",
-        body: "Panneau solaire 100 W et batterie LiFePO4 : autonomie énergétique totale, aucune dépendance au réseau électrique. Quatre vannes motorisées pilotées par zone, raccordées à un forage, une rivière ou un bassin.",
+        body: "Panneau solaire et batterie : le boîtier est conçu pour fonctionner hors réseau électrique lorsque les conditions le permettent — la révision du dossier a retiré la mention d'une autonomie totale, qu'aucun prototype non construit ne peut garantir. Quatre électrovannes pilotées par zone, raccordées à un forage ou à un bassin, selon le terrain pilote retenu.",
       },
       {
         title: "La décision",
-        body: "Humidité du sol, météo locale et niveau d'eau relevés en continu. Un moteur de règles tranche sur place, en moins de 200 ms, sans attendre le cloud — l'IA embarquée complète arrive en V2, financée par les premières ventes.",
+        body: "Humidité du sol et niveau d'eau relevés en continu. Un moteur de règles simple applique des seuils définis avec un agronome — si l'humidité descend sous un seuil, la vanne de la zone s'ouvre pour une durée fixée — en tenant compte d'une donnée météo de base pour éviter d'arroser juste avant une pluie. Ce n'est pas une intelligence artificielle complexe, et le dossier prend soin de le dire.",
       },
       {
         title: "Le terrain",
-        body: "Trépied mobile, fixation sur poteau ou pose au sol : installation en moins de quinze minutes, sans outillage spécialisé. Communication Wi-Fi ou LoRa, pour tenir en zone rurale à connectivité limitée.",
+        body: "Une parcelle pilote de 2 000 m² au maximum, découpée en quatre zones d'irrigation. Le débit, la turbidité et la teneur en particules de l'eau sont à vérifier sur le site retenu avant toute installation — un filtre protège les électrovannes et les goutteurs.",
       },
       {
         title: "L'état d'avancement",
-        body: "Prototype en construction, cinq exploitations pilotes prévues. Budget de lancement de 4 450 000 FCFA, 100 % non dilutif. Le site de soutien affiche l'avancement réel et n'annonce aucun montant collecté fictif.",
+        body: "Le prototype n'est pas construit. Le dossier a été révisé en août 2026 pour ne présenter aucune capacité comme acquise avant d'avoir été testée, et le financement demandé sert précisément à l'obtenir. Aucune promesse d'économie d'eau ni d'augmentation de récolte n'est faite avant les essais réels. La feuille de route se compte en mois écoulés depuis le financement, pas en dates fixes.",
       },
     ],
   },
@@ -267,34 +278,52 @@ export const projects: readonly Project[] = [
     discipline: "digital",
     status: "livre",
     summary:
-      "Une boutique de produits numériques bâtie sur une règle : être vu avant d'être cru. Noir et jaune électrique, quatre couleurs, pas une de plus.",
-    stack: ["Charte de marque", "Boutique en ligne", "Réseau de revendeurs"],
+      "Une boutique de produits numériques bâtie sur une règle : être vu avant d'être cru. Le catalogue grandit d'une édition à l'autre, et l'échelle de valeur avec lui.",
+    stack: [
+      "Charte de marque",
+      "Boutique en ligne",
+      "Réseau de revendeurs",
+      "Accompagnement",
+    ],
     cover: "/work/full-mesh.webp",
     // 1000x1250, soit exactement le 4:5 de la plaque de galerie : `contain`
     // la remplit donc presque entièrement, sans jamais la recadrer ailleurs.
     coverFit: "contain",
+    /**
+     * ⚠️ AUCUN PRIX DE PRODUIT DANS CES CHIFFRES, ET C'EST DÉLIBÉRÉ.
+     *
+     * La fiche affichait « 5 000 F le pack ». C'était le tarif d'une offre de
+     * lancement valable jusqu'au 31 août — donc un prix périmé, publié comme
+     * s'il était celui du catalogue. Une boutique fait des promotions : tout
+     * montant gravé ici sera faux à la première campagne suivante, et un prix
+     * faux sur une fiche projet abîme la crédibilité de toutes les autres.
+     *
+     * Ne restent que des valeurs de STRUCTURE : elles décrivent le modèle, pas
+     * une campagne. Les prix vivent sur la boutique, qui est leur seul endroit
+     * légitime.
+     */
     figures: [
       { value: "35 %", label: "de commission revendeur" },
-      { value: "12", label: "guides au catalogue" },
-      { value: "5 000 F", label: "le pack — 12 000 F à l'unité" },
-      { value: "Hebdo", label: "paiement, mobile money" },
+      { value: "14", label: "documents — édition 2" },
+      { value: "660", label: "pages au catalogue" },
+      { value: "0 F", label: "pour devenir revendeur" },
     ],
     opportunity: [
       {
-        title: "Le produit",
-        body: "Douze guides pratiques en français, écrits pour l'Afrique francophone, montants en francs CFA. Achetés séparément : 12 000 F. En pack complet : 5 000 F. L'écart n'est pas une promotion inventée, c'est le vrai prix du catalogue.",
+        title: "Le catalogue, et il grandit",
+        body: "Douze guides pratiques en français, écrits pour l'Afrique francophone, montants en francs CFA. Chacun contient un démarrage rapide, dix-sept chapitres, un chapitre de dépannage et quatre annexes de modèles à copier. L'édition 2, parue en septembre 2026, y ajoute un guide de démarrage qui dit lequel ouvrir selon sa situation, et une offre d'accompagnement : quatorze documents, plus de six cent soixante pages. Le catalogue n'est pas un état final, c'est une édition.",
+      },
+      {
+        title: "L'échelle de valeur",
+        body: "Un guide seul pour tester. Le pack complet pour ceux qui s'y mettent vraiment. Puis, pour ceux que la lecture ne suffit pas à débloquer, un diagnostic d'une heure, un accompagnement de quatre semaines ou un intensif de trois mois. Chaque marche vend à ceux que la précédente a convaincus — c'est ce qui fait qu'un catalogue à bas prix nourrit une activité, au lieu de plafonner.",
       },
       {
         title: "Le modèle",
-        body: "Aucun stock, aucune avance, aucune livraison à gérer : le client paie, il reçoit ses fichiers par email dans la minute. Le coût marginal d'une vente supplémentaire est nul — c'est ce qui rend le modèle scalable.",
+        body: "Aucun stock, aucune avance, aucune livraison à gérer : le client paie, il reçoit ses fichiers par email dans la minute. Le coût marginal d'une vente supplémentaire est nul — c'est ce qui rend le modèle scalable, et ce qui permet de faire varier les prix par campagne sans jamais mettre la trésorerie en danger.",
       },
       {
         title: "La distribution",
-        body: "Un réseau de revendeurs rémunérés 35 % sur chaque vente, payés chaque samedi par mobile money, sans montant minimum. Le revendeur ne crée rien, ne stocke rien, n'avance rien : la barrière à l'entrée est nulle, et c'est le point.",
-      },
-      {
-        title: "Ce qui décide de la croissance",
-        body: "Le catalogue est produit et le coût de production est passé. La seule variable qui reste est le nombre de revendeurs actifs et la visibilité de leurs liens. Le kit revendeur — guide, vingt textes prêts à publier, cinquante visuels — existe pour supprimer le délai entre le recrutement et la première vente.",
+        body: "Un réseau de revendeurs rémunérés 35 % sur chaque vente, payés chaque samedi par mobile money, sans montant minimum. Le revendeur ne crée rien, ne stocke rien, n'avance rien : la barrière à l'entrée est nulle, et c'est le point. Le kit revendeur — guide, vingt textes prêts à publier, cinquante visuels — supprime le délai entre le recrutement et la première vente.",
       },
     ],
     detail: [
@@ -330,8 +359,12 @@ export const projects: readonly Project[] = [
     summary:
       "Une manufacture de résines structurée de bout en bout : plan d'affaires, outils de gestion et d'inventaire, manuel de formation professionnelle.",
     stack: ["Plan d'affaires", "Gestion & inventaire", "Manuel de formation"],
-    cover: "/work/resine-master.svg",
-    coverFit: "contain", // composition verticale construite
+    // Plaque composée du VRAI logotype, livré le 4 septembre 2026. Elle
+    // remplace le schéma que j'avais dessiné faute de visuel : un
+    // remplaçant qui survit à l'arrivée de l'objet réel est une dette qui
+    // se voit.
+    cover: "/work/resine-master.webp",
+    coverFit: "contain", // 1000×1250, soit le 4:5 exact de la plaque
     figures: [
       { value: "6,55 M", label: "FCFA — investissement initial" },
       { value: "18→250", label: "M FCFA — CA projeté sur 10 ans" },
@@ -634,6 +667,7 @@ export const projects: readonly Project[] = [
       "Cadrage opérationnel",
       "Enquête terrain",
       "Documents contractuels",
+      "Charte de marque",
     ],
     cover: "/work/operateur-continuite.svg",
     coverFit: "contain", // schéma construit : le recadrer lui ôterait son sens

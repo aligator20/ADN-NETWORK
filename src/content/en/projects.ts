@@ -50,29 +50,29 @@ const EN: Record<ProjectSlug, Traduction> = {
   "aquacontrol-ai": {
     summary:
       "Irrigation driven by sensors and weather: the water goes where the yield is actually decided.",
-    stack: ["IoT", "Edge control", "Forecasting", "Dashboard"],
+    stack: ["IoT", "Threshold control", "Solar pump", "Remote monitoring"],
     figures: [
-      { value: "4.45 M", label: "FCFA — launch budget" },
+      { value: "1.52 M", label: "FCFA — Phase 1 budget" },
       { value: "0 %", label: "equity given up" },
-      { value: "05", label: "pilot farms" },
-      { value: "200 ms", label: "local decision, no cloud" },
+      { value: "01", label: "prototype to build" },
+      { value: "2,000 m²", label: "pilot plot, four zones" },
     ],
     opportunity: [
       {
         title: "The need",
-        body: "4,450,000 FCFA for Phase 1: building the prototype and running five pilot demonstrations. 100 % non-dilutive — no share of the company is given up.",
+        body: "1,523,000 FCFA for Phase 1: the electronic, energy and hydraulic components of a first prototype, plus occasional support from an electronics engineer, an embedded developer, an agronomist and an irrigation fitter. 100 % non-dilutive — no share of the company is given up.",
       },
       {
-        title: "The intended split",
-        body: "Founder's own funds 33 %, agritech grants 34 %, innovation competitions and prizes 16 %, family and pilot pre-sales 17 %. No single line depends on one source.",
+        title: "What this funding does not cover",
+        body: "No commercial stock, no marketing, no trademark or patent filing, no salaried team. Those belong to later phases, to be funded only if Phase 1 shows the system works reliably and safely.",
       },
       {
         title: "Three ways in",
-        body: "Fund one line of the budget in exchange for visibility and a costed impact report. Give a few hours of expertise — engineer, agronomist, lawyer, grants specialist. Or host one of the five official demonstrations on your own plot.",
+        body: "Fund one line of the budget in exchange for visibility and a costed impact report. Give a few hours of expertise — engineer, agronomist, lawyer, grants specialist. Or make the pilot plot available: as of today, no land is secured.",
       },
       {
-        title: "What can already be checked",
-        body: "The support site shows no fictional amount raised and states a real deadline: prototype in build, January 2027. V1 drives 2,000 m² with a rules engine; full onboard AI is funded by the first sales, not promised ahead of them.",
+        title: "What was removed, and why",
+        body: "The five-year projections, the satellite link, advanced onboard AI, the mesh network and the patent filing were taken out of Phase 1 by a revision of the dossier. The reason is written down: no capability is to be presented as acquired until it has been built and tested. A dossier that withdraws its own promises is stronger than one that keeps them.",
       },
     ],
     detail: [
@@ -82,19 +82,19 @@ const EN: Record<ProjectSlug, Traduction> = {
       },
       {
         title: "The unit",
-        body: "100 W solar panel and LiFePO4 battery: full energy autonomy, no dependence on the electricity grid. Four motorised valves controlled zone by zone, connected to a borehole, a river or a reservoir.",
+        body: "Solar panel and battery: the unit is designed to run off-grid where conditions allow — the revision removed the claim of full autonomy, which no unbuilt prototype can guarantee. Four solenoid valves controlled zone by zone, connected to a borehole or a reservoir, depending on the pilot plot chosen.",
       },
       {
         title: "The decision",
-        body: "Soil moisture, local weather and water level read continuously. A rules engine decides on the spot, in under 200 ms, without waiting for the cloud — full onboard AI arrives in V2, funded by the first sales.",
+        body: "Soil moisture and water level read continuously. A simple rules engine applies thresholds set with an agronomist — if moisture drops below a threshold, that zone's valve opens for a set duration — taking basic weather data into account so as not to water just before rain. This is not complex artificial intelligence, and the dossier takes care to say so.",
       },
       {
         title: "The field",
-        body: "Mobile tripod, pole mount or ground placement: installed in under fifteen minutes, with no specialist tooling. Wi-Fi or LoRa, to hold up in rural areas with limited connectivity.",
+        body: "A pilot plot of 2,000 m² at most, divided into four irrigation zones. Flow rate, turbidity and particle content of the water are to be checked on the chosen site before any installation — a filter protects the solenoid valves and the drippers.",
       },
       {
         title: "Where it stands",
-        body: "Prototype in build, five pilot farms planned. Launch budget of 4,450,000 FCFA, 100 % non-dilutive. The support site shows real progress and announces no fictional amount raised.",
+        body: "The prototype is not built. The dossier was revised in August 2026 so that no capability is presented as acquired before being tested, and the funding requested is precisely what would obtain it. No promise of water saving or increased yield is made ahead of the real trials. The roadmap is counted in months from funding, not in fixed dates.",
       },
     ],
   },
@@ -151,30 +151,30 @@ const EN: Record<ProjectSlug, Traduction> = {
   /* ───────────────────────────────────────────────── FULLMESH SHOP ── */
   "full-mesh": {
     summary:
-      "A digital-products shop built on one rule: be seen before you are believed. Black and electric yellow, four colours, not one more.",
-    stack: ["Brand guidelines", "Online shop", "Reseller network"],
+      "A digital-products shop built on one rule: be seen before you are believed. The catalogue grows from one edition to the next, and the value ladder with it.",
+    stack: ["Brand guidelines", "Online shop", "Reseller network", "Coaching"],
     figures: [
       { value: "35 %", label: "reseller commission" },
-      { value: "12", label: "guides in the catalogue" },
-      { value: "5,000 F", label: "the bundle — 12,000 F separately" },
-      { value: "Weekly", label: "payout, mobile money" },
+      { value: "14", label: "documents — edition 2" },
+      { value: "660", label: "pages in the catalogue" },
+      { value: "0 F", label: "to become a reseller" },
     ],
     opportunity: [
       {
-        title: "The product",
-        body: "Twelve practical guides in French, written for francophone Africa, with amounts in CFA francs. Bought separately: 12,000 F. As a full bundle: 5,000 F. The gap is not an invented discount, it is the real catalogue price.",
+        title: "The catalogue, and it grows",
+        body: "Twelve practical guides in French, written for francophone Africa, with amounts in CFA francs. Each holds a quick start, seventeen chapters, a troubleshooting chapter and four appendices of templates to copy. Edition 2, published in September 2026, adds a starter guide telling you which one to open for your situation, and a coaching offer: fourteen documents, more than six hundred and sixty pages. The catalogue is not a final state, it is an edition.",
+      },
+      {
+        title: "The value ladder",
+        body: "One guide alone to try it. The full bundle for those who commit. Then, for those reading does not unblock, a one-hour diagnostic, a four-week engagement or a three-month intensive. Each rung sells to the people the previous one convinced — that is what makes a low-priced catalogue feed a business instead of hitting a ceiling.",
       },
       {
         title: "The model",
-        body: "No stock, no advance, no delivery to handle: the customer pays and receives the files by email within the minute. The marginal cost of one more sale is zero — that is what makes the model scale.",
+        body: "No stock, no advance, no delivery to handle: the customer pays and receives the files by email within the minute. The marginal cost of one more sale is zero — that is what makes the model scale, and what allows prices to move campaign by campaign without ever putting the cash at risk.",
       },
       {
         title: "Distribution",
-        body: "A network of resellers paid 35 % on every sale, settled every Saturday by mobile money, with no minimum. The reseller creates nothing, stocks nothing, fronts nothing: the barrier to entry is zero, and that is the point.",
-      },
-      {
-        title: "What decides growth",
-        body: "The catalogue is produced and its cost is behind us. The only variable left is the number of active resellers and how visible their links are. The reseller kit — guide, twenty ready-to-post texts, fifty visuals — exists to remove the delay between signing up and the first sale.",
+        body: "A network of resellers paid 35 % on every sale, settled every Saturday by mobile money, with no minimum. The reseller creates nothing, stocks nothing, fronts nothing: the barrier to entry is zero, and that is the point. The reseller kit — guide, twenty ready-to-post texts, fifty visuals — removes the delay between signing up and the first sale.",
       },
     ],
     detail: [
@@ -448,6 +448,7 @@ const EN: Record<ProjectSlug, Traduction> = {
       "Operational framing",
       "Field survey",
       "Contractual documents",
+      "Brand charter",
     ],
     figures: [
       { value: "14.74 %", label: "of users able to pay — 2023 study" },
