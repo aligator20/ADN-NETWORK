@@ -420,12 +420,14 @@ export const projects: readonly Project[] = [
     status: "livre",
     summary:
       "Une typographie qui porte le message avant le vêtement : composition rouge, verticale, lisible à trois mètres.",
-    stack: ["Design graphique", "Typographie", "Textile"],
-    // Mockups portés plutôt que le visuel à plat : on voit le vêtement sur
-    // quelqu'un, ce qui vaut mieux qu'un fichier d'impression pour juger d'un
-    // projet textile. Extrait du dossier de marque GEMINI.
-    cover: "/work/gemini-mockups.webp",
-    coverFit: "contain",
+    stack: ["Identité de marque", "Design graphique", "Typographie", "Textile"],
+    // La couverture précédente ne montrait QUE les mockups du t-shirt logo,
+    // alors que les quatre sections ci-dessous décrivent le graphique rouge.
+    // Le lecteur voyait un vêtement silencieux pendant qu'on lui parlait d'un
+    // motif saturé. Les deux registres sont maintenant côte à côte, le
+    // graphique en grand : la fiche montre ce qu'elle raconte.
+    cover: "/work/tshirt-gemini.webp",
+    coverFit: "contain", // 1000×1250, soit le 4:5 exact de la plaque
     detail: [
       {
         title: "L'idée",
@@ -442,6 +444,10 @@ export const projects: readonly Project[] = [
       {
         title: "Les signes",
         body: "Le glyphe des Gémeaux marque les deux épaules et referme la composition. « Woli Medji » l'ancre au Fa béninois — le même signe, dit dans deux langues.",
+      },
+      {
+        title: "Le second registre",
+        body: "La même marque sait aussi se taire : deux barres verticales, deux liaisons horizontales, et rien d'autre sur la poitrine. Une seule couleur d'accent par pièce. Un vestiaire tient rarement sur un seul volume sonore — le graphique se porte quand on veut être vu, le logotype le reste du temps.",
       },
     ],
   },

@@ -254,7 +254,7 @@ const EN: Record<ProjectSlug, Traduction> = {
   "tshirt-gemini": {
     summary:
       "Type that carries the message before the garment: a red, vertical composition, legible at three metres.",
-    stack: ["Graphic design", "Typography", "Textile"],
+    stack: ["Brand identity", "Graphic design", "Typography", "Textile"],
     detail: [
       {
         title: "The idea",
@@ -271,6 +271,10 @@ const EN: Record<ProjectSlug, Traduction> = {
       {
         title: "The signs",
         body: "The Gemini glyph marks both shoulders and closes the composition. “Woli Medji” anchors it in Beninese Fa divination — the same sign, said in two languages.",
+      },
+      {
+        title: "The quiet register",
+        body: "The same brand also knows how to keep quiet: two vertical bars, two horizontal links, and nothing else across the chest. One accent colour per piece. A wardrobe rarely holds at a single volume — the graphic is worn to be seen, the logotype the rest of the time.",
       },
     ],
   },
