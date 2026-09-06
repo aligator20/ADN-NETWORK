@@ -2,7 +2,7 @@
 
 import { Fragment, useRef } from "react";
 
-import { useCopy } from "@/hooks/useCopy";
+import { useCopy, useSequence } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -19,7 +19,8 @@ import { cn, pad } from "@/lib/utils";
  * un compteur qui se rejoue à chaque passage devient un gadget.
  */
 export function Intro() {
-  const { introManifest, metrics, sequences } = useCopy();
+  const { introManifest, metrics } = useCopy();
+  const sequence = useSequence();
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
 
@@ -97,8 +98,8 @@ export function Intro() {
           <aside className="mf-aside md:col-span-3">
             <div className="md:sticky md:top-28">
               <p className="flex items-baseline gap-4">
-                <span className="label text-signal">[{pad(2)}]</span>
-                <span className="label">{sequences[1].label}</span>
+                <span className="label text-signal">[{pad(sequence("intro").index)}]</span>
+                <span className="label">{sequence("intro").label}</span>
               </p>
               <div className="hairline mt-5 max-w-[9rem]" />
             </div>

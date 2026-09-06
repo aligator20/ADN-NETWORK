@@ -12,6 +12,7 @@ import {
 } from "@/content/copy";
 import type { Project } from "@/content/projects";
 import type { ServiceId } from "@/content/services";
+import type { SequenceId } from "@/content/site";
 import { langFromPath, pathForLang, type Lang } from "@/lib/lang";
 
 /**
@@ -48,6 +49,30 @@ export function useCopy(): Copy {
 export function useHref(): (frPath: string) => string {
   const lang = useLang();
   return (frPath) => pathForLang(frPath, lang);
+}
+
+/**
+ * Une séquence, DÉSIGNÉE PAR SON NOM.
+ *
+ * Chaque en-tête de section affichait jusqu'ici son rang deux fois : en clair
+ * (`pad(7)`) et par la position dans le tableau (`sequences[6]`). Deux copies
+ * du même fait, tenues à la main. L'insertion de « La Vitrine » en septième
+ * position a décalé le tableau sans toucher aux `pad`, et la section Contact
+ * s'est mise à s'annoncer « [007] La Vitrine » en production — une porte qui
+ * ne menait nulle part, à l'endroit exact où l'offre payante aurait dû être.
+ *
+ * Ici l'identifiant est le seul point d'entrée, et le rang vient du contenu.
+ * Réordonner les séquences ne peut plus mentir sur ce qu'elles annoncent.
+ */
+export function useSequence(): (id: SequenceId) => { index: number; label: string } {
+  const { sequences } = useCopy();
+  return (id) => {
+    const s = sequences.find((x) => x.id === id);
+    // Impossible tant que `SequenceId` vient du tableau lui-même ; le garde
+    // existe pour que l'échec soit lisible si la source de vérité change.
+    if (!s) throw new Error(`Séquence inconnue : ${id}`);
+    return s;
+  };
 }
 
 /** Le libellé d'une discipline, dans la langue courante. */

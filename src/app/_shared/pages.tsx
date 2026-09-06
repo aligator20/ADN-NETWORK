@@ -8,6 +8,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Intro } from "@/components/sections/Intro";
 import { ProjectView } from "@/components/sections/ProjectView";
 import { Services } from "@/components/sections/Services";
+import { Vitrine } from "@/components/sections/Vitrine";
 import { Work } from "@/components/sections/Work";
 import { copy, disciplineNameIn, nextProjectIn, projectBySlugIn } from "@/content/copy";
 import { projects } from "@/content/projects";
@@ -28,9 +29,13 @@ import { alternatesFor } from "@/lib/seo";
 /* ── Accueil ─────────────────────────────────────────────────────────────── */
 
 /**
- * Les six séquences. Reste un Server Component : seules les sections animées
- * sont des îlots clients, donc le HTML utile est rendu au build et le JS de
- * motion n'hydrate que ce qui bouge.
+ * Les huit séquences, dans l'ordre de `sequences`. Reste un Server Component :
+ * seules les sections animées sont des îlots clients, donc le HTML utile est
+ * rendu au build et le JS de motion n'hydrate que ce qui bouge.
+ *
+ * L'ordre importe : chaque section lit son rang dans `sequences` par son
+ * identifiant, et un lecteur qui voit « [006] » puis « [008] » comprend qu'il
+ * a sauté quelque chose. Les deux listes se relisent ensemble.
  */
 export function HomeBody() {
   return (
@@ -41,6 +46,7 @@ export function HomeBody() {
       <Work />
       <About />
       <Community />
+      <Vitrine />
       <Contact />
     </>
   );

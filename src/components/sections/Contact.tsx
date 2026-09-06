@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 import { Magnetic } from "@/components/ui/Magnetic";
 import { Whatsapp } from "@/components/ui/Whatsapp";
-import { useCopy, useHref } from "@/hooks/useCopy";
+import { useCopy, useSequence, useHref } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -22,7 +22,8 @@ import { pad } from "@/lib/utils";
  * L'adresse est magnétique — elle vient au curseur avant d'être atteinte.
  */
 export function Contact() {
-  const { contact, labels, sequences, site, ui } = useCopy();
+  const { contact, labels, site, ui } = useCopy();
+  const sequence = useSequence();
   const href = useHref();
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
@@ -38,8 +39,8 @@ export function Contact() {
       <div className="mx-auto w-full max-w-[1800px] gutter">
         <div className="flex items-baseline justify-between gap-6">
           <p className="flex items-baseline gap-4">
-            <span className="label text-signal">[{pad(7)}]</span>
-            <span className="label">{sequences[6].label}</span>
+            <span className="label text-signal">[{pad(sequence("contact").index)}]</span>
+            <span className="label">{sequence("contact").label}</span>
           </p>
           <p className="label hidden md:block">{contact.lead}</p>
         </div>

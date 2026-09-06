@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import {
   useCopy,
+  useSequence,
   useDisciplineName,
   useHref,
   useProjectCategories,
@@ -39,7 +40,8 @@ export function Work() {
   const [active, setActive] = useState<ServiceId | null>(null);
   const reduced = usePrefersReducedMotion();
 
-  const { projects, sequences, ui } = useCopy();
+  const { projects, ui } = useCopy();
+  const sequence = useSequence();
   const href = useHref();
   const projectCategories = useProjectCategories();
   const list = useProjectsByCategory()(active);
@@ -140,8 +142,8 @@ export function Work() {
         <div className="mx-auto w-full max-w-[1800px] shrink-0 gutter pt-28 md:pt-32">
           <div className="wk-head flex items-baseline justify-between gap-6">
             <p className="flex items-baseline gap-4">
-              <span className="label text-signal">[{pad(4)}]</span>
-              <span className="label">{sequences[3].label}</span>
+              <span className="label text-signal">[{pad(sequence("work").index)}]</span>
+              <span className="label">{sequence("work").label}</span>
             </p>
             <p className="label hidden md:block">
               {pad(list.length, 2)} — {ui.selectedProjects}

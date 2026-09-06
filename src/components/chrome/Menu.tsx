@@ -122,12 +122,21 @@ export function Menu() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed inset-0 z-[35] bg-carbon"
+          className="fixed inset-0 z-[35] overflow-y-auto overscroll-contain bg-carbon"
           role="dialog"
           aria-modal="true"
           aria-label={ui.navigation}
         >
-          <div className="mx-auto flex h-full max-w-[1800px] flex-col justify-center gutter pb-28 pt-28 md:pb-32 md:pt-32">
+          {/*
+            `min-h-full` et non `h-full` : centré tant que le contenu tient,
+            défilable dès qu'il déborde. Avec `h-full`, huit séquences plus la
+            colonne d'information dépassent la hauteur utile d'un téléphone
+            (876 px mesurés contre 812 disponibles, et bien moins une fois la
+            barre d'adresse déduite) ; le conteneur centrait alors un contenu
+            trop grand, rognant symétriquement en haut et en bas, sans aucun
+            moyen d'atteindre ce qui était coupé.
+          */}
+          <div className="mx-auto flex min-h-full max-w-[1800px] flex-col justify-center gutter pb-28 pt-28 md:pb-32 md:pt-32">
             <motion.p
               variants={FADE}
               initial="hidden"

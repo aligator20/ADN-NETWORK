@@ -3,7 +3,7 @@
 import { useRef } from "react";
 
 import { disciplineColor } from "@/content/services";
-import { useCopy } from "@/hooks/useCopy";
+import { useCopy, useSequence } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -22,7 +22,8 @@ import { cssVar, pad, withAlpha } from "@/lib/utils";
  * chaque rendu pour une animation qui n'a aucune raison de repasser par React.
  */
 export function Services() {
-  const { sequences, services, ui } = useCopy();
+  const { services, ui } = useCopy();
+  const sequence = useSequence();
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
 
@@ -131,8 +132,8 @@ export function Services() {
         {/* — en-tête de séquence ————————————————————————— */}
         <div className="flex items-baseline justify-between gap-6">
           <p className="flex items-baseline gap-4">
-            <span className="label text-signal">[{pad(3)}]</span>
-            <span className="label">{sequences[2].label}</span>
+            <span className="label text-signal">[{pad(sequence("services").index)}]</span>
+            <span className="label">{sequence("services").label}</span>
           </p>
           <p className="label hidden md:block">
             {pad(services.length, 2)} — {ui.fieldsOfPractice}

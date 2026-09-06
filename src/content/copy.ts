@@ -138,6 +138,7 @@ export type Copy = {
     openNoFee: string;
     threeRoles: string;
     howItWorks: string;
+    seePackages: string;
     whatItIsNot: string;
     quickReply: string;
     legalInfo: string;
@@ -168,6 +169,7 @@ const FR: Copy = {
     openNoFee: "Ouvert — sans frais d'entrée",
     threeRoles: "Trois rôles, une seule table",
     howItWorks: "Comment ça marche",
+    seePackages: "Voir les formules",
     whatItIsNot: "Ce que Le Réseau n'est pas",
     quickReply: "Réponse rapide",
     legalInfo: "Informations légales",
@@ -199,6 +201,7 @@ const EN: Copy = {
     openNoFee: "Open — no entry fee",
     threeRoles: "Three roles, one table",
     howItWorks: "How it works",
+    seePackages: "See the packages",
     whatItIsNot: "What The Network is not",
     quickReply: "Fast reply",
     legalInfo: "Legal information",

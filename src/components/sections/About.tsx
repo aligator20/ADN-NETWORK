@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { useCopy } from "@/hooks/useCopy";
+import { useCopy, useSequence } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -22,7 +22,8 @@ import { pad } from "@/lib/utils";
 export function About() {
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
-  const { about, sequences, site } = useCopy();
+  const { about, site } = useCopy();
+  const sequence = useSequence();
 
   useGSAP(
     () => {
@@ -107,8 +108,8 @@ export function About() {
           <aside className="md:col-span-3">
             <div className="ab-slow md:sticky md:top-28">
               <p className="flex items-baseline gap-4">
-                <span className="label text-signal">[{pad(5)}]</span>
-                <span className="label">{sequences[4].label}</span>
+                <span className="label text-signal">[{pad(sequence("about").index)}]</span>
+                <span className="label">{sequence("about").label}</span>
               </p>
               <div className="hairline mt-5 max-w-[9rem]" />
             </div>

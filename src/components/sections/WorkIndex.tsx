@@ -8,6 +8,7 @@ import { Status } from "@/components/ui/Status";
 import { type Project } from "@/content/projects";
 import {
   useCopy,
+  useSequence,
   useDisciplineName,
   useHref,
   useProjectCategories,
@@ -38,7 +39,8 @@ export function WorkIndex() {
   const [hovered, setHovered] = useState<Project | null>(null);
   const reduced = usePrefersReducedMotion();
 
-  const { projects, sequences, ui } = useCopy();
+  const { projects, ui } = useCopy();
+  const sequence = useSequence();
   const href = useHref();
   const disciplineName = useDisciplineName();
   const projectCategories = useProjectCategories();
@@ -103,8 +105,8 @@ export function WorkIndex() {
         {/* — en-tête ————————————————————————————————————— */}
         <div className="flex items-baseline justify-between gap-6">
           <p className="flex items-baseline gap-4">
-            <span className="label text-signal">[{pad(4)}]</span>
-            <span className="label">{sequences[3].label}</span>
+            <span className="label text-signal">[{pad(sequence("work").index)}]</span>
+            <span className="label">{sequence("work").label}</span>
           </p>
           <p className="label">
             {pad(list.length, 2)} — {ui.selectedProjects}

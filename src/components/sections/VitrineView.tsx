@@ -4,10 +4,11 @@ import { useRef } from "react";
 
 import { BriefForm } from "@/components/ui/BriefForm";
 import { GainBand } from "@/components/ui/GainBand";
-import { useCopy, useLang } from "@/hooks/useCopy";
+import { useCopy, useSequence, useLang } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { formatPrix } from "@/lib/prix";
 import { pad } from "@/lib/utils";
 
 /**
@@ -32,21 +33,11 @@ import { pad } from "@/lib/utils";
 export function VitrineView() {
   const root = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
-  const { vitrine, sequences } = useCopy();
+  const { vitrine } = useCopy();
+  const sequence = useSequence();
   const lang = useLang();
 
-  /**
-   * « 75 000 FCFA » en français, « 75,000 FCFA » en anglais.
-   *
-   * `toLocaleString("fr")` sépare les milliers par une espace fine insécable
-   * (U+202F), qui est la règle typographique française. Elle tient en corps de
-   * texte — et elle DISPARAÎT dans la fonte d'affichage, en graisse 900 avec un
-   * crénage négatif : « 175 000 » s'y lit « 175000 ». Sur le nombre le plus
-   * regardé de la page, la lisibilité passe avant la règle : on repasse à
-   * l'espace insécable ordinaire, qui résiste au resserrement.
-   */
-  const prix = (n: number) =>
-    `${n.toLocaleString(lang).replace(/ /g, " ")} ${vitrine.currency}`;
+  const prix = (n: number) => formatPrix(n, lang, vitrine.currency);
   const minimum = Math.min(...vitrine.formules.map((f) => f.prix));
 
   useGSAP(
@@ -133,8 +124,8 @@ export function VitrineView() {
       <section className="mx-auto max-w-[1800px] gutter pt-36 md:pt-44">
         <div className="vt-fade flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
           <p className="flex items-baseline gap-4">
-            <span className="label text-signal">[{pad(7)}]</span>
-            <span className="label">{sequences[6].label}</span>
+            <span className="label text-signal">[{pad(sequence("vitrine").index)}]</span>
+            <span className="label">{sequence("vitrine").label}</span>
           </p>
           <p className="label">
             {vitrine.kicker} <span className="text-bone">{prix(minimum)}</span>

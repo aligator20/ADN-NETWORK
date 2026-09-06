@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 
-import { useCopy, useHref } from "@/hooks/useCopy";
+import { useCopy, useSequence, useHref } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -20,7 +20,8 @@ import { pad } from "@/lib/utils";
  * cartes : c'est la même règle que partout ailleurs sur le site.
  */
 export function Community() {
-  const { community, labels, sequences } = useCopy();
+  const { community, labels } = useCopy();
+  const sequence = useSequence();
   const href = useHref();
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
@@ -66,8 +67,8 @@ export function Community() {
       <div className="mx-auto max-w-[1800px] gutter">
         <div className="flex items-baseline justify-between gap-6">
           <p className="flex items-baseline gap-4">
-            <span className="label text-signal">[{pad(6)}]</span>
-            <span className="label">{sequences[5].label}</span>
+            <span className="label text-signal">[{pad(sequence("community").index)}]</span>
+            <span className="label">{sequence("community").label}</span>
           </p>
           <p className="label hidden md:block">{labels.openNoFee}</p>
         </div>
