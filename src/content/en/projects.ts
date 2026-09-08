@@ -250,31 +250,34 @@ const EN: Record<ProjectSlug, Traduction> = {
     ],
   },
 
-  /* ───────────────────────────────────────────────── T-SHIRT GEMINI ── */
+  /* ─────────────────────────────────────────────────────────── GEMINI ── */
+  // Pas de `client` traduit : « Maison des dualités » est la baseline de la
+  // marque, imprimée telle quelle sur les pièces. La traduire ferait dire au
+  // site autre chose que ce que porte le vêtement.
   "tshirt-gemini": {
     summary:
-      "Type that carries the message before the garment: a red, vertical composition, legible at three metres.",
-    stack: ["Brand identity", "Graphic design", "Typography", "Textile"],
+      "A brand whose subject — duality — is carried by construction rather than illustration: two identical masses, linked twice, never merged into one.",
+    stack: ["Brand identity", "Emblem", "Typography", "Palette", "Textile"],
     detail: [
       {
-        title: "The idea",
-        body: "Fit a zodiac sign, a Beninese pattern and a gym imperative onto one chest — without any of the three crushing the other two.",
+        title: "The manifesto",
+        body: "No illustrated twins, no esoteric symbol. Duality lives in the construction itself: two identical masses, linked twice, never merged into one. Three principles follow — structure before illustration, one accent per piece, nothing that does not serve legibility.",
       },
       {
-        title: "The composition",
-        body: "Three type blocks stacked on the vertical axis — PUSH / YOUR / LIMIT — in groovy black serif on light panels. The axis is held by a barbell running the full height of the visual.",
+        title: "The emblem",
+        body: "Two identical sovereigns share a single seat. The left one is a solid mass, the right an engraved outline — same silhouette, two treatments, no hierarchy. The crown carries the sign: five vertical uprights, two horizontal links. The halo is a single disc: what they share. The central slit is never filled in.",
       },
       {
-        title: "The ground",
-        body: "A dense red pattern, geometrically close to local printed cloth, strictly symmetrical about the axis. Saturated where the text does not fall, muted where it does: legibility comes from the ground, not from an added outline.",
+        title: "The glyph",
+        body: "The sign reduced to its frame: two vertical bars, two horizontal links, on a 4 × 3 grid at a ratio of 11:15. It is the short version of the emblem — wherever the throne will not fit, on a label, an embroidery, a favicon, the glyph takes over. Below twenty millimetres it stands alone.",
       },
       {
-        title: "The signs",
-        body: "The Gemini glyph marks both shoulders and closes the composition. “Woli Medji” anchors it in Beninese Fa divination — the same sign, said in two languages.",
+        title: "The system",
+        body: "Two type families and no others. Five colours, each with a role — ink for structure, cream for ground, Gemini yellow as signature, sage second, slate for secondary text. One absolute rule: yellow or sage on a given piece, never both. A set of guidelines that forbids is worth more than one that suggests.",
       },
       {
-        title: "The quiet register",
-        body: "The same brand also knows how to keep quiet: two vertical bars, two horizontal links, and nothing else across the chest. One accent colour per piece. A wardrobe rarely holds at a single volume — the graphic is worn to be seen, the logotype the rest of the time.",
+        title: "Thought in pairs",
+        body: "The range applies the manifesto to the letter: mismatched socks, caps sold as a cream-and-ink pair, small on the front and the emblem across the back. The secondary motif — the constellation of Castor and Pollux — stays discreet: nape, lining, inside of the packaging, never as full coverage.",
       },
     ],
   },

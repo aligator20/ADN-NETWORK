@@ -413,41 +413,45 @@ export const projects: readonly Project[] = [
     ],
   },
   {
+    // Le slug reste `tshirt-gemini` bien que le projet ait dépassé le t-shirt :
+    // il sert de lien permanent, et le renommer casserait toute adresse déjà
+    // partagée pour un gain purement cosmétique.
     slug: "tshirt-gemini",
-    title: "T-Shirt Gemini",
+    title: "GEMINI",
+    client: "Maison des dualités",
     year: 2026,
     discipline: "creative",
     status: "livre",
     summary:
-      "Une typographie qui porte le message avant le vêtement : composition rouge, verticale, lisible à trois mètres.",
-    stack: ["Identité de marque", "Design graphique", "Typographie", "Textile"],
-    // La couverture précédente ne montrait QUE les mockups du t-shirt logo,
-    // alors que les quatre sections ci-dessous décrivent le graphique rouge.
-    // Le lecteur voyait un vêtement silencieux pendant qu'on lui parlait d'un
-    // motif saturé. Les deux registres sont maintenant côte à côte, le
-    // graphique en grand : la fiche montre ce qu'elle raconte.
+      "Une marque dont le sujet — la dualité — est tenu par la construction, pas par l'illustration : deux masses identiques, reliées deux fois, jamais fondues en une seule.",
+    stack: ["Identité de marque", "Emblème", "Typographie", "Palette", "Textile"],
+    // La couverture porte l'EMBLÈME, pas une pièce. La charte pose elle-même
+    // sa hiérarchie — « trône pour les grands formats » — et une plaque de
+    // portfolio est un grand format. Elle est rendue depuis le vectoriel du
+    // dossier : nette à n'importe quelle taille, et sans le fond parasite
+    // qu'aurait traîné un export aplati.
     cover: "/work/tshirt-gemini.webp",
     coverFit: "contain", // 1000×1250, soit le 4:5 exact de la plaque
     detail: [
       {
-        title: "L'idée",
-        body: "Faire tenir sur un torse un signe du zodiaque, un motif béninois et une injonction de salle de sport — sans qu'aucun des trois n'écrase les deux autres.",
+        title: "Le manifeste",
+        body: "Pas de jumeaux illustrés, pas de symbole ésotérique. La dualité vit dans la construction même : deux masses identiques, reliées deux fois, jamais fondues en une seule. Trois principes en découlent — la structure avant l'illustration, un seul accent par pièce, rien qui ne serve la lecture.",
       },
       {
-        title: "La composition",
-        body: "Trois blocs typographiques empilés sur l'axe vertical — PUSH / YOUR / LIMIT — en serif groovy noir sur cartouches clairs. L'axe est tenu par une barre d'haltères qui traverse toute la hauteur du visuel.",
+        title: "L'emblème",
+        body: "Deux souverains identiques partagent un seul siège. Celui de gauche est une masse pleine, celui de droite un contour gravé — même silhouette, deux traitements, aucune hiérarchie. La couronne porte le signe : cinq montants verticaux, deux liaisons horizontales. Le halo est un disque unique : ce qu'ils partagent. La fente centrale n'est jamais comblée.",
       },
       {
-        title: "Le fond",
-        body: "Un motif rouge dense, à la géométrie proche des tissus imprimés locaux, strictement symétrique par rapport à l'axe. Saturé là où le texte ne passe pas, atténué là où il passe : la lisibilité est obtenue par le fond, pas par un contour ajouté.",
+        title: "Le glyphe",
+        body: "Le signe réduit à sa charpente : deux barres verticales, deux liaisons horizontales, sur une grille de 4 × 3 au rapport 11:15. C'est la version courte de l'emblème — là où le trône ne tient pas, en étiquette, en broderie, en favicon, le glyphe prend le relais. En dessous de vingt millimètres, il reste seul.",
       },
       {
-        title: "Les signes",
-        body: "Le glyphe des Gémeaux marque les deux épaules et referme la composition. « Woli Medji » l'ancre au Fa béninois — le même signe, dit dans deux langues.",
+        title: "Le système",
+        body: "Deux familles typographiques et aucune autre. Cinq couleurs, chacune avec son rôle — l'encre pour la structure, le crème pour le fond, le jaune Gémeaux en signature, la sauge en second, l'ardoise pour les textes secondaires. Une règle absolue : jaune ou sauge sur une pièce donnée, jamais les deux ensemble. Une charte qui interdit vaut mieux qu'une charte qui suggère.",
       },
       {
-        title: "Le second registre",
-        body: "La même marque sait aussi se taire : deux barres verticales, deux liaisons horizontales, et rien d'autre sur la poitrine. Une seule couleur d'accent par pièce. Un vestiaire tient rarement sur un seul volume sonore — le graphique se porte quand on veut être vu, le logotype le reste du temps.",
+        title: "Pensés par paires",
+        body: "La gamme applique le manifeste à la lettre : chaussettes dépareillées, casquettes vendues en paire crème et encre, petit devant et emblème au dos. Le motif secondaire — la constellation de Castor et Pollux — reste discret : nuque, doublure, intérieur de packaging, jamais en couverture totale.",
       },
     ],
   },
