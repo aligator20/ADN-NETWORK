@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Poste de pilotage — démonstration ADN NETWORK</title>
+<!--
+  POSTE DE PILOTAGE — DÉMONSTRATION
+
+  Ce fichier illustre la prestation « Le Poste de pilotage » (discipline
+  Automatisation). Il n'a aucune dépendance : ni bibliothèque, ni police
+  distante, ni requête réseau. Le site interdit tout tiers par sa CSP, et une
+  démonstration qui ne s'ouvre pas parce qu'un CDN est lent ne démontre rien.
+
+  Tout est calculé dans le navigateur, tout est conservé en localStorage. Une
+  entreprise peut donc l'ouvrir hors connexion, ce qui n'est pas un détail à
+  Cotonou.
+
+  L'ENTREPRISE MONTRÉE EST FICTIVE — nom, chiffres, RCCM, IFU, clients et
+  factures. Le bandeau le dit en permanence et l'impression le répète, parce
+  qu'un document sorti de son écran ne garde que ce qui est imprimé dessus.
+
+  CE QUE LA DÉMONSTRATION CHERCHE À PROUVER : qu'une écriture unique se
+  propage. Émettre une facture décrémente le stock, crée les écritures,
+  déplace l'encours du client, lève une alerte de réapprovisionnement et
+  recalcule le tableau de bord. Le journal d'activité affiche cette cascade
+  ligne à ligne — c'est le seul moyen de MONTRER une automatisation plutôt
+  que de l'affirmer.
+-->
+<style>
+  :root {
+    --void:#050506; --carbon:#0a0a0c; --graphite:#121215; --ash:#1c1c20;
+    --steel:#2a2a30; --fog:#7d7d86; --bone:#ececee;
+    --signal:#c6f24e; --orange:#ff8a1f; --rouge:#ff4d58; --vert:#4ade80;
+    --mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Consolas, monospace;
+    --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--void); color:var(--bone);
+    font-family:var(--mono); font-size:13px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:var(--sans); font-weight:700; letter-spacing:-.02em; margin:0}
+  .lab{font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--fog)}
+  .hair{height:1px; background:var(--steel); border:0; margin:0}
+  button{font:inherit; cursor:pointer}
+  input,select,textarea{
+    font:inherit; background:var(--graphite); color:var(--bone);
+    border:1px solid var(--steel); padding:8px 10px; width:100%;
+  }
+  input:focus,select:focus,textarea:focus{outline:1px solid var(--signal); border-color:transparent}
+  table{width:100%; border-collapse:collapse}
+  th{
+    text-align:left; font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--fog); font-weight:400; padding:10px 12px; border-bottom:1px solid var(--steel);
+  }
+  td{padding:11px 12px; border-bottom:1px solid var(--ash); vertical-align:top}
+  tr:hover td{background:var(--carbon)}
+  .num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+
+  /* — bandeau de démonstration : il ne se ferme pas — */
+  .demo{
+    background:var(--orange); color:var(--void); padding:7px 16px;
+    font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+    display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  }
+  .demo b{font-weight:700}
+
+  header.top{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; padding:16px 22px; border-bottom:1px solid var(--steel);
+    flex-wrap:wrap;
+  }
+  .marque{display:flex; align-items:baseline; gap:14px}
+  .marque .adn{font-family:var(--sans); font-weight:700; letter-spacing:.06em; font-size:14px}
+  .marque .adn i{color:var(--signal); font-style:normal}
+  .marque .sep{color:var(--steel)}
+
+  .shell{display:flex; min-height:calc(100vh - 90px)}
+  nav.side{
+    width:210px; flex:0 0 210px; border-right:1px solid var(--steel);
+    padding:18px 0; background:var(--carbon);
+  }
+  nav.side button{
+    display:flex; width:100%; align-items:center; justify-content:space-between;
+    gap:8px; background:none; border:0; color:var(--fog); text-align:left;
+    padding:10px 22px; font-size:12px; letter-spacing:.04em;
+    border-left:2px solid transparent; transition:color .2s;
+  }
+  nav.side button:hover{color:var(--bone)}
+  nav.side button[aria-current="true"]{color:var(--bone); border-left-color:var(--orange); background:var(--graphite)}
+  nav.side .pastille{
+    font-size:10px; background:var(--rouge); color:var(--void);
+    border-radius:9px; padding:1px 7px; font-weight:700;
+  }
+  main{flex:1; min-width:0; padding:26px 30px 70px}
+
+  .titre-bloc{display:flex; align-items:baseline; justify-content:space-between; gap:18px; flex-wrap:wrap}
+  .titre-bloc h2{font-size:26px}
+
+  .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(178px,1fr)); gap:1px; background:var(--steel); margin-top:22px; border:1px solid var(--steel)}
+  .kpi{background:var(--void); padding:17px 18px}
+  .kpi .v{font-family:var(--sans); font-size:27px; font-weight:700; letter-spacing:-.03em; font-variant-numeric:tabular-nums; margin-top:7px}
+  .kpi .d{font-size:11px; color:var(--fog); margin-top:3px}
+
+  .grille2{display:grid; grid-template-columns:1.35fr 1fr; gap:26px; margin-top:30px}
+  @media (max-width:960px){
+    .grille2{grid-template-columns:1fr}
+    .shell{display:block}
+    nav.side{width:auto; display:flex; overflow-x:auto; border-right:0; border-bottom:1px solid var(--steel); padding:0}
+    nav.side button{width:auto; white-space:nowrap; border-left:0; border-bottom:2px solid transparent; padding:12px 16px}
+    nav.side button[aria-current="true"]{border-left-color:transparent; border-bottom-color:var(--orange)}
+    main{padding:20px 16px 60px}
+  }
+
+  .carte{border:1px solid var(--steel); padding:18px 20px}
+  .carte h3{font-size:14px; letter-spacing:0}
+
+  /* — le journal : c'est lui qui montre la cascade — */
+  .flux{max-height:330px; overflow:auto; margin-top:12px}
+  .flux .l{display:grid; grid-template-columns:52px 1fr; gap:10px; padding:8px 0; border-bottom:1px solid var(--ash); font-size:12px}
+  .flux .h{color:var(--steel); font-variant-numeric:tabular-nums}
+  .flux .t{color:var(--fog)}
+  .flux .t b{color:var(--bone); font-weight:400}
+  .flux .auto{color:var(--orange)}
+
+  .btn{
+    background:var(--signal); color:var(--void); border:0;
+    padding:10px 18px; font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:700;
+  }
+  .btn.sec{background:transparent; color:var(--bone); border:1px solid var(--steel); font-weight:400}
+  .btn.sec:hover{border-color:var(--fog)}
+  .btn.mini{padding:5px 11px; font-size:10px; letter-spacing:.12em}
+  .btn:disabled{opacity:.35; cursor:not-allowed}
+  .barre{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:20px}
+
+  .etat{font-size:10px; letter-spacing:.16em; text-transform:uppercase; padding:3px 9px; border:1px solid currentColor; white-space:nowrap}
+  .e-brouillon{color:var(--fog)} .e-envoye{color:var(--orange)}
+  .e-paye{color:var(--vert)} .e-impaye{color:var(--rouge)} .e-partiel{color:var(--orange)}
+
+  .alerte{border-left:2px solid var(--rouge); padding:9px 13px; background:var(--carbon); margin-top:9px; font-size:12px}
+  .alerte b{color:var(--rouge); font-weight:400}
+
+  dialog{
+    background:var(--carbon); color:var(--bone); border:1px solid var(--steel);
+    width:min(660px,94vw); padding:0;
+  }
+  dialog::backdrop{background:rgba(5,5,6,.82)}
+  .dlg-h{display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid var(--steel)}
+  .dlg-b{padding:20px; max-height:66vh; overflow:auto}
+  .dlg-f{display:flex; gap:10px; justify-content:flex-end; padding:14px 20px; border-top:1px solid var(--steel)}
+  .champ{margin-bottom:14px}
+  .champ label{display:block; margin-bottom:6px}
+  .lignes{margin-top:6px}
+  .ligne{display:grid; grid-template-columns:1fr 74px 104px 34px; gap:8px; margin-bottom:8px}
+  @media (max-width:600px){ .ligne{grid-template-columns:1fr 1fr; } }
+
+  /* — la facture imprimable : fond blanc, mentions légales complètes — */
+  #facture{display:none}
+  @media print{
+    body>*:not(#facture){display:none !important}
+    #facture{display:block !important; background:#fff; color:#000; font-family:var(--sans); padding:0}
+    #facture .mono{font-family:var(--mono)}
+    @page{margin:16mm}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo">
+  <span><b>Démonstration</b> — entreprise, clients, factures et chiffres entièrement fictifs</span>
+  <span>Produit par ADN NETWORK pour illustrer « Le Poste de pilotage »</span>
+</div>
+
+<header class="top">
+  <div class="marque">
+    <span class="adn">ADN<i>°</i>NETWORK</span>
+    <span class="sep">/</span>
+    <span class="lab" id="nomSociete"></span>
+  </div>
+  <div style="display:flex; gap:10px; align-items:center">
+    <span class="lab" id="exercice"></span>
+    <button class="btn sec mini" id="btnReset">Réinitialiser</button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="side" id="nav"></nav>
+  <main id="vue"></main>
+</div>
+
+<!-- Boîtes de dialogue -->
+<dialog id="dlg">
+  <form method="dialog" id="dlgForm">
+    <div class="dlg-h"><h3 id="dlgTitre"></h3><button class="btn sec mini" value="annuler">Fermer</button></div>
+    <div class="dlg-b" id="dlgCorps"></div>
+    <div class="dlg-f" id="dlgPied"></div>
+  </form>
+</dialog>
+
+<div id="facture"></div>
+
+<script>
+"use strict";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   1. RÉGLAGES FISCAUX
+   Les taux vivent ici et nulle part ailleurs : une loi de finances change, on
+   édite une ligne. Recopiés dans les calculs, ils auraient fini par diverger
+   entre le devis et la facture — l'erreur la plus coûteuse d'un outil de
+   facturation, parce qu'elle ne se voit qu'au contrôle.
+   ══════════════════════════════════════════════════════════════════════════ */
+const FISC = {
+  tva: 0.18,          // Taux normal en vigueur au Bénin
+  aibImmatricule: 0.01, // Acompte sur impôt — client disposant d'un IFU
+  aibNonImmat: 0.05,    // Client sans IFU : le taux majoré s'applique
+};
+
+const MOYENS = ["Espèces", "MTN MoMo", "Moov Money", "Celtiis Cash", "Virement"];
+
+/* ══════════════════════════════════════════════════════════════════════════
+   2. LE JEU DE DÉMONSTRATION
+   Entreprise inventée. Les identifiants respectent la FORME béninoise
+   (RCCM RB/COT/AA B nnnn, IFU à 13 chiffres) sans correspondre à personne :
+   un numéro mal formé décrédibiliserait la démonstration, un numéro réel
+   désignerait quelqu'un.
+   ══════════════════════════════════════════════════════════════════════════ */
+function jeuInitial() {
+  const A = new Date().getFullYear();
+  return {
+    societe: {
+      nom: "QUINCAILLERIE LE COMPAS",
+      forme: "SARL au capital de 5 000 000 FCFA",
+      activite: "Quincaillerie & matériaux de construction",
+      adresse: "Carré 118, Vodjè — Cotonou, Bénin",
+      tel: "+229 01 00 00 00",
+      email: "contact@lecompas.example",
+      rccm: "RB/COT/" + String(A).slice(2) + " B 4471",
+      ifu: "3202600000000",
+      banque: "Compte n° 000 000 000 000 — Cotonou",
+    },
+    exercice: A,
+    seq: { devis: 7, facture: 12, reglement: 21 },
+    articles: [
+      { ref:"CIM-50", nom:"Ciment CPJ 35 — sac 50 kg", unite:"sac", achat:3900, vente:4700, stock:240, seuil:80 },
+      { ref:"FER-12", nom:"Fer à béton 12 mm — barre 12 m", unite:"barre", achat:5200, vente:6400, stock:96, seuil:40 },
+      { ref:"FER-08", nom:"Fer à béton 8 mm — barre 12 m", unite:"barre", achat:2400, vente:3100, stock:120, seuil:40 },
+      { ref:"TOL-BAC", nom:"Tôle bac alu 0,30 — m²", unite:"m²", achat:4100, vente:5300, stock:150, seuil:60 },
+      { ref:"PEI-20", nom:"Peinture acrylique — seau 20 L", unite:"seau", achat:14500, vente:18900, stock:22, seuil:12 },
+      { ref:"GRA-05", nom:"Gravier 5/15 — tonne", unite:"tonne", achat:11000, vente:14500, stock:60, seuil:25 },
+      { ref:"SAB-01", nom:"Sable lagunaire — tonne", unite:"tonne", achat:6500, vente:8800, stock:30, seuil:25 },
+      { ref:"TUB-PVC", nom:"Tube PVC 110 — barre 3 m", unite:"barre", achat:3300, vente:4400, stock:74, seuil:60 },
+    ],
+    clients: [
+      { code:"C-001", nom:"Entreprise BATI-SUD", contact:"Service achats", tel:"+229 01 11 11 11", ifu:"3202611111111", adresse:"Godomey" },
+      { code:"C-002", nom:"Résidence Les Palmiers", contact:"Conduite de travaux", tel:"+229 01 22 22 22", ifu:"3202622222222", adresse:"Calavi" },
+      { code:"C-003", nom:"Atelier NOVA", contact:"Gérance", tel:"+229 01 33 33 33", ifu:"", adresse:"Akpakpa" },
+      { code:"C-004", nom:"Coopérative TOGBIN", contact:"Trésorerie", tel:"+229 01 44 44 44", ifu:"3202644444444", adresse:"Togbin" },
+    ],
+    devis: [], factures: [], reglements: [], mouvements: [], journal: [],
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   3. ÉTAT
+   ══════════════════════════════════════════════════════════════════════════ */
+const CLE = "adn-pilotage-demo-v1";
+
+/**
+ * `S` est déclaré vide ici et rempli TOUT EN BAS du fichier.
+ *
+ * L'amorçage se sert des fonctions métier — `emettreFacture`, `encaisser` —
+ * qui lisent `S` et appellent `fcfa`, `esc`, `encoursClient`. Ces trois-là
+ * sont des `const` fléchées : appeler `charger()` à cette ligne les
+ * atteindrait dans leur zone morte temporelle et la page ne s'afficherait
+ * pas du tout. L'initialisation attend donc que tout le module soit évalué.
+ */
+let S = null;
+let onglet = "bord";
+
+function charger() {
+  try {
+    const brut = localStorage.getItem(CLE);
+    if (brut) return JSON.parse(brut);
+  } catch (e) { /* navigation privée, quota, stockage bloqué : on repart du jeu */ }
+  const s = jeuInitial();
+  amorcer(s);
+  return s;
+}
+function sauver() {
+  try { localStorage.setItem(CLE, JSON.stringify(S)); } catch (e) { /* sans effet */ }
+}
+
+/* ── Formatage ────────────────────────────────────────────────────────────
+   L'espace fine insécable (U+202F) de `toLocaleString("fr")` disparaît dans
+   les graisses lourdes : « 175 000 » s'y lit « 175000 ». On repasse à
+   l'insécable ordinaire, qui résiste au resserrement. */
+const fcfa = (n) => Math.round(n).toLocaleString("fr").replace(/ /g, " ") + " F";
+const jourFr = (iso) => new Date(iso).toLocaleDateString("fr", { day:"2-digit", month:"2-digit", year:"numeric" });
+const heureFr = (iso) => new Date(iso).toLocaleTimeString("fr", { hour:"2-digit", minute:"2-digit" });
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+
+/* ══════════════════════════════════════════════════════════════════════════
+   4. LE MOTEUR — la cascade
+   Un seul geste métier déclenche tout le reste. C'est ce que la prestation
+   vend, donc c'est ce que la démonstration doit rendre VISIBLE : chaque
+   conséquence est tracée dans le journal, marquée « auto ».
+   ══════════════════════════════════════════════════════════════════════════ */
+/**
+ * Le journal se lit du plus récent au plus ancien. Écrites une à une, les
+ * conséquences d'un geste se retrouvaient donc AU-DESSUS de lui : on lisait
+ * « encours porté à… » avant « facture émise ». Une cascade affichée à
+ * l'envers ne démontre rien du tout.
+ *
+ * `geste()` regroupe donc l'action et ses suites en un bloc, inséré d'un seul
+ * coup : l'action garde la tête de son propre bloc, et les blocs restent
+ * ordonnés du plus récent au plus ancien.
+ */
+let bloc = null;
+
+function tracer(texte, auto) {
+  const e = { t: new Date().toISOString(), texte, auto: !!auto };
+  if (bloc) bloc.push(e);
+  else S.journal.unshift(e);
+}
+
+function geste(fn) {
+  const parent = bloc;      // les amorçages imbriqués ne cassent pas le bloc
+  if (!parent) bloc = [];
+  const r = fn();
+  if (!parent) {
+    S.journal.unshift(...bloc);
+    bloc = null;
+    if (S.journal.length > 220) S.journal.length = 220;
+  }
+  return r;
+}
+
+/** Totaux d'un document. Le taux d'AIB dépend de l'IFU du client, pas d'un choix. */
+function totaux(lignes, client) {
+  const ht = lignes.reduce((s, l) => s + l.pu * l.qte, 0);
+  const tva = ht * FISC.tva;
+  const taux = client && client.ifu ? FISC.aibImmatricule : FISC.aibNonImmat;
+  const aib = ht * taux;
+  return { ht, tva, aib, tauxAib: taux, ttc: ht + tva + aib };
+}
+
+function cout(lignes) {
+  return lignes.reduce((s, l) => {
+    const a = S.articles.find((x) => x.ref === l.ref);
+    return s + (a ? a.achat * l.qte : 0);
+  }, 0);
+}
+
+/** Le geste central : émettre une facture. Tout le reste en découle. */
+function emettreFacture(clientCode, lignes, origineDevis) { return geste(() => {
+  const client = S.clients.find((c) => c.code === clientCode);
+  const num = "F-" + S.exercice + "-" + String(++S.seq.facture).padStart(4, "0");
+  const t = totaux(lignes, client);
+  const f = {
+    num, date: new Date().toISOString(), client: clientCode,
+    lignes: lignes.map((l) => ({ ...l })),
+    ht: t.ht, tva: t.tva, aib: t.aib, tauxAib: t.tauxAib, ttc: t.ttc,
+    cout: cout(lignes), regle: 0, etat: "impaye", devis: origineDevis || null,
+  };
+  S.factures.unshift(f);
+  tracer("Facture <b>" + num + "</b> émise — " + fcfa(t.ttc) + " TTC");
+
+  // ── Conséquence 1 : le stock bouge, et les alertes se lèvent seules.
+  let alertes = 0;
+  lignes.forEach((l) => {
+    const a = S.articles.find((x) => x.ref === l.ref);
+    if (!a) return;
+    a.stock -= l.qte;
+    S.mouvements.unshift({
+      t: new Date().toISOString(), ref: a.ref, sens: "sortie",
+      qte: l.qte, motif: num, reste: a.stock,
+    });
+    if (a.stock <= a.seuil) alertes++;
+  });
+  tracer("Stock décrémenté sur " + lignes.length + " référence" + (lignes.length > 1 ? "s" : ""), true);
+  if (alertes) tracer(alertes + " référence" + (alertes > 1 ? "s passent" : " passe") + " sous le seuil de réapprovisionnement", true);
+
+  // ── Conséquence 2 : les écritures, y compris la TVA collectée et l'AIB.
+  tracer("Écritures passées — vente, TVA collectée " + fcfa(t.tva) + ", AIB " + fcfa(t.aib), true);
+
+  // ── Conséquence 3 : l'encours du client, donc le tableau de bord.
+  tracer("Encours de " + esc(client ? client.nom : "?") + " porté à " + fcfa(encoursClient(clientCode) ), true);
+
+  // ── Conséquence 4 : le devis d'origine change d'état tout seul.
+  if (origineDevis) {
+    const d = S.devis.find((x) => x.num === origineDevis);
+    if (d) { d.etat = "facture"; d.facture = num; tracer("Devis " + origineDevis + " marqué facturé", true); }
+  }
+  sauver();
+  return f;
+}); }
+
+function encaisser(numFacture, montant, moyen) { geste(() => {
+  const f = S.factures.find((x) => x.num === numFacture);
+  if (!f) return;
+  const num = "R-" + S.exercice + "-" + String(++S.seq.reglement).padStart(4, "0");
+  const m = Math.min(montant, f.ttc - f.regle);
+  S.reglements.unshift({ num, t:new Date().toISOString(), facture:numFacture, montant:m, moyen });
+  f.regle += m;
+  f.etat = f.regle >= f.ttc - 1 ? "paye" : "partiel";
+  tracer("Règlement <b>" + num + "</b> — " + fcfa(m) + " par " + moyen);
+  tracer("Facture " + numFacture + " : " + (f.etat === "paye" ? "soldée" : "reste " + fcfa(f.ttc - f.regle)), true);
+  tracer("Journal de caisse et trésorerie mis à jour", true);
+  sauver();
+}); }
+
+function entrerStock(ref, qte, motif) { geste(() => {
+  const a = S.articles.find((x) => x.ref === ref);
+  if (!a) return;
+  const sousSeuilAvant = a.stock <= a.seuil;
+  a.stock += qte;
+  S.mouvements.unshift({ t:new Date().toISOString(), ref, sens:"entrée", qte, motif, reste:a.stock });
+  tracer("Entrée de " + qte + " " + a.unite + " — " + a.ref + " (" + motif + ")");
+  if (sousSeuilAvant && a.stock > a.seuil) tracer("Alerte levée sur " + a.ref, true);
+  sauver();
+}); }
+
+/* ── Agrégats, tous recalculés à la lecture ────────────────────────────────
+   Rien n'est stocké en cache : un total mémorisé à côté de ses lignes finit
+   toujours par ne plus leur correspondre. */
+const encoursClient = (code) => S.factures.filter((f) => f.client === code && f.etat !== "paye")
+  .reduce((s, f) => s + (f.ttc - f.regle), 0);
+const creances = () => S.factures.filter((f) => f.etat !== "paye").reduce((s, f) => s + (f.ttc - f.regle), 0);
+const encaisse = () => S.reglements.reduce((s, r) => s + r.montant, 0);
+const caHT = () => S.factures.reduce((s, f) => s + f.ht, 0);
+const margeBrute = () => S.factures.reduce((s, f) => s + (f.ht - f.cout), 0);
+const tvaCollectee = () => S.factures.reduce((s, f) => s + f.tva, 0);
+const stockValorise = () => S.articles.reduce((s, a) => s + a.stock * a.achat, 0);
+const sousSeuil = () => S.articles.filter((a) => a.stock <= a.seuil);
+
+/* ══════════════════════════════════════════════════════════════════════════
+   5. AMORÇAGE — un historique crédible dès la première ouverture
+   Un tableau de bord vide ne démontre rien : il faut des créances, une marge,
+   une alerte de stock et un devis en attente pour que chaque écran ait
+   quelque chose à montrer.
+   ══════════════════════════════════════════════════════════════════════════ */
+function amorcer(s) {
+  // Les fonctions métier écrivent dans `S` : on l'y installe avant de les
+  // appeler. `charger()` renvoie ensuite ce même objet, que l'appelant
+  // réassigne à `S` — il n'y a donc rien à restaurer.
+  S = s;
+  const L = (ref, qte) => { const a = S.articles.find((x) => x.ref === ref); return { ref, nom:a.nom, unite:a.unite, pu:a.vente, qte }; };
+
+  emettreFacture("C-001", [L("CIM-50", 60), L("FER-12", 24)]);
+  encaisser(S.factures[0].num, S.factures[0].ttc, "Virement");
+
+  emettreFacture("C-002", [L("TOL-BAC", 40), L("PEI-20", 6)]);
+  encaisser(S.factures[0].num, 250000, "MTN MoMo");
+
+  emettreFacture("C-003", [L("SAB-01", 12), L("GRA-05", 8)]);
+  emettreFacture("C-004", [L("FER-08", 30), L("TUB-PVC", 18)]);
+
+  S.devis.unshift({
+    num: "D-" + S.exercice + "-" + String(++S.seq.devis).padStart(4, "0"),
+    date: new Date().toISOString(), client: "C-002", etat: "envoye",
+    lignes: [L("CIM-50", 120), L("FER-12", 40), L("GRA-05", 15)],
+  });
+  tracer("Devis " + S.devis[0].num + " envoyé à Résidence Les Palmiers");
+
+  entrerStock("PEI-20", 18, "Réception fournisseur");
+  sauver();
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   6. VUES
+   ══════════════════════════════════════════════════════════════════════════ */
+const ONGLETS = [
+  ["bord", "Tableau de bord"],
+  ["devis", "Devis"],
+  ["factures", "Factures"],
+  ["reglements", "Règlements"],
+  ["stock", "Stock"],
+  ["clients", "Clients"],
+  ["journal", "Journal"],
+];
+
+function rendreNav() {
+  const alertes = sousSeuil().length;
+  document.getElementById("nav").innerHTML = ONGLETS.map(([id, nom]) => {
+    const p = id === "stock" && alertes ? '<span class="pastille">' + alertes + "</span>" : "";
+    return '<button data-onglet="' + id + '" aria-current="' + (onglet === id) + '">' + nom + p + "</button>";
+  }).join("");
+}
+
+function kpi(v, l, d, couleur) {
+  return '<div class="kpi"><div class="lab">' + l + '</div><div class="v"' +
+    (couleur ? ' style="color:' + couleur + '"' : "") + ">" + v + "</div>" +
+    (d ? '<div class="d">' + d + "</div>" : "") + "</div>";
+}
+
+function vueBord() {
+  const al = sousSeuil();
+  const tauxMarge = caHT() ? Math.round((margeBrute() / caHT()) * 100) : 0;
+  return `
+  <div class="titre-bloc">
+    <div><div class="lab">Exercice ${S.exercice}</div><h2 style="margin-top:6px">Tableau de bord</h2></div>
+    <div class="lab">Tout est recalculé à l'ouverture</div>
+  </div>
+
+  <div class="kpis">
+    ${kpi(fcfa(caHT()), "Chiffre d'affaires HT", S.factures.length + " facture(s) émise(s)")}
+    ${kpi(fcfa(margeBrute()), "Marge brute", tauxMarge + " % du chiffre d'affaires", "var(--signal)")}
+    ${kpi(fcfa(creances()), "Créances clients", "restant à encaisser", creances() ? "var(--rouge)" : null)}
+    ${kpi(fcfa(encaisse()), "Encaissé", S.reglements.length + " règlement(s)")}
+    ${kpi(fcfa(tvaCollectee()), "TVA collectée", "à reverser")}
+    ${kpi(fcfa(stockValorise()), "Stock au prix d'achat", S.articles.length + " références")}
+  </div>
+
+  <div class="grille2">
+    <div class="carte">
+      <h3>Journal d'activité</h3>
+      <p class="lab" style="margin:8px 0 0">Les lignes <span style="color:var(--orange)">orange</span> n'ont été saisies par personne</p>
+      ${fluxHtml(14)}
+    </div>
+    <div>
+      <div class="carte">
+        <h3>Réapprovisionnement</h3>
+        ${al.length
+          ? al.map((a) => '<div class="alerte"><b>' + esc(a.ref) + "</b> — " + esc(a.nom) +
+              "<br>reste " + a.stock + " " + a.unite + " · seuil " + a.seuil + "</div>").join("")
+          : '<p style="color:var(--fog); margin:10px 0 0">Aucune référence sous son seuil.</p>'}
+      </div>
+      <div class="carte" style="margin-top:22px">
+        <h3>Encours par client</h3>
+        <table style="margin-top:8px">
+          ${S.clients.map((c) => {
+            const e = encoursClient(c.code);
+            return "<tr><td>" + esc(c.nom) + '</td><td class="num" style="color:' +
+              (e ? "var(--rouge)" : "var(--fog)") + '">' + fcfa(e) + "</td></tr>";
+          }).join("")}
+        </table>
+      </div>
+    </div>
+  </div>`;
+}
+
+function fluxHtml(n) {
+  const l = S.journal.slice(0, n || 60);
+  if (!l.length) return '<p style="color:var(--fog)">Rien pour l\'instant.</p>';
+  return '<div class="flux">' + l.map((e) =>
+    '<div class="l"><span class="h">' + heureFr(e.t) + '</span><span class="t' +
+    (e.auto ? " auto" : "") + '">' + (e.auto ? "↳ " : "") + e.texte + "</span></div>").join("") + "</div>";
+}
+
+function vueDevis() {
+  return `
+  <div class="titre-bloc"><h2>Devis</h2>
+    <button class="btn" id="btnNouveauDevis">Nouveau devis</button></div>
+  <p class="lab" style="margin-top:10px">Un devis accepté devient une facture sans ressaisie</p>
+  <table style="margin-top:18px">
+    <tr><th>Numéro</th><th>Date</th><th>Client</th><th class="num">Total TTC</th><th>État</th><th></th></tr>
+    ${S.devis.length ? S.devis.map((d) => {
+      const c = S.clients.find((x) => x.code === d.client);
+      const t = totaux(d.lignes, c);
+      return "<tr><td>" + d.num + "</td><td>" + jourFr(d.date) + "</td><td>" + esc(c ? c.nom : "—") +
+        '</td><td class="num">' + fcfa(t.ttc) + '</td><td><span class="etat e-' +
+        (d.etat === "facture" ? "paye" : "envoye") + '">' + (d.etat === "facture" ? "Facturé" : "Envoyé") +
+        "</span></td><td>" + (d.etat === "facture"
+          ? '<span class="lab">→ ' + d.facture + "</span>"
+          : '<button class="btn mini" data-facturer="' + d.num + '">Facturer</button>') + "</td></tr>";
+    }).join("") : '<tr><td colspan="6" style="color:var(--fog)">Aucun devis.</td></tr>'}
+  </table>`;
+}
+
+function vueFactures() {
+  return `
+  <div class="titre-bloc"><h2>Factures</h2>
+    <button class="btn" id="btnNouvelleFacture">Nouvelle facture</button></div>
+  <p class="lab" style="margin-top:10px">TVA ${FISC.tva * 100} % · AIB ${FISC.aibImmatricule * 100} % avec IFU, ${FISC.aibNonImmat * 100} % sans</p>
+  <table style="margin-top:18px">
+    <tr><th>Numéro</th><th>Date</th><th>Client</th><th class="num">HT</th><th class="num">TTC</th><th class="num">Réglé</th><th>État</th><th></th></tr>
+    ${S.factures.length ? S.factures.map((f) => {
+      const c = S.clients.find((x) => x.code === f.client);
+      const et = f.etat === "paye" ? ["e-paye", "Soldée"] : f.etat === "partiel" ? ["e-partiel", "Partielle"] : ["e-impaye", "Impayée"];
+      return "<tr><td>" + f.num + "</td><td>" + jourFr(f.date) + "</td><td>" + esc(c ? c.nom : "—") +
+        '</td><td class="num">' + fcfa(f.ht) + '</td><td class="num">' + fcfa(f.ttc) +
+        '</td><td class="num">' + fcfa(f.regle) + '</td><td><span class="etat ' + et[0] + '">' + et[1] +
+        '</span></td><td style="white-space:nowrap">' +
+        (f.etat !== "paye" ? '<button class="btn mini" data-encaisser="' + f.num + '">Encaisser</button> ' : "") +
+        '<button class="btn sec mini" data-imprimer="' + f.num + '">Imprimer</button></td></tr>';
+    }).join("") : '<tr><td colspan="8" style="color:var(--fog)">Aucune facture.</td></tr>'}
+  </table>`;
+}
+
+function vueReglements() {
+  const parMoyen = {};
+  S.reglements.forEach((r) => { parMoyen[r.moyen] = (parMoyen[r.moyen] || 0) + r.montant; });
+  return `
+  <div class="titre-bloc"><h2>Règlements</h2></div>
+  <div class="kpis">
+    ${Object.keys(parMoyen).length
+      ? Object.entries(parMoyen).map(([m, v]) => kpi(fcfa(v), m, "")).join("")
+      : kpi("0 F", "Aucun règlement", "")}
+  </div>
+  <table style="margin-top:26px">
+    <tr><th>Numéro</th><th>Date</th><th>Facture</th><th>Moyen</th><th class="num">Montant</th></tr>
+    ${S.reglements.length ? S.reglements.map((r) =>
+      "<tr><td>" + r.num + "</td><td>" + jourFr(r.t) + "</td><td>" + r.facture +
+      "</td><td>" + esc(r.moyen) + '</td><td class="num">' + fcfa(r.montant) + "</td></tr>").join("")
+      : '<tr><td colspan="5" style="color:var(--fog)">Aucun règlement.</td></tr>'}
+  </table>`;
+}
+
+function vueStock() {
+  return `
+  <div class="titre-bloc"><h2>Stock</h2>
+    <button class="btn" id="btnEntree">Entrée fournisseur</button></div>
+  <p class="lab" style="margin-top:10px">Les sorties sont écrites par la facturation, jamais à la main</p>
+  <table style="margin-top:18px">
+    <tr><th>Réf.</th><th>Désignation</th><th class="num">Achat</th><th class="num">Vente</th><th class="num">Stock</th><th class="num">Seuil</th><th class="num">Valeur</th></tr>
+    ${S.articles.map((a) => {
+      const bas = a.stock <= a.seuil;
+      return "<tr><td>" + a.ref + "</td><td>" + esc(a.nom) + '</td><td class="num">' + fcfa(a.achat) +
+        '</td><td class="num">' + fcfa(a.vente) + '</td><td class="num" style="color:' +
+        (bas ? "var(--rouge)" : "var(--bone)") + '">' + a.stock + " " + a.unite +
+        '</td><td class="num" style="color:var(--fog)">' + a.seuil +
+        '</td><td class="num">' + fcfa(a.stock * a.achat) + "</td></tr>";
+    }).join("")}
+  </table>
+  <h3 style="margin-top:34px; font-size:14px">Derniers mouvements</h3>
+  <table style="margin-top:12px">
+    <tr><th>Date</th><th>Réf.</th><th>Sens</th><th class="num">Quantité</th><th>Motif</th><th class="num">Reste</th></tr>
+    ${S.mouvements.slice(0, 22).map((m) =>
+      "<tr><td>" + jourFr(m.t) + "</td><td>" + m.ref + '</td><td style="color:' +
+      (m.sens === "entrée" ? "var(--vert)" : "var(--orange)") + '">' + m.sens +
+      '</td><td class="num">' + m.qte + "</td><td>" + esc(m.motif) +
+      '</td><td class="num">' + m.reste + "</td></tr>").join("")}
+  </table>`;
+}
+
+function vueClients() {
+  return `
+  <div class="titre-bloc"><h2>Clients</h2></div>
+  <table style="margin-top:18px">
+    <tr><th>Code</th><th>Nom</th><th>Contact</th><th>IFU</th><th class="num">AIB</th><th class="num">Encours</th></tr>
+    ${S.clients.map((c) => {
+      const e = encoursClient(c.code);
+      return "<tr><td>" + c.code + "</td><td>" + esc(c.nom) + "</td><td>" + esc(c.tel) +
+        '</td><td style="color:' + (c.ifu ? "var(--fog)" : "var(--rouge)") + '">' +
+        (c.ifu || "sans IFU") + '</td><td class="num">' +
+        ((c.ifu ? FISC.aibImmatricule : FISC.aibNonImmat) * 100) + ' %</td><td class="num" style="color:' +
+        (e ? "var(--rouge)" : "var(--fog)") + '">' + fcfa(e) + "</td></tr>";
+    }).join("")}
+  </table>
+  <p class="lab" style="margin-top:16px">Le taux d'acompte suit l'IFU du client — il n'est jamais choisi à la saisie</p>`;
+}
+
+function vueJournal() {
+  return `
+  <div class="titre-bloc"><h2>Journal d'activité</h2>
+    <button class="btn sec" id="btnCsv">Exporter en CSV</button></div>
+  <p class="lab" style="margin-top:10px">${S.journal.filter((e) => e.auto).length} des ${S.journal.length} lignes n'ont été saisies par personne</p>
+  <div class="carte" style="margin-top:18px">${fluxHtml(0)}</div>`;
+}
+
+function rendre() {
+  rendreNav();
+  const v = { bord:vueBord, devis:vueDevis, factures:vueFactures, reglements:vueReglements,
+              stock:vueStock, clients:vueClients, journal:vueJournal }[onglet];
+  document.getElementById("vue").innerHTML = v();
+  document.getElementById("nomSociete").textContent = S.societe.nom;
+  document.getElementById("exercice").textContent = "Exercice " + S.exercice;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   7. DIALOGUES
+   ══════════════════════════════════════════════════════════════════════════ */
+const dlg = document.getElementById("dlg");
+function ouvrir(titre, corps, pied) {
+  document.getElementById("dlgTitre").textContent = titre;
+  document.getElementById("dlgCorps").innerHTML = corps;
+  document.getElementById("dlgPied").innerHTML = pied;
+  dlg.showModal();
+}
+
+function champLignes() {
+  return '<div class="lignes" id="lignes"></div>' +
+    '<button type="button" class="btn sec mini" id="btnAddLigne">+ Ajouter une ligne</button>' +
+    '<p class="lab" style="margin-top:14px" id="apercu"></p>';
+}
+
+function monterLignes(clientSel) {
+  const cont = document.getElementById("lignes");
+  const ajouter = () => {
+    const i = cont.children.length;
+    const d = document.createElement("div");
+    d.className = "ligne";
+    d.innerHTML =
+      '<select data-r="' + i + '">' + S.articles.map((a) =>
+        '<option value="' + a.ref + '">' + esc(a.nom) + "</option>").join("") + "</select>" +
+      '<input type="number" min="1" value="1" data-q="' + i + '">' +
+      '<input type="text" readonly data-p="' + i + '">' +
+      '<button type="button" class="btn sec mini" data-sup="' + i + '">×</button>';
+    cont.appendChild(d);
+    majApercu();
+  };
+  cont.addEventListener("input", majApercu);
+  cont.addEventListener("click", (e) => {
+    if (e.target.dataset.sup !== undefined) { e.target.closest(".ligne").remove(); majApercu(); }
+  });
+  document.getElementById("btnAddLigne").addEventListener("click", ajouter);
+  if (clientSel) clientSel.addEventListener("change", majApercu);
+  ajouter();
+}
+
+function lireLignes() {
+  return [...document.querySelectorAll("#lignes .ligne")].map((d) => {
+    const ref = d.querySelector("select").value;
+    const qte = Math.max(1, parseInt(d.querySelector('input[type="number"]').value, 10) || 1);
+    const a = S.articles.find((x) => x.ref === ref);
+    return { ref, nom:a.nom, unite:a.unite, pu:a.vente, qte };
+  });
+}
+
+function majApercu() {
+  const l = lireLignes();
+  document.querySelectorAll("#lignes .ligne").forEach((d, i) => {
+    d.querySelector('input[readonly]').value = fcfa(l[i].pu * l[i].qte);
+  });
+  const sel = document.getElementById("clientSel");
+  const c = sel ? S.clients.find((x) => x.code === sel.value) : null;
+  const t = totaux(l, c);
+  const ap = document.getElementById("apercu");
+  if (ap) ap.innerHTML = "HT " + fcfa(t.ht) + " · TVA " + fcfa(t.tva) +
+    " · AIB " + (t.tauxAib * 100) + " % " + fcfa(t.aib) +
+    ' · <span style="color:var(--signal)">TTC ' + fcfa(t.ttc) + "</span>";
+}
+
+function selClients() {
+  return '<select id="clientSel">' + S.clients.map((c) =>
+    '<option value="' + c.code + '">' + esc(c.nom) + (c.ifu ? "" : " — sans IFU") + "</option>").join("") + "</select>";
+}
+
+function dialogueDocument(estFacture) {
+  ouvrir(estFacture ? "Nouvelle facture" : "Nouveau devis",
+    '<div class="champ"><label class="lab">Client</label>' + selClients() + "</div>" +
+    '<div class="champ"><label class="lab">Lignes</label>' + champLignes() + "</div>",
+    '<button class="btn sec" value="annuler">Annuler</button>' +
+    '<button class="btn" value="ok" id="btnValider">' + (estFacture ? "Émettre" : "Enregistrer") + "</button>");
+  monterLignes(document.getElementById("clientSel"));
+  document.getElementById("btnValider").addEventListener("click", () => {
+    const code = document.getElementById("clientSel").value;
+    const lignes = lireLignes();
+    if (!lignes.length) return;
+    if (estFacture) emettreFacture(code, lignes);
+    else {
+      S.devis.unshift({ num:"D-" + S.exercice + "-" + String(++S.seq.devis).padStart(4, "0"),
+        date:new Date().toISOString(), client:code, etat:"envoye", lignes });
+      tracer("Devis <b>" + S.devis[0].num + "</b> créé");
+      sauver();
+    }
+    setTimeout(rendre, 0);
+  });
+}
+
+function dialogueEncaissement(num) {
+  const f = S.factures.find((x) => x.num === num);
+  const reste = f.ttc - f.regle;
+  ouvrir("Encaisser " + num,
+    '<p class="lab">Reste dû</p><p style="font-size:24px; font-family:var(--sans); font-weight:700">' + fcfa(reste) + "</p>" +
+    '<div class="champ" style="margin-top:18px"><label class="lab">Montant</label>' +
+    '<input type="number" id="mt" value="' + Math.round(reste) + '" max="' + Math.round(reste) + '" min="1"></div>' +
+    '<div class="champ"><label class="lab">Moyen</label><select id="moy">' +
+    MOYENS.map((m) => '<option>' + m + "</option>").join("") + "</select></div>",
+    '<button class="btn sec" value="annuler">Annuler</button><button class="btn" value="ok" id="btnOk">Encaisser</button>');
+  document.getElementById("btnOk").addEventListener("click", () => {
+    encaisser(num, parseFloat(document.getElementById("mt").value) || 0, document.getElementById("moy").value);
+    setTimeout(rendre, 0);
+  });
+}
+
+function dialogueEntree() {
+  ouvrir("Entrée fournisseur",
+    '<div class="champ"><label class="lab">Article</label><select id="art">' +
+    S.articles.map((a) => '<option value="' + a.ref + '">' + esc(a.nom) + " — stock " + a.stock + "</option>").join("") +
+    '</select></div><div class="champ"><label class="lab">Quantité</label><input type="number" id="q" value="50" min="1"></div>' +
+    '<div class="champ"><label class="lab">Motif</label><input type="text" id="mo" value="Réception fournisseur"></div>',
+    '<button class="btn sec" value="annuler">Annuler</button><button class="btn" value="ok" id="btnOk">Enregistrer</button>');
+  document.getElementById("btnOk").addEventListener("click", () => {
+    entrerStock(document.getElementById("art").value,
+      parseInt(document.getElementById("q").value, 10) || 0,
+      document.getElementById("mo").value);
+    setTimeout(rendre, 0);
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   8. IMPRESSION
+   Une facture béninoise doit porter RCCM, IFU, capital et détail de taxes.
+   La mention de démonstration est RÉPÉTÉE sur le papier : sortie de l'écran,
+   une facture ne garde que ce qui est imprimé dessus.
+   ══════════════════════════════════════════════════════════════════════════ */
+function imprimer(num) {
+  const f = S.factures.find((x) => x.num === num);
+  const c = S.clients.find((x) => x.code === f.client);
+  const so = S.societe;
+  document.getElementById("facture").innerHTML = `
+    <div style="border:2px solid #d33; color:#d33; padding:6px 10px; font-size:11px; letter-spacing:.18em; text-transform:uppercase; margin-bottom:18px">
+      Document de démonstration — entreprise et client fictifs — sans valeur comptable
+    </div>
+    <div style="display:flex; justify-content:space-between; gap:24px">
+      <div>
+        <div style="font-size:19px; font-weight:700">${esc(so.nom)}</div>
+        <div class="mono" style="font-size:11px; line-height:1.7; margin-top:6px">
+          ${esc(so.forme)}<br>${esc(so.activite)}<br>${esc(so.adresse)}<br>
+          ${esc(so.tel)} · ${esc(so.email)}<br>
+          RCCM ${esc(so.rccm)} · IFU ${esc(so.ifu)}
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:26px; font-weight:700">FACTURE</div>
+        <div class="mono" style="font-size:12px; margin-top:6px">${f.num}<br>${jourFr(f.date)}</div>
+      </div>
+    </div>
+    <div style="margin-top:26px; padding-top:14px; border-top:1px solid #000">
+      <div class="mono" style="font-size:10px; letter-spacing:.18em; text-transform:uppercase">Facturé à</div>
+      <div style="font-weight:700; margin-top:5px">${esc(c ? c.nom : "—")}</div>
+      <div class="mono" style="font-size:11px">${esc(c ? c.adresse : "")} · ${c && c.ifu ? "IFU " + esc(c.ifu) : "sans IFU"}</div>
+    </div>
+    <table class="mono" style="margin-top:22px; font-size:11px">
+      <tr style="border-bottom:1px solid #000">
+        <th style="color:#000; border:0; padding:7px 8px">Désignation</th>
+        <th style="color:#000; border:0; padding:7px 8px" class="num">Qté</th>
+        <th style="color:#000; border:0; padding:7px 8px" class="num">P.U.</th>
+        <th style="color:#000; border:0; padding:7px 8px" class="num">Montant</th>
+      </tr>
+      ${f.lignes.map((l) => '<tr><td style="border-bottom:1px solid #ddd; padding:7px 8px">' + esc(l.nom) +
+        '</td><td class="num" style="border-bottom:1px solid #ddd; padding:7px 8px">' + l.qte + " " + esc(l.unite) +
+        '</td><td class="num" style="border-bottom:1px solid #ddd; padding:7px 8px">' + fcfa(l.pu) +
+        '</td><td class="num" style="border-bottom:1px solid #ddd; padding:7px 8px">' + fcfa(l.pu * l.qte) + "</td></tr>").join("")}
+    </table>
+    <div style="display:flex; justify-content:flex-end; margin-top:16px">
+      <table class="mono" style="width:290px; font-size:12px">
+        <tr><td style="border:0; padding:4px 8px">Total HT</td><td class="num" style="border:0; padding:4px 8px">${fcfa(f.ht)}</td></tr>
+        <tr><td style="border:0; padding:4px 8px">TVA ${FISC.tva * 100} %</td><td class="num" style="border:0; padding:4px 8px">${fcfa(f.tva)}</td></tr>
+        <tr><td style="border:0; padding:4px 8px">AIB ${f.tauxAib * 100} %</td><td class="num" style="border:0; padding:4px 8px">${fcfa(f.aib)}</td></tr>
+        <tr style="border-top:2px solid #000"><td style="border:0; padding:7px 8px; font-weight:700">Net à payer</td>
+          <td class="num" style="border:0; padding:7px 8px; font-weight:700">${fcfa(f.ttc)}</td></tr>
+      </table>
+    </div>
+    <div class="mono" style="margin-top:28px; font-size:10px; line-height:1.8; border-top:1px solid #ccc; padding-top:12px">
+      Règlement par ${MOYENS.join(", ")}. ${esc(so.banque)}.<br>
+      Facture émise par le Poste de pilotage — outil produit par ADN NETWORK, Cotonou.
+    </div>`;
+  window.print();
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   9. EXPORT
+   Point-virgule et BOM : le tableur d'un poste francophone ouvre le fichier
+   directement, sans passer par un assistant d'importation que personne ne
+   sait régler.
+   ══════════════════════════════════════════════════════════════════════════ */
+function exportCsv() {
+  const l = [["Date", "Heure", "Origine", "Événement"]].concat(
+    S.journal.map((e) => [jourFr(e.t), heureFr(e.t), e.auto ? "automatique" : "saisie",
+      e.texte.replace(/<[^>]+>/g, "")]));
+  const csv = "﻿" + l.map((r) => r.map((c) => '"' + String(c).replace(/"/g, '""') + '"').join(";")).join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type:"text/csv" }));
+  a.download = "journal-demonstration.csv";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   10. ÉVÉNEMENTS — délégation unique
+   ══════════════════════════════════════════════════════════════════════════ */
+document.getElementById("nav").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-onglet]");
+  if (b) { onglet = b.dataset.onglet; rendre(); }
+});
+
+document.getElementById("vue").addEventListener("click", (e) => {
+  const t = e.target;
+  if (t.id === "btnNouveauDevis") return dialogueDocument(false);
+  if (t.id === "btnNouvelleFacture") return dialogueDocument(true);
+  if (t.id === "btnEntree") return dialogueEntree();
+  if (t.id === "btnCsv") return exportCsv();
+  if (t.dataset.encaisser) return dialogueEncaissement(t.dataset.encaisser);
+  if (t.dataset.imprimer) return imprimer(t.dataset.imprimer);
+  if (t.dataset.facturer) {
+    const d = S.devis.find((x) => x.num === t.dataset.facturer);
+    if (d) { emettreFacture(d.client, d.lignes, d.num); onglet = "factures"; rendre(); }
+  }
+});
+
+document.getElementById("btnReset").addEventListener("click", () => {
+  try { localStorage.removeItem(CLE); } catch (e) {}
+  S = charger();
+  onglet = "bord";
+  rendre();
+});
+
+S = charger();
+rendre();
+</script>
+</body>
+</html>

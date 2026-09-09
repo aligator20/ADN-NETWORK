@@ -22,6 +22,7 @@ export const vedettesEn: VedettesCopy = {
   ],
   listLabel: "The ten",
   preuveLabel: "Already done",
+  demoLabel: "Try it",
   sansPreuveLabel: "Pathway",
   from: "from",
   currency: "FCFA",
@@ -35,6 +36,7 @@ export const vedettesEn: VedettesCopy = {
       contenu:
         "Structure, copywriting, layout, publication and domain name. Static pages: nothing to maintain, nothing that falls over, and a hosting bill close to zero.",
       preuve: { ...fr.items[0].preuve!, texte: "The FullMesh Shop store" },
+      demo: { ...fr.items[0].demo!, texte: "Open the sample site" },
     },
     {
       ...fr.items[1],
@@ -51,6 +53,7 @@ export const vedettesEn: VedettesCopy = {
       contenu:
         "Management and inventory workbooks, written procedures, tracking sheets. A business starts with its measuring instruments, not once the problems have arrived.",
       preuve: { ...fr.items[2].preuve!, texte: "The Résine Master instruments" },
+      demo: { ...fr.items[2].demo!, texte: "Open the demonstration" },
     },
     {
       ...fr.items[3],

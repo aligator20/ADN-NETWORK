@@ -57,6 +57,18 @@ export type Vedette = {
    * n'affiche pas de lien plutôt que d'en inventer un.
    */
   preuve?: { slug: string; texte: string };
+  /**
+   * Une démonstration ouvrable, produite pour cette prestation.
+   *
+   * Un lien vers une réalisation demande de croire sur parole ; une
+   * démonstration se manipule. Les fichiers vivent sous /demo, hors du cache
+   * long de /work, parce qu'ils seront corrigés plus souvent qu'une image.
+   *
+   * L'entreprise et les chiffres y sont fictifs, et chaque page le porte
+   * écrit — y compris à l'impression, un document sorti de son écran ne
+   * gardant que ce qui est imprimé dessus.
+   */
+  demo?: { href: string; texte: string };
 };
 
 export type VedettesCopy = {
@@ -66,6 +78,7 @@ export type VedettesCopy = {
   body: readonly string[];
   listLabel: string;
   preuveLabel: string;
+  demoLabel: string;
   sansPreuveLabel: string;
   from: string;
   currency: string;
@@ -84,6 +97,7 @@ export const vedettes: VedettesCopy = {
   ],
   listLabel: "Les dix",
   preuveLabel: "Déjà fait",
+  demoLabel: "À manipuler",
   sansPreuveLabel: "Voie d'accès",
   from: "à partir de",
   currency: "FCFA",
@@ -98,6 +112,7 @@ export const vedettes: VedettesCopy = {
       contenu:
         "Arborescence, rédaction, mise en page, publication et nom de domaine. Pages statiques : rien à maintenir, rien qui tombe, et une facture d'hébergement quasi nulle.",
       preuve: { slug: "full-mesh", texte: "La boutique FullMesh Shop" },
+      demo: { href: "/demo/site/", texte: "Ouvrir le site d'exemple" },
     },
     {
       id: "ai",
@@ -116,6 +131,7 @@ export const vedettes: VedettesCopy = {
       contenu:
         "Classeurs de gestion et d'inventaire, procédures écrites, tableaux de suivi. L'entreprise démarre avec ses instruments de mesure, pas une fois les problèmes arrivés.",
       preuve: { slug: "resine-master", texte: "Les instruments de Résine Master" },
+      demo: { href: "/demo/pilotage/", texte: "Ouvrir la démonstration" },
     },
     {
       id: "network",

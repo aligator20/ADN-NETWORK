@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Atelier Sika — démonstration ADN NETWORK</title>
+<!--
+  SITE DE DÉMONSTRATION — illustre la prestation « Le Site complet ».
+
+  C'EST UNE MARQUE INVENTÉE. Atelier Sika n'existe pas ; le fondateur, les
+  chiffres, les références et les avis sont fabriqués pour l'exemple. Le
+  bandeau le dit et ne se ferme pas.
+
+  POURQUOI CE N'EST PAS UNE MAQUETTE D'IMAGE
+
+  Un client qui commande un site veut savoir ce qu'il recevra. Une image de
+  maquette ne répond pas : elle ne se redimensionne pas, ne se navigue pas, ne
+  prouve pas que le texte tient sur un téléphone. Cette page-ci est le
+  livrable lui-même, dans son état réel — même technique, même exigence
+  d'accessibilité, même absence de dépendance externe.
+
+  L'IDENTITÉ N'EST PAS CELLE D'ADN NETWORK. Un site livré porte la marque du
+  CLIENT, pas celle de l'atelier qui l'a produit : ocre et terre cuite ici,
+  parce qu'il s'agit d'un ébéniste. Reprendre le vert signal d'ADN NETWORK
+  aurait montré notre charte au lieu de démontrer notre travail. La signature
+  tient en une ligne, en pied de page, comme sur un vrai livrable.
+-->
+<style>
+  :root{
+    --nuit:#1a1512; --terre:#241c17; --sable:#f4efe7; --craie:#fffdf9;
+    --ocre:#c8763c; --ocre-clair:#e0a06a; --brun:#8a6d55; --trait:#3a2e25;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--nuit); color:var(--sable);
+    font-family:var(--sans); font-size:16px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--serif); font-weight:400; margin:0; line-height:1.12}
+  .lab{
+    font-size:11px; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--ocre-clair); font-family:var(--sans);
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:0 26px}
+  section{padding:84px 0}
+  @media (max-width:760px){ section{padding:56px 0} }
+
+  .demo{
+    background:var(--ocre); color:#1a1512; padding:8px 20px; font-size:11px;
+    letter-spacing:.18em; text-transform:uppercase; text-align:center;
+  }
+  .demo b{font-weight:700}
+
+  header{
+    position:sticky; top:0; z-index:10; background:rgba(26,21,18,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--trait);
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between; gap:20px; padding-top:16px; padding-bottom:16px}
+  .logo{display:flex; align-items:center; gap:11px; text-decoration:none}
+  .logo svg{flex:0 0 auto}
+  .logo b{font-family:var(--serif); font-size:19px; font-weight:400; letter-spacing:.02em}
+  .logo span{font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--brun); display:block; margin-top:1px}
+  nav.menu{display:flex; gap:26px; font-size:13px; letter-spacing:.06em}
+  nav.menu a{text-decoration:none; color:var(--sable); opacity:.72; padding:4px 0; border-bottom:1px solid transparent}
+  nav.menu a:hover{opacity:1; border-bottom-color:var(--ocre)}
+  /* Sur téléphone le menu ne DISPARAÎT pas : il devient une rangée qui défile.
+     Le masquer aurait laissé la page sans aucun moyen d'atteindre « Contact »
+     autrement qu'en la faisant défiler en entier — et c'est le bouton qui
+     rapporte. Une barre glissante coûte trois lignes ; un menu escamotable
+     coûterait du script, un piège de focus et un bouton de fermeture. */
+  @media (max-width:760px){
+    header .wrap{flex-wrap:wrap; row-gap:12px}
+    nav.menu{
+      width:100%; gap:18px; overflow-x:auto; padding-bottom:2px;
+      font-size:12px; scrollbar-width:none;
+    }
+    nav.menu::-webkit-scrollbar{display:none}
+    nav.menu a{white-space:nowrap}
+  }
+
+  /* — ouverture — */
+  .hero{
+    padding:96px 0 84px;
+    background:
+      radial-gradient(120% 90% at 78% 8%, rgba(200,118,60,.16) 0%, transparent 58%),
+      linear-gradient(180deg, var(--nuit) 0%, var(--terre) 100%);
+    border-bottom:1px solid var(--trait);
+  }
+  .hero h1{font-size:clamp(2.4rem,6.2vw,4.6rem); letter-spacing:-.015em; margin-top:20px; max-width:15ch}
+  .hero p.intro{font-size:clamp(1.02rem,1.9vw,1.28rem); max-width:52ch; margin-top:26px; color:#ddd2c4}
+  .cta{display:flex; gap:14px; flex-wrap:wrap; margin-top:36px}
+  .bouton{
+    display:inline-block; text-decoration:none; padding:14px 28px;
+    background:var(--ocre); color:#1a1512; font-size:12px;
+    letter-spacing:.16em; text-transform:uppercase; font-weight:600;
+    border:1px solid var(--ocre);
+  }
+  .bouton.creux{background:transparent; color:var(--sable); border-color:var(--trait)}
+  .bouton.creux:hover{border-color:var(--ocre-clair)}
+
+  .chiffres{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:34px; margin-top:60px; padding-top:30px; border-top:1px solid var(--trait)}
+  .chiffres .v{font-family:var(--serif); font-size:2.5rem; color:var(--ocre-clair); line-height:1}
+  .chiffres .l{font-size:12px; letter-spacing:.1em; color:var(--brun); margin-top:7px}
+
+  /* — pièces — */
+  .grille{display:grid; grid-template-columns:repeat(auto-fit,minmax(268px,1fr)); gap:26px; margin-top:44px}
+  .piece{background:var(--terre); border:1px solid var(--trait)}
+  .piece figure{margin:0; aspect-ratio:4/3; overflow:hidden; background:#12100e}
+  .piece figure svg{width:100%; height:100%; display:block}
+  .piece .corps{padding:20px 22px 24px}
+  .piece h3{font-size:1.28rem}
+  .piece p{font-size:14px; color:#c9bcac; margin:9px 0 0}
+  .piece .prix{margin-top:15px; font-size:13px; letter-spacing:.09em; color:var(--ocre-clair)}
+
+  /* — atelier — */
+  .deux{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center}
+  @media (max-width:860px){ .deux{grid-template-columns:1fr; gap:34px} }
+  .deux h2{font-size:clamp(1.9rem,4vw,2.9rem)}
+  .deux p{color:#d3c7b8; margin-top:20px}
+  .etapes{margin-top:34px; border-top:1px solid var(--trait)}
+  .etape{display:grid; grid-template-columns:44px 1fr; gap:16px; padding:18px 0; border-bottom:1px solid var(--trait)}
+  .etape .n{font-family:var(--serif); color:var(--ocre); font-size:1.1rem}
+  .etape b{font-weight:600; font-size:14.5px; letter-spacing:.02em}
+  .etape p{margin:5px 0 0; font-size:13.5px; color:#b9ab9b}
+
+  /* — parole client — */
+  .avis{background:var(--terre); border-top:1px solid var(--trait); border-bottom:1px solid var(--trait)}
+  .avis blockquote{margin:0; font-family:var(--serif); font-size:clamp(1.35rem,3vw,2.05rem); line-height:1.42; max-width:24ch}
+  .avis .qui{margin-top:24px; font-size:13px; letter-spacing:.09em; color:var(--brun)}
+
+  /* — contact — */
+  .form{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:26px}
+  .form .plein{grid-column:1/-1}
+  @media (max-width:660px){ .form{grid-template-columns:1fr} }
+  label{display:block; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--brun); margin-bottom:7px}
+  input,textarea{
+    width:100%; font:inherit; font-size:15px; padding:12px 14px;
+    background:var(--terre); border:1px solid var(--trait); color:var(--sable);
+  }
+  input:focus,textarea:focus{outline:2px solid var(--ocre); outline-offset:-2px; border-color:transparent}
+  .note{font-size:12.5px; color:var(--brun); margin-top:16px}
+
+  footer{background:#12100e; border-top:1px solid var(--trait); padding:44px 0 34px; font-size:13px; color:var(--brun)}
+  footer .ligne{display:flex; justify-content:space-between; gap:22px; flex-wrap:wrap}
+  footer .sig{margin-top:26px; padding-top:18px; border-top:1px solid var(--trait); font-size:12px}
+  footer .sig a{color:var(--ocre-clair)}
+</style>
+</head>
+<body>
+
+<div class="demo">
+  <b>Site de démonstration</b> — marque, fondateur, chiffres et avis entièrement fictifs ·
+  produit par ADN NETWORK pour illustrer « Le Site complet »
+</div>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#haut">
+      <!-- Monogramme dessiné : un tenon et sa mortaise, l'assemblage
+           fondateur de l'ébénisterie. Aucune police à télécharger. -->
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <rect x="1" y="1" width="28" height="28" fill="none" stroke="#c8763c" stroke-width="1.4"/>
+        <rect x="7" y="9" width="7" height="12" fill="#c8763c"/>
+        <rect x="16" y="9" width="7" height="12" fill="none" stroke="#e0a06a" stroke-width="1.4"/>
+        <rect x="14" y="13" width="2" height="4" fill="#e0a06a"/>
+      </svg>
+      <span><b>Atelier Sika</b><span>Ébénisterie — Cotonou</span></span>
+    </a>
+    <nav class="menu">
+      <a href="#pieces">Les pièces</a>
+      <a href="#atelier">L'atelier</a>
+      <a href="#methode">La méthode</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="haut">
+
+<section class="hero">
+  <div class="wrap">
+    <p class="lab">Ébénisterie sur mesure — depuis 2014</p>
+    <h1>Le bois qui reste quand le reste a bougé.</h1>
+    <p class="intro">
+      Nous dessinons et fabriquons des meubles massifs à Cotonou, en teck et
+      en iroko de plantation. Une pièce, un atelier, un artisan qui la signe —
+      et une garantie de dix ans sur les assemblages.
+    </p>
+    <div class="cta">
+      <a class="bouton" href="#contact">Demander un devis</a>
+      <a class="bouton creux" href="#pieces">Voir les pièces</a>
+    </div>
+
+    <div class="chiffres">
+      <div><div class="v">11</div><div class="l">années d'atelier</div></div>
+      <div><div class="v">380</div><div class="l">pièces livrées</div></div>
+      <div><div class="v">10 ans</div><div class="l">garantie assemblages</div></div>
+      <div><div class="v">04</div><div class="l">artisans</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pieces">
+  <div class="wrap">
+    <p class="lab">Le catalogue</p>
+    <h2 style="font-size:clamp(1.9rem,4vw,2.9rem); margin-top:14px">Quatre familles, faites pour durer</h2>
+
+    <div class="grille">
+      <!-- Les visuels sont des DESSINS, pas des photos.
+           Une photo de meuble prise ailleurs présenterait le travail de
+           quelqu'un d'autre comme celui du client — la faute exacte qu'on
+           refuse. Un dessin annonce qu'il est un dessin. -->
+      <article class="piece">
+        <figure><svg viewBox="0 0 400 300" role="img" aria-label="Dessin d'une table de salle à manger en bois massif">
+          <rect width="400" height="300" fill="#191512"/>
+          <rect x="52" y="118" width="296" height="16" fill="#c8763c"/>
+          <rect x="52" y="134" width="296" height="6" fill="#8a5227"/>
+          <rect x="82" y="140" width="13" height="96" fill="#a86234"/>
+          <rect x="305" y="140" width="13" height="96" fill="#a86234"/>
+          <rect x="95" y="176" width="210" height="9" fill="#8a5227"/>
+        </svg></figure>
+        <div class="corps">
+          <h3>Table Lagune</h3>
+          <p>Plateau d'un seul tenant en iroko, piètement à traverse basse. De six à douze couverts.</p>
+          <p class="prix">à partir de 480 000 FCFA</p>
+        </div>
+      </article>
+
+      <article class="piece">
+        <figure><svg viewBox="0 0 400 300" role="img" aria-label="Dessin d'une bibliothèque murale">
+          <rect width="400" height="300" fill="#191512"/>
+          <rect x="96" y="44" width="208" height="212" fill="none" stroke="#c8763c" stroke-width="11"/>
+          <rect x="102" y="106" width="196" height="9" fill="#a86234"/>
+          <rect x="102" y="164" width="196" height="9" fill="#a86234"/>
+          <rect x="102" y="212" width="196" height="9" fill="#a86234"/>
+          <rect x="196" y="50" width="9" height="56" fill="#8a5227"/>
+        </svg></figure>
+        <div class="corps">
+          <h3>Bibliothèque Sika</h3>
+          <p>Montants traversants, étagères réglables au tenon. Se monte sans une seule vis apparente.</p>
+          <p class="prix">à partir de 320 000 FCFA</p>
+        </div>
+      </article>
+
+      <article class="piece">
+        <figure><svg viewBox="0 0 400 300" role="img" aria-label="Dessin d'un comptoir d'accueil">
+          <rect width="400" height="300" fill="#191512"/>
+          <path d="M70 236 L70 150 Q70 128 96 128 L304 128 Q330 128 330 150 L330 236 Z" fill="#c8763c"/>
+          <rect x="70" y="128" width="260" height="10" fill="#e0a06a"/>
+          <rect x="112" y="168" width="176" height="7" fill="#8a5227"/>
+          <rect x="112" y="192" width="176" height="7" fill="#8a5227"/>
+        </svg></figure>
+        <div class="corps">
+          <h3>Comptoir Vodjè</h3>
+          <p>Pour l'accueil d'un hôtel ou d'un cabinet. Plan de travail en teck huilé, façade lamellée.</p>
+          <p class="prix">à partir de 650 000 FCFA</p>
+        </div>
+      </article>
+
+      <article class="piece">
+        <figure><svg viewBox="0 0 400 300" role="img" aria-label="Dessin d'un lit à baldaquin bas">
+          <rect width="400" height="300" fill="#191512"/>
+          <rect x="58" y="188" width="284" height="20" fill="#c8763c"/>
+          <rect x="58" y="94" width="16" height="142" fill="#a86234"/>
+          <rect x="326" y="94" width="16" height="142" fill="#a86234"/>
+          <rect x="58" y="94" width="284" height="12" fill="#8a5227"/>
+          <rect x="88" y="208" width="224" height="8" fill="#8a5227"/>
+        </svg></figure>
+        <div class="corps">
+          <h3>Lit Ouidah</h3>
+          <p>Cadre bas à quatre montants, sommier à lattes intégré. Se démonte pour un déménagement.</p>
+          <p class="prix">à partir de 540 000 FCFA</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="atelier" style="background:var(--terre); border-top:1px solid var(--trait); border-bottom:1px solid var(--trait)">
+  <div class="wrap deux">
+    <div>
+      <p class="lab">L'atelier</p>
+      <h2 style="margin-top:14px">Onze ans au même endroit, et c'est le meilleur argument.</h2>
+      <p>
+        L'atelier a ouvert en 2014 dans deux pièces de Vodjè. Nous sommes
+        quatre aujourd'hui, dans le même quartier, avec les mêmes fournisseurs
+        de bois. Un meuble livré il y a huit ans se répare encore ici, avec la
+        même essence et la même teinte.
+      </p>
+      <p>
+        Nous ne travaillons que du bois de plantation, tracé du scieur à la
+        pièce finie. Ce n'est pas une posture : un client qui meuble un hôtel
+        doit pouvoir répondre à son propre auditeur.
+      </p>
+    </div>
+    <div>
+      <div class="chiffres" style="margin-top:0; border-top:0; padding-top:0">
+        <div><div class="v">2014</div><div class="l">ouverture de l'atelier</div></div>
+        <div><div class="v">100 %</div><div class="l">bois de plantation tracé</div></div>
+        <div><div class="v">6 sem.</div><div class="l">délai moyen d'une pièce</div></div>
+        <div><div class="v">03</div><div class="l">hôtels équipés</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="methode">
+  <div class="wrap deux">
+    <div>
+      <p class="lab">La méthode</p>
+      <h2 style="margin-top:14px">Vous savez ce qui se passe, et quand.</h2>
+      <p>
+        Le devis est ferme après la prise de mesures. Aucun supplément n'est
+        ajouté en cours de route : si nous nous sommes trompés dans le
+        chiffrage, c'est pour nous.
+      </p>
+    </div>
+    <div class="etapes">
+      <div class="etape"><span class="n">01</span><div><b>La visite</b><p>Nous venons mesurer et regarder la lumière. Une heure sur place, sans frais.</p></div></div>
+      <div class="etape"><span class="n">02</span><div><b>Le dessin</b><p>Un plan coté et une vue en perspective. Deux allers-retours sont compris.</p></div></div>
+      <div class="etape"><span class="n">03</span><div><b>L'atelier</b><p>Quatre à six semaines. Vous recevez deux photos par semaine, sans avoir à les demander.</p></div></div>
+      <div class="etape"><span class="n">04</span><div><b>La pose</b><p>Livraison et montage par l'atelier. La pièce n'est réglée qu'une fois montée.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="avis">
+  <div class="wrap">
+    <p class="lab">Ils ont commandé</p>
+    <blockquote style="margin-top:22px">
+      « Le comptoir est arrivé monté, à l'heure, et il n'a pas bougé d'un
+      millimètre depuis trois saisons de pluie. »
+    </blockquote>
+    <p class="qui">Direction d'un hôtel — Cotonou · propos reconstitués pour la démonstration</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <p class="lab">Contact</p>
+    <h2 style="font-size:clamp(1.9rem,4vw,2.9rem); margin-top:14px; max-width:18ch">Dites-nous la pièce, nous disons le prix.</h2>
+
+    <!-- Formulaire de démonstration : il n'envoie rien.
+         Un formulaire qui poste vers une adresse inventée perdrait les
+         messages sans le dire. Sur un site livré, il est branché sur la
+         boîte du client. -->
+    <form class="form" onsubmit="event.preventDefault(); document.getElementById('ack').hidden = false;">
+      <div><label for="nom">Votre nom</label><input id="nom" name="nom" required></div>
+      <div><label for="tel">Téléphone ou WhatsApp</label><input id="tel" name="tel" required></div>
+      <div class="plein"><label for="piece">La pièce et l'endroit</label>
+        <textarea id="piece" name="piece" rows="4" placeholder="Une table pour huit, salle à manger de 4 × 5 m, livraison avant décembre."></textarea></div>
+      <div class="plein">
+        <button class="bouton" type="submit">Envoyer la demande</button>
+        <p class="note" id="ack" hidden>
+          Démonstration : le message n'est pas envoyé. Sur un site livré, ce
+          formulaire arrive dans la boîte du client et sur son WhatsApp.
+        </p>
+      </div>
+    </form>
+    <p class="note">Atelier ouvert du lundi au samedi, 8 h – 18 h. Vodjè, Cotonou.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="ligne">
+      <div>
+        <div style="font-family:var(--serif); font-size:17px; color:var(--sable)">Atelier Sika</div>
+        <div style="margin-top:6px">Vodjè, Cotonou — Bénin · +229 01 00 00 00</div>
+      </div>
+      <div style="text-align:right">
+        <div>Entreprise fictive</div>
+        <div style="margin-top:6px">RCCM et IFU volontairement absents</div>
+      </div>
+    </div>
+    <div class="sig">
+      Site de démonstration produit par <a href="/">ADN NETWORK</a> — Cotonou.
+      Il illustre la prestation « Le Site complet » : la marque, les textes,
+      les chiffres et les avis présentés ici sont inventés.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
