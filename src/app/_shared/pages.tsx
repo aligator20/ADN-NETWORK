@@ -142,6 +142,25 @@ export function vedettesMetadata(lang: Lang): Metadata {
   };
 }
 
+/* ── La Boutique ─────────────────────────────────────────────────────────── */
+
+const BOUTIQUE_DESCRIPTION: Record<Lang, string> = {
+  fr:
+    "FullMesh Shop — dix-sept guides numériques pour trouver des clients, se " +
+    "lancer avec peu, faire travailler l'IA et apprendre un métier. Revente à 35 %.",
+  en:
+    "FullMesh Shop — seventeen digital guides on finding customers, starting " +
+    "small, putting AI to work and learning a trade. Reselling at 35 %.",
+};
+
+export function boutiqueMetadata(lang: Lang): Metadata {
+  return {
+    title: copy(lang).boutique.name,
+    description: BOUTIQUE_DESCRIPTION[lang],
+    alternates: alternatesFor(lang, "/boutique"),
+  };
+}
+
 /* ── Mentions légales ────────────────────────────────────────────────────── */
 
 export function legalMetadata(lang: Lang): Metadata {

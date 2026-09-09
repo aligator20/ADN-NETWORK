@@ -20,6 +20,7 @@
  * langues, et elles continuent de s'importer depuis leur module d'origine.
  */
 import {
+  boutiqueEn,
   communityEn,
   legalEn,
   vedettesEn,
@@ -39,6 +40,7 @@ import {
 } from "@/content/en";
 import { community as communityFr } from "@/content/community";
 import { legal as legalFr, type LegalCopy } from "@/content/legal";
+import { boutique as boutiqueFr, type BoutiqueCopy } from "@/content/boutique";
 import { vedettes as vedettesFr, type VedettesCopy } from "@/content/vedettes";
 import { vitrine as vitrineFr, type VitrineCopy } from "@/content/vitrine";
 import { projects as projectsFr, statusLabel as statusLabelFr } from "@/content/projects";
@@ -136,6 +138,7 @@ export type Copy = {
   legal: LegalCopy;
   vitrine: VitrineCopy;
   vedettes: VedettesCopy;
+  boutique: BoutiqueCopy;
   /** Sert aux titres de sections dépourvus de conteneur dédié. */
   labels: {
     openNoFee: string;
@@ -169,6 +172,7 @@ const FR: Copy = {
   legal: legalFr,
   vitrine: vitrineFr,
   vedettes: vedettesFr,
+  boutique: boutiqueFr,
   labels: {
     openNoFee: "Ouvert — sans frais d'entrée",
     threeRoles: "Trois rôles, une seule table",
@@ -202,6 +206,7 @@ const EN: Copy = {
   legal: legalEn,
   vitrine: vitrineEn,
   vedettes: vedettesEn,
+  boutique: boutiqueEn,
   labels: {
     openNoFee: "Open — no entry fee",
     threeRoles: "Three roles, one table",

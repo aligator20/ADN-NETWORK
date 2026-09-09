@@ -274,11 +274,16 @@ export const projects: readonly Project[] = [
   {
     slug: "full-mesh",
     title: "FullMesh Shop",
+    // La boutique est en ligne : la fiche affiche donc « Visiter le site ».
+    // Elle est aussi la SEULE autorité sur les prix — voir le commentaire de
+    // `figures` — ce qui est la seconde raison de poser ce lien ici plutôt que
+    // de recopier un catalogue qui bouge.
+    url: "https://fullmeshshop.mychariow.market",
     year: 2026,
     discipline: "digital",
     status: "livre",
     summary:
-      "Une boutique de produits numériques bâtie sur une règle : être vu avant d'être cru. Le catalogue grandit d'une édition à l'autre, et l'échelle de valeur avec lui.",
+      "Une boutique de produits numériques sans thème imposé : tout ce qui rend quelqu'un plus efficace avec un téléphone et une connexion peut entrer au catalogue. Une seule règle de forme — être vu avant d'être cru.",
     stack: [
       "Charte de marque",
       "Boutique en ligne",
@@ -304,14 +309,20 @@ export const projects: readonly Project[] = [
      */
     figures: [
       { value: "35 %", label: "de commission revendeur" },
-      { value: "14", label: "documents — édition 2" },
-      { value: "660", label: "pages au catalogue" },
+      // Relevé sur la boutique le 10 septembre 2026 : douze guides d'entrée,
+      // quatre titres de la gamme supérieure, un manuel d'atelier.
+      { value: "17", label: "titres au catalogue" },
+      { value: "03", label: "gammes de prix" },
       { value: "0 F", label: "pour devenir revendeur" },
     ],
     opportunity: [
       {
-        title: "Le catalogue, et il grandit",
-        body: "Douze guides pratiques en français, écrits pour l'Afrique francophone, montants en francs CFA. Chacun contient un démarrage rapide, dix-sept chapitres, un chapitre de dépannage et quatre annexes de modèles à copier. L'édition 2, parue en septembre 2026, y ajoute un guide de démarrage qui dit lequel ouvrir selon sa situation, et une offre d'accompagnement : quatorze documents, plus de six cent soixante pages. Le catalogue n'est pas un état final, c'est une édition.",
+        title: "Le catalogue, et sa règle d'entrée",
+        body: "Dix-sept titres, en trois gammes : douze guides d'entrée, quatre titres d'une gamme supérieure, et un manuel d'atelier. Aucun thème n'est imposé — mobile money, copywriting, WhatsApp, CV, prompts, résine époxy. La seule condition d'entrée est qu'un lecteur en ressorte plus efficace avec un téléphone et une connexion. C'est cette largeur qui fait le commerce : un catalogue mono-sujet plafonne au moment où son sujet s'épuise.",
+      },
+      {
+        title: "Le groupement, plutôt que la remise",
+        body: "Les douze guides d'entrée existent séparément et en un seul pack, moins cher que leur somme. Ce n'est pas une promotion : c'est la structure du catalogue. Un acheteur qui hésite prend un titre pour mille francs ; celui qui s'y met prend le pack. La marche se monte sans qu'on ait à inventer une date limite.",
       },
       {
         title: "L'échelle de valeur",

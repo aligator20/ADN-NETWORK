@@ -44,20 +44,35 @@ export const sequencesEn = [
  * les pages à part entière et laisse les ancres tranquilles. Ajouter une entrée
  * au menu français la propage ici sans rien écrire.
  */
-const LABELS_EN = [
-  "Index",
-  "Manifesto",
-  "Disciplines",
-  "Work",
-  "Structure",
-  "The Network",
-  "The Showcase",
-  "Contact",
-];
+/**
+ * Les libellés sont indexés PAR LE LIBELLÉ FRANÇAIS, pas par position.
+ *
+ * C'était un tableau positionnel, et le commentaire ci-dessus promettait
+ * qu'ajouter une entrée au menu français « la propage ici sans rien écrire ».
+ * C'était faux : insérer « La Boutique » en septième place décalait tout ce
+ * qui suivait, si bien que la Boutique s'annonçait « The Showcase » et que
+ * Contact s'affichait en français. Exactement la faute qui avait mis
+ * « [007] La Vitrine » au-dessus du formulaire de contact.
+ *
+ * Une clé nommée résiste à l'insertion comme au réordonnancement. Et une
+ * traduction manquante retombe sur le français — visible, donc corrigée,
+ * au lieu d'un libellé voisin qui a l'air juste.
+ */
+const LABELS_EN: Record<string, string> = {
+  Index: "Index",
+  Manifeste: "Manifesto",
+  Disciplines: "Disciplines",
+  Réalisations: "Work",
+  Structure: "Structure",
+  "Le Réseau": "The Network",
+  "La Vitrine": "The Showcase",
+  "La Boutique": "The Shop",
+  Contact: "Contact",
+};
 
-export const navEn: readonly NavItem[] = navFr.map((item, i) => ({
+export const navEn: readonly NavItem[] = navFr.map((item) => ({
   ...item,
-  label: LABELS_EN[i] ?? item.label,
+  label: LABELS_EN[item.label] ?? item.label,
   href: pathForLang(item.href, "en"),
 }));
 

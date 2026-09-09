@@ -128,6 +128,7 @@ export const nav: readonly NavItem[] = [
   { label: "Structure", href: "/", anchor: "about" },
   { label: "Le Réseau", href: "/reseau" },
   { label: "La Vitrine", href: "/vitrine" },
+  { label: "La Boutique", href: "/boutique" },
   { label: "Contact", href: "/", anchor: "contact" },
 ];
 

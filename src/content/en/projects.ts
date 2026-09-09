@@ -151,18 +151,22 @@ const EN: Record<ProjectSlug, Traduction> = {
   /* ───────────────────────────────────────────────── FULLMESH SHOP ── */
   "full-mesh": {
     summary:
-      "A digital-products shop built on one rule: be seen before you are believed. The catalogue grows from one edition to the next, and the value ladder with it.",
+      "A digital-products shop with no fixed subject: anything that makes someone more effective with a phone and a connection can enter the catalogue. One rule of form only — be seen before you are believed.",
     stack: ["Brand guidelines", "Online shop", "Reseller network", "Coaching"],
     figures: [
       { value: "35 %", label: "reseller commission" },
-      { value: "14", label: "documents — edition 2" },
-      { value: "660", label: "pages in the catalogue" },
+      { value: "17", label: "titles in the catalogue" },
+      { value: "03", label: "price tiers" },
       { value: "0 F", label: "to become a reseller" },
     ],
     opportunity: [
       {
-        title: "The catalogue, and it grows",
-        body: "Twelve practical guides in French, written for francophone Africa, with amounts in CFA francs. Each holds a quick start, seventeen chapters, a troubleshooting chapter and four appendices of templates to copy. Edition 2, published in September 2026, adds a starter guide telling you which one to open for your situation, and a coaching offer: fourteen documents, more than six hundred and sixty pages. The catalogue is not a final state, it is an edition.",
+        title: "The catalogue, and its entry rule",
+        body: "Seventeen titles across three tiers: twelve entry guides, four titles in a higher tier, and one workshop manual. No subject is imposed — mobile money, copywriting, WhatsApp, CVs, prompts, epoxy resin. The only condition for entry is that a reader comes out more effective with a phone and a connection. That breadth is what makes the business: a single-subject catalogue hits its ceiling the moment its subject runs dry.",
+      },
+      {
+        title: "Bundling, rather than discounting",
+        body: "The twelve entry guides exist separately and as one bundle, cheaper than their sum. This is not a promotion, it is the shape of the catalogue. A hesitant buyer takes one title for a thousand francs; someone who commits takes the bundle. The step upward builds itself, with no invented deadline.",
       },
       {
         title: "The value ladder",

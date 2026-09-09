@@ -1,4 +1,5 @@
 /** Point d'entrée unique de la version anglaise. Voir `content/copy.ts`. */
+export { boutiqueEn } from "@/content/en/boutique";
 export { communityEn } from "@/content/en/community";
 export { legalEn } from "@/content/en/legal";
 export { vedettesEn } from "@/content/en/vedettes";
