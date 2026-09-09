@@ -45,6 +45,7 @@ export const vedettesEn: VedettesCopy = {
       contenu:
         "Service catalogue, prompt library, production line for visuals and copy, pricing grid, and the kit you sell with. We built ours first.",
       preuve: { ...fr.items[1].preuve!, texte: "FullMesh Shop, our own offering" },
+      demo: { ...fr.items[1].demo!, texte: "Open the launch dossier" },
     },
     {
       ...fr.items[2],

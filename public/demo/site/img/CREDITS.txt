@@ -1,0 +1,43 @@
+CRÉDITS PHOTOGRAPHIQUES — site de démonstration « Atelier Sika »
+
+Ces quatre photographies sont sous licence CC0 ou marque du domaine public :
+elles n'imposent ni crédit visible, ni partage à l'identique. Ce fichier
+existe quand même, parce qu'une provenance qu'on ne peut plus retrouver est
+une provenance qu'on ne peut plus défendre.
+
+Aucune ne montre de visage identifiable. Le CC0 ne couvre que le droit
+d'auteur : le droit à l'image et les marques visibles n'en font pas partie,
+et une photo de personne posée sur le site d'une entreprise inventée
+suggérerait un lien qui n'existe pas.
+
+Les quatre meubles du catalogue ne sont PAS des photographies. Les fonds
+libres n'offrent pas de mobilier contemporain, et présenter un meuble de
+musée comme une pièce de l'atelier aurait été un mensonge de plus.
+
+— outils.webp
+   « Carpenter toolkit displayed showing tools »
+   auteur   : non crédité
+   licence  : CC0
+   source   : rawpixel
+   page     : https://www.rawpixel.com/image/3237401/free-photo-image-hammer-wood-creative-commons
+
+— atelier.webp
+   « Carpenter Workshop »
+   auteur   : James Frid
+   licence  : CC0
+   source   : stocksnap
+   page     : https://stocksnap.io/photo/carpenter-workshop-YPM6VH3FCW
+
+— rabot.webp
+   « Carpenter Working »
+   auteur   : Burst
+   licence  : CC0
+   source   : stocksnap
+   page     : https://stocksnap.io/photo/carpenter-working-ZMQNOXQMZO
+
+— tiroir.webp
+   « Close wooden drawer »
+   auteur   : non crédité
+   licence  : CC0
+   source   : rawpixel
+   page     : https://www.rawpixel.com/image/6035985/photo-image-public-domain-wooden-free

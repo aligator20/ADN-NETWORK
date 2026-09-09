@@ -122,6 +122,7 @@ export const vedettes: VedettesCopy = {
       contenu:
         "Catalogue de prestations, bibliothèque de prompts, chaîne de production des visuels et des textes, grille de prix, et le kit qui vous sert à vendre. Nous l'avons monté pour nous d'abord.",
       preuve: { slug: "full-mesh", texte: "FullMesh Shop, notre propre offre" },
+      demo: { href: "/demo/agence-ia/", texte: "Ouvrir le dossier de lancement" },
     },
     {
       id: "automation",

@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Studio Oria — dossier de lancement · démonstration ADN NETWORK</title>
+<!--
+  L'AGENCE IA — DÉMONSTRATION
+
+  Illustre la prestation « L'Agence IA » : monter, pour quelqu'un d'autre, une
+  offre de services assistés par IA qu'il puisse vendre dès la semaine
+  suivante.
+
+  CE QU'UN CLIENT REÇOIT, ET QUI EST MONTRÉ ICI :
+  un positionnement écrit, un catalogue chiffré, une bibliothèque de prompts
+  qui se manipule, une chaîne de production hebdomadaire, et un calcul de
+  rentabilité où il pose SES chiffres.
+
+  STUDIO ORIA EST UNE AGENCE INVENTÉE. Le nom, les tarifs et les volumes sont
+  fabriqués pour l'exemple. Le bandeau le dit et ne se ferme pas.
+
+  LES PROMPTS, EUX, SONT RÉELS. C'est le seul endroit du fichier où inventer
+  n'aurait aucun sens : une bibliothèque de prompts factices ne démontrerait
+  rien, et celui qui la lit doit pouvoir en copier un et s'en servir tout de
+  suite. Ils sont écrits pour le marché ouest-africain — prix en francs CFA,
+  WhatsApp comme canal principal, français d'usage courant.
+
+  Aucune dépendance : la CSP du site interdit tout tiers, et rien ici n'appelle
+  le réseau. Aucune clé d'API n'est demandée, aucun texte saisi ne quitte le
+  navigateur.
+-->
+<style>
+  :root{
+    --void:#050506; --carbon:#0a0a0c; --graphite:#121215; --ash:#1c1c20;
+    --steel:#2a2a30; --fog:#7d7d86; --bone:#ececee;
+    --signal:#c6f24e; --ia:#a855f7; --ia-clair:#c9a2fb; --or:#f2b705;
+    --mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Consolas, monospace;
+    --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--void); color:var(--bone); font-family:var(--mono); font-size:13.5px; line-height:1.65}
+  h1,h2,h3{font-family:var(--sans); font-weight:700; letter-spacing:-.025em; margin:0; line-height:1.06}
+  .lab{font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--fog)}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 26px}
+  section{padding:64px 0; border-top:1px solid var(--steel)}
+  button{font:inherit; cursor:pointer}
+  select,input,textarea{font:inherit; background:var(--graphite); color:var(--bone); border:1px solid var(--steel); padding:9px 11px; width:100%}
+  select:focus,input:focus,textarea:focus{outline:1px solid var(--ia); border-color:transparent}
+  .num{font-variant-numeric:tabular-nums}
+
+  .demo{background:var(--ia); color:#12061f; padding:8px 18px; font-size:10px; letter-spacing:.2em; text-transform:uppercase; text-align:center}
+  .demo b{font-weight:700}
+
+  header.top{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 26px; border-bottom:1px solid var(--steel); flex-wrap:wrap}
+  .marque{display:flex; align-items:baseline; gap:13px}
+  .marque .n{font-family:var(--sans); font-weight:700; font-size:16px; letter-spacing:.05em}
+  .marque .n i{color:var(--ia); font-style:normal}
+  .marque .s{color:var(--steel)}
+
+  .ouverture{padding:70px 0 58px}
+  .ouverture h1{font-size:clamp(2.1rem,5.4vw,4rem); max-width:17ch; margin-top:16px}
+  .ouverture p.intro{max-width:56ch; margin-top:22px; color:#b9b9c2; font-size:14.5px}
+
+  .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr)); gap:1px; background:var(--steel); border:1px solid var(--steel); margin-top:40px}
+  .kpi{background:var(--void); padding:16px 18px}
+  .kpi .v{font-family:var(--sans); font-size:25px; font-weight:700; letter-spacing:-.03em; margin-top:6px}
+
+  table{width:100%; border-collapse:collapse; margin-top:18px}
+  th{text-align:left; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--fog); font-weight:400; padding:10px 12px; border-bottom:1px solid var(--steel)}
+  td{padding:12px; border-bottom:1px solid var(--ash); vertical-align:top}
+  td.r,th.r{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+  tr:hover td{background:var(--carbon)}
+
+  .deux{display:grid; grid-template-columns:300px 1fr; gap:26px; margin-top:26px}
+  @media (max-width:900px){ .deux{grid-template-columns:1fr} }
+
+  .liste button{
+    display:block; width:100%; text-align:left; background:none; border:0;
+    border-left:2px solid transparent; color:var(--fog);
+    padding:11px 14px; font-size:12.5px; border-bottom:1px solid var(--ash);
+  }
+  .liste button:hover{color:var(--bone)}
+  .liste button[aria-current="true"]{color:var(--bone); border-left-color:var(--ia); background:var(--graphite)}
+  .liste button small{display:block; color:var(--steel); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; margin-top:3px}
+
+  .panneau{border:1px solid var(--steel); padding:20px 22px}
+  .panneau h3{font-size:17px}
+  .champ{margin-top:14px}
+  .champ label{display:block; margin-bottom:6px}
+
+  .sortie{
+    background:var(--carbon); border:1px solid var(--steel); padding:16px 18px;
+    white-space:pre-wrap; word-break:break-word; font-size:12.5px; line-height:1.75;
+    max-height:340px; overflow:auto; margin-top:14px; color:#d6d6dc;
+  }
+  .sortie mark{background:rgba(168,85,247,.22); color:var(--ia-clair); padding:0 2px}
+
+  .btn{background:var(--signal); color:var(--void); border:0; padding:10px 18px; font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:700}
+  .btn.sec{background:transparent; color:var(--bone); border:1px solid var(--steel); font-weight:400}
+  .btn.sec:hover{border-color:var(--fog)}
+  .barre{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px}
+  .ok{color:var(--signal); font-size:11px; letter-spacing:.14em; text-transform:uppercase}
+
+  .etapes{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1px; background:var(--steel); border:1px solid var(--steel); margin-top:22px}
+  .etape{background:var(--void); padding:18px}
+  .etape .j{color:var(--ia); font-size:11px; letter-spacing:.18em; text-transform:uppercase}
+  .etape b{display:block; font-family:var(--sans); font-size:15px; margin-top:8px; letter-spacing:-.01em}
+  .etape p{margin:7px 0 0; color:var(--fog); font-size:12.5px}
+
+  .avert{border-left:2px solid var(--or); padding:12px 16px; background:var(--carbon); margin-top:20px; font-size:12.5px; color:#cfc6ae}
+  .avert b{color:var(--or); font-weight:400}
+
+  footer{border-top:1px solid var(--steel); padding:34px 0 44px; color:var(--fog); font-size:12px}
+  footer a{color:var(--ia-clair)}
+</style>
+</head>
+<body>
+
+<div class="demo">
+  <b>Démonstration</b> — Studio Oria est une agence inventée ·
+  produit par ADN NETWORK pour illustrer « L'Agence IA » ·
+  les prompts, eux, sont réels et utilisables
+</div>
+
+<header class="top">
+  <div class="marque">
+    <span class="n">ADN<i>°</i>NETWORK</span>
+    <span class="s">/</span>
+    <span class="lab">Studio Oria — dossier de lancement</span>
+  </div>
+  <span class="lab">Remis en main propre · édition 01</span>
+</header>
+
+<div class="wrap ouverture">
+  <p class="lab">Ce que vous vendez à partir de lundi</p>
+  <h1>Une offre montée, chiffrée, et outillée pour être vendue.</h1>
+  <p class="intro">
+    Studio Oria produit du contenu assisté par IA pour des commerces et des
+    artisans de Cotonou. Ce dossier contient tout ce qu'il faut pour ouvrir :
+    ce que vous vendez, à quel prix, avec quels prompts, selon quel rythme de
+    production, et à partir de quel volume vous gagnez votre vie.
+  </p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Prestations au catalogue</div><div class="v">06</div></div>
+    <div class="kpi"><div class="lab">Prompts fournis</div><div class="v" id="kpiPrompts">—</div></div>
+    <div class="kpi"><div class="lab">Rythme de production</div><div class="v">Hebdo</div></div>
+    <div class="kpi"><div class="lab">Outillage à payer</div><div class="v" style="color:var(--signal)">0 F</div></div>
+  </div>
+</div>
+
+<!-- ─────────────────────────── LE CATALOGUE ─────────────────────────── -->
+<section id="catalogue">
+  <div class="wrap">
+    <p class="lab">01 — Le catalogue</p>
+    <h2 style="font-size:clamp(1.6rem,3.4vw,2.5rem); margin-top:12px">Six prestations, et le temps que chacune coûte</h2>
+    <p style="max-width:62ch; margin-top:14px; color:var(--fog)">
+      La colonne « heures » n'est pas décorative : c'est elle qui dit si un
+      prix tient. Une prestation vendue sans savoir combien d'heures elle
+      prend se vend une fois, puis devient une corvée qu'on repousse.
+    </p>
+    <table id="tCatalogue"></table>
+  </div>
+</section>
+
+<!-- ──────────────────── LA BIBLIOTHÈQUE DE PROMPTS ──────────────────── -->
+<section id="prompts">
+  <div class="wrap">
+    <p class="lab">02 — La bibliothèque</p>
+    <h2 style="font-size:clamp(1.6rem,3.4vw,2.5rem); margin-top:12px">Les prompts, remplis avec vos informations</h2>
+    <p style="max-width:62ch; margin-top:14px; color:var(--fog)">
+      Choisissez une prestation, remplissez les champs, copiez. Rien ne part
+      sur le réseau : le texte se compose dans votre navigateur.
+    </p>
+
+    <div class="deux">
+      <div class="liste" id="listePrompts"></div>
+      <div class="panneau">
+        <h3 id="pTitre"></h3>
+        <p class="lab" id="pQuoi" style="margin-top:8px"></p>
+        <div id="pChamps"></div>
+        <div class="sortie" id="pSortie"></div>
+        <div class="barre">
+          <button class="btn" id="btnCopier">Copier le prompt</button>
+          <button class="btn sec" id="btnVider">Vider les champs</button>
+          <span class="ok" id="pOk" hidden>Copié</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="avert">
+      <b>Ce que le dossier dit aussi.</b> Un texte sorti d'un modèle se relit
+      avant d'être livré : les chiffres, les noms propres et les prix sont
+      vérifiés à la main. Une agence qui livre sans relire perd son premier
+      client sur sa première faute, et n'a pas de deuxième chance dans une
+      ville où tout le monde se connaît.
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────── LA CHAÎNE DE PRODUCTION ───────────────────── -->
+<section id="chaine">
+  <div class="wrap">
+    <p class="lab">03 — La chaîne</p>
+    <h2 style="font-size:clamp(1.6rem,3.4vw,2.5rem); margin-top:12px">Une semaine type, tenable sur douze mois</h2>
+    <div class="etapes">
+      <div class="etape"><span class="j">Lundi</span><b>La collecte</b><p>Trente minutes par client au téléphone. Photos, nouveautés, promotions de la semaine. Rien ne se produit sans matière fraîche.</p></div>
+      <div class="etape"><span class="j">Mardi — mercredi</span><b>La production</b><p>Les visuels et les textes, prompts en main. C'est le seul moment où l'on est devant l'écran, et il est protégé.</p></div>
+      <div class="etape"><span class="j">Jeudi</span><b>La relecture</b><p>Chiffres, noms, prix, orthographe. Un lot part au client pour validation en une seule fois, pas au fil de l'eau.</p></div>
+      <div class="etape"><span class="j">Vendredi</span><b>La livraison</b><p>Fichiers remis et calendrier de publication. Le client publie depuis ses propres comptes : on ne détient jamais ses accès.</p></div>
+    </div>
+    <div class="avert">
+      <b>Pourquoi on ne détient pas les accès du client.</b> Tenir les mots de
+      passe d'un commerce, c'est hériter de sa sécurité et de ses litiges. On
+      livre des fichiers et un calendrier ; il publie. Le jour où il part, il
+      n'a rien à récupérer — et c'est justement pour ça qu'il reste.
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── LA RENTABILITÉ ─────────────────────────── -->
+<section id="rentabilite">
+  <div class="wrap">
+    <p class="lab">04 — La rentabilité</p>
+    <h2 style="font-size:clamp(1.6rem,3.4vw,2.5rem); margin-top:12px">À partir de combien de clients ça tient</h2>
+    <p style="max-width:62ch; margin-top:14px; color:var(--fog)">
+      Posez vos propres chiffres. Le calcul est volontairement brutal : il
+      compte les heures réellement disponibles, pas les heures rêvées.
+    </p>
+
+    <div class="deux" style="grid-template-columns:1fr 1fr">
+      <div class="panneau">
+        <div class="champ"><label class="lab" for="rClients">Clients en portefeuille</label><input type="number" id="rClients" value="6" min="0" max="60"></div>
+        <div class="champ"><label class="lab" for="rPanier">Panier mensuel moyen (FCFA)</label><input type="number" id="rPanier" value="45000" min="0" step="5000"></div>
+        <div class="champ"><label class="lab" for="rHeures">Heures par client et par mois</label><input type="number" id="rHeures" value="7" min="1" max="60"></div>
+        <div class="champ"><label class="lab" for="rDispo">Vos heures disponibles par mois</label><input type="number" id="rDispo" value="90" min="1" max="300"></div>
+        <div class="champ"><label class="lab" for="rCharges">Charges mensuelles (FCFA)</label><input type="number" id="rCharges" value="35000" min="0" step="5000"></div>
+      </div>
+      <div>
+        <div class="kpis" style="margin-top:0; grid-template-columns:1fr 1fr">
+          <div class="kpi"><div class="lab">Revenu mensuel</div><div class="v num" id="rRevenu">—</div></div>
+          <div class="kpi"><div class="lab">Résultat après charges</div><div class="v num" id="rResultat">—</div></div>
+          <div class="kpi"><div class="lab">Heures consommées</div><div class="v num" id="rCharge">—</div></div>
+          <div class="kpi"><div class="lab">Revenu horaire réel</div><div class="v num" id="rHoraire">—</div></div>
+        </div>
+        <div id="rVerdict"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Dossier de démonstration produit par <a href="/">ADN NETWORK</a> — Cotonou.
+    Il illustre la prestation « L'Agence IA ». Studio Oria, ses tarifs et ses
+    volumes sont inventés ; les prompts sont réels et libres d'usage.
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+/* ── 1. Le catalogue ──────────────────────────────────────────────────────
+   `heures` est la donnée qui protège celui qui vend : elle rend le prix
+   vérifiable au lieu d'être un chiffre lancé au client. */
+const CATALOGUE = [
+  { nom:"Pack publication — 12 visuels", prix:45000, heures:7,  pour:"Commerce qui publie sans régularité" },
+  { nom:"Vidéo verticale — l'unité",     prix:15000, heures:2,  pour:"Statuts WhatsApp, TikTok, Reels" },
+  { nom:"Fiches produit — les 20",       prix:60000, heures:9,  pour:"Boutique en ligne ou catalogue WhatsApp" },
+  { nom:"Plan éditorial du mois",        prix:25000, heures:3,  pour:"Celui qui veut savoir quoi publier" },
+  { nom:"Refonte de page — profil pro",  prix:35000, heures:5,  pour:"Profil qui ne convertit pas" },
+  { nom:"Atelier — prendre la main",     prix:50000, heures:6,  pour:"Client qui veut produire lui-même ensuite" },
+];
+
+const fcfa = (n) => Math.round(n).toLocaleString("fr").replace(/ /g, " ") + " F";
+
+document.getElementById("tCatalogue").innerHTML =
+  "<tr><th>Prestation</th><th>Pour qui</th><th class='r'>Heures</th><th class='r'>Prix</th><th class='r'>Par heure</th></tr>" +
+  CATALOGUE.map((c) =>
+    "<tr><td>" + c.nom + "</td><td style='color:var(--fog)'>" + c.pour +
+    "</td><td class='r' style='color:var(--fog)'>" + c.heures +
+    " h</td><td class='r'>" + fcfa(c.prix) +
+    "</td><td class='r' style='color:var(--signal)'>" + fcfa(c.prix / c.heures) + "</td></tr>").join("");
+
+/* ── 2. La bibliothèque de prompts ────────────────────────────────────────
+   Écrits pour le marché : francs CFA, WhatsApp comme canal, français
+   d'usage courant. Chaque prompt impose au modèle une CONTRAINTE VÉRIFIABLE
+   — un nombre de mots, un interdit, un format — parce qu'un prompt qui
+   demande « du contenu engageant » rend du remplissage. */
+const PROMPTS = [
+  {
+    id: "visuels",
+    titre: "Douze légendes de publication",
+    quoi: "Pack publication — 12 visuels",
+    champs: [
+      ["commerce", "Le commerce", "Quincaillerie Le Compas, Vodjè"],
+      ["produits", "Ce qu'il vend", "ciment, fer à béton, tôle, peinture"],
+      ["client", "Son client type", "chefs de chantier et particuliers qui construisent"],
+      ["ton", "Le ton", "direct, sans superlatifs"],
+    ],
+    modele: (v) =>
+`Tu écris pour {{commerce}}, qui vend : {{produits}}.
+Client visé : {{client}}.
+
+Produis 12 légendes de publication, numérotées.
+
+Contraintes, à respecter toutes :
+— 25 mots maximum chacune, une seule idée par légende ;
+— ton {{ton}}. Aucun superlatif ("incroyable", "exceptionnel", "leader") ;
+— aucune promesse chiffrée que le commerce n'a pas donnée ;
+— aucune émoji en début de ligne, trois maximum au total sur les 12 ;
+— chaque légende se termine par une action concrète et locale
+  (passer en boutique, écrire sur WhatsApp, demander un prix) ;
+— varie les angles : 4 sur un produit précis, 4 sur un usage ou un
+  conseil de chantier, 4 sur l'atelier lui-même (horaires, stock, équipe).
+
+Après la liste, ajoute une ligne « À VÉRIFIER » énumérant tout élément
+que tu as supposé et que le commerce doit confirmer avant publication.`,
+  },
+  {
+    id: "video",
+    titre: "Script de vidéo verticale",
+    quoi: "Vidéo verticale — l'unité",
+    champs: [
+      ["sujet", "Le sujet", "l'arrivage de tôles bac alu"],
+      ["duree", "Durée visée (secondes)", "35"],
+      ["commerce", "Le commerce", "Quincaillerie Le Compas"],
+    ],
+    modele: (v) =>
+`Écris un script de vidéo verticale de {{duree}} secondes pour {{commerce}},
+sur le sujet : {{sujet}}.
+
+Rends un tableau à trois colonnes : SECONDES | IMAGE | VOIX.
+
+Contraintes :
+— la première seconde montre le produit, pas un logo ni un titre ;
+— la voix fait moins de 2,2 mots par seconde — au-delà c'est illisible
+  en sous-titres ;
+— une seule information par plan ;
+— aucune musique décrite : elle se choisit au montage ;
+— le dernier plan porte une action unique et une seule (le numéro
+  WhatsApp OU l'adresse, jamais les deux) ;
+— prévois que la vidéo sera regardée SANS LE SON : tout ce qui compte
+  doit être lisible à l'image.
+
+Ajoute en dessous les sous-titres au format SRT.`,
+  },
+  {
+    id: "fiches",
+    titre: "Fiches produit en série",
+    quoi: "Fiches produit — les 20",
+    champs: [
+      ["liste", "Vos produits (un par ligne)", "Ciment CPJ 35 — sac 50 kg — 4700 F\nFer à béton 12 mm — barre 12 m — 6400 F"],
+      ["canal", "Où seront-elles lues", "catalogue WhatsApp"],
+    ],
+    modele: (v) =>
+`Rédige une fiche pour chacun des produits ci-dessous, destinée à
+{{canal}}.
+
+Produits :
+{{liste}}
+
+Format de chaque fiche, dans cet ordre exact :
+1. Le nom, tel quel, sans le réécrire ;
+2. Une phrase de 15 mots maximum disant à quoi il sert sur un chantier ;
+3. Trois caractéristiques factuelles en tirets — dimension, poids,
+   rendement, conditionnement ;
+4. Le prix, tel quel, sans arrondi ni mention "à partir de" ;
+5. Une ligne « Souvent acheté avec » citant un autre produit de la liste.
+
+Interdits :
+— inventer une caractéristique absente de la ligne fournie. Si une
+  donnée manque, écris "à confirmer" ;
+— comparer à une marque concurrente ;
+— employer "qualité supérieure", "meilleur rapport", "professionnel"
+  comme argument.`,
+  },
+  {
+    id: "plan",
+    titre: "Plan éditorial du mois",
+    quoi: "Plan éditorial du mois",
+    champs: [
+      ["activite", "L'activité", "quincaillerie et matériaux"],
+      ["mois", "Le mois", "octobre"],
+      ["evenement", "Un événement local à prendre en compte", "reprise des chantiers après la saison des pluies"],
+    ],
+    modele: (v) =>
+`Construis un plan éditorial d'un mois pour une {{activite}} à Cotonou,
+pour le mois de {{mois}}. Prends en compte : {{evenement}}.
+
+Rends un tableau : DATE | FORMAT | SUJET | OBJECTIF.
+
+Contraintes :
+— 12 publications, pas davantage : un rythme qu'on ne tient pas est
+  pire que pas de rythme du tout ;
+— au moins 4 sujets utiles qui ne vendent rien directement (conseil de
+  chantier, erreur fréquente, comment calculer une quantité) ;
+— pas plus de 2 publications promotionnelles ;
+— répartis les formats : photo simple, carrousel, vidéo verticale,
+  message texte long ;
+— la colonne OBJECTIF ne contient qu'un mot parmi : NOTORIÉTÉ,
+  CONSIDÉRATION, VENTE, FIDÉLITÉ.
+
+Termine par les 3 sujets que tu as écartés et pourquoi.`,
+  },
+  {
+    id: "whatsapp",
+    titre: "Réponses WhatsApp types",
+    quoi: "Refonte de page — profil pro",
+    champs: [
+      ["commerce", "Le commerce", "Quincaillerie Le Compas"],
+      ["questions", "Les questions qui reviennent", "prix, disponibilité, livraison, horaires"],
+    ],
+    modele: (v) =>
+`Écris les réponses types de {{commerce}} aux questions reçues sur
+WhatsApp. Questions concernées : {{questions}}.
+
+Pour chacune, produis deux versions :
+A — la réponse quand l'information est connue ;
+B — la réponse quand elle ne l'est pas encore.
+
+Contraintes :
+— 40 mots maximum ;
+— tutoiement interdit, vouvoiement systématique ;
+— aucune formule d'attente vide ("nous revenons vers vous") sans un
+  délai chiffré à côté ;
+— la version B annonce QUAND la réponse arrivera, jamais "bientôt" ;
+— pas de majuscules en continu, pas plus d'un point d'exclamation.
+
+Ajoute une phrase d'accueil unique, réutilisable, de moins de 20 mots.`,
+  },
+  {
+    id: "atelier",
+    titre: "Trame d'atelier client",
+    quoi: "Atelier — prendre la main",
+    champs: [
+      ["duree", "Durée (heures)", "3"],
+      ["niveau", "Niveau des participants", "aucun, ils utilisent WhatsApp et rien d'autre"],
+    ],
+    modele: (v) =>
+`Construis la trame d'un atelier de {{duree}} heures apprenant à un
+commerçant à produire lui-même ses publications avec l'IA.
+Niveau des participants : {{niveau}}.
+
+Rends un déroulé minuté.
+
+Contraintes :
+— le participant produit sa PREMIÈRE publication dans les 45 premières
+  minutes. Une théorie qui précède la pratique perd la salle ;
+— aucun terme technique sans qu'il soit défini à l'oral la première
+  fois qu'il apparaît ;
+— tout se fait depuis un téléphone : aucune étape ne suppose un
+  ordinateur ;
+— prévois deux moments d'échec volontaire (un prompt trop vague, un
+  résultat faux à corriger) : c'est là qu'on apprend à relire ;
+— termine par une fiche d'une page que le participant emporte.
+
+Liste séparément le matériel nécessaire et ce qui se passe si la
+connexion tombe pendant la séance.`,
+  },
+];
+
+document.getElementById("kpiPrompts").textContent = String(PROMPTS.length).padStart(2, "0");
+
+let courant = PROMPTS[0];
+const valeurs = {};
+
+document.getElementById("listePrompts").innerHTML = PROMPTS.map((p) =>
+  '<button data-p="' + p.id + '" aria-current="' + (p.id === courant.id) + '">' +
+  p.titre + "<small>" + p.quoi + "</small></button>").join("");
+
+function remplir(modele, v) {
+  return modele.replace(/\{\{(\w+)\}\}/g, (_, k) => v[k] || "");
+}
+
+function rendrePrompt() {
+  document.getElementById("pTitre").textContent = courant.titre;
+  document.getElementById("pQuoi").textContent = courant.quoi;
+
+  const c = valeurs[courant.id] || (valeurs[courant.id] = {});
+  document.getElementById("pChamps").innerHTML = courant.champs.map(([k, l, ex]) => {
+    const multi = ex.includes("\n");
+    const val = (c[k] !== undefined ? c[k] : ex).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+    return '<div class="champ"><label class="lab" for="f-' + k + '">' + l + "</label>" +
+      (multi
+        ? '<textarea id="f-' + k + '" data-k="' + k + '" rows="3">' + val + "</textarea>"
+        : '<input id="f-' + k + '" data-k="' + k + '" value="' + val + '">') + "</div>";
+  }).join("");
+
+  courant.champs.forEach(([k, , ex]) => { if (c[k] === undefined) c[k] = ex; });
+  majSortie();
+}
+
+function majSortie() {
+  const c = valeurs[courant.id];
+  const texte = remplir(courant.modele(c), c);
+  // Les valeurs saisies sont surlignées : on voit du premier coup d'œil ce
+  // qui vient du client et ce qui vient du modèle de prompt.
+  const ech = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  let html = ech(texte);
+  Object.values(c).filter((v) => v && String(v).trim().length > 2).forEach((v) => {
+    String(v).split("\n").forEach((morceau) => {
+      const m = ech(morceau.trim());
+      if (m.length < 3) return;
+      html = html.split(m).join("<mark>" + m + "</mark>");
+    });
+  });
+  document.getElementById("pSortie").innerHTML = html;
+  document.getElementById("pSortie").dataset.brut = texte;
+}
+
+document.getElementById("listePrompts").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-p]");
+  if (!b) return;
+  courant = PROMPTS.find((p) => p.id === b.dataset.p);
+  document.querySelectorAll("#listePrompts button").forEach((x) =>
+    x.setAttribute("aria-current", String(x.dataset.p === courant.id)));
+  rendrePrompt();
+});
+
+document.getElementById("pChamps").addEventListener("input", (e) => {
+  const k = e.target.dataset.k;
+  if (!k) return;
+  valeurs[courant.id][k] = e.target.value;
+  majSortie();
+});
+
+document.getElementById("btnCopier").addEventListener("click", async () => {
+  const t = document.getElementById("pSortie").dataset.brut || "";
+  try {
+    await navigator.clipboard.writeText(t);
+  } catch (e) {
+    // Presse-papiers refusé (contexte non sécurisé, permission) : on
+    // sélectionne le texte pour que la copie manuelle reste possible.
+    const r = document.createRange();
+    r.selectNodeContents(document.getElementById("pSortie"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  const ok = document.getElementById("pOk");
+  ok.hidden = false;
+  setTimeout(() => { ok.hidden = true; }, 1800);
+});
+
+document.getElementById("btnVider").addEventListener("click", () => {
+  valeurs[courant.id] = {};
+  courant.champs.forEach(([k]) => { valeurs[courant.id][k] = ""; });
+  rendrePrompt();
+});
+
+rendrePrompt();
+
+/* ── 3. La rentabilité ────────────────────────────────────────────────────
+   Le calcul dit aussi quand ça NE tient PAS. Un simulateur qui ne sait
+   afficher que des résultats favorables ne sert qu'à faire signer. */
+const champsR = ["rClients", "rPanier", "rHeures", "rDispo", "rCharges"];
+
+function calculer() {
+  const v = {};
+  champsR.forEach((id) => { v[id] = Math.max(0, parseFloat(document.getElementById(id).value) || 0); });
+
+  const revenu = v.rClients * v.rPanier;
+  const resultat = revenu - v.rCharges;
+  const heures = v.rClients * v.rHeures;
+  const depasse = heures > v.rDispo;
+  const horaire = heures ? resultat / heures : 0;
+
+  document.getElementById("rRevenu").textContent = fcfa(revenu);
+  const eR = document.getElementById("rResultat");
+  eR.textContent = fcfa(resultat);
+  eR.style.color = resultat > 0 ? "var(--signal)" : "var(--or)";
+
+  const eC = document.getElementById("rCharge");
+  eC.textContent = heures + " h / " + v.rDispo + " h";
+  eC.style.color = depasse ? "var(--or)" : "var(--bone)";
+
+  document.getElementById("rHoraire").textContent = fcfa(horaire);
+
+  const msgs = [];
+  if (depasse) {
+    const max = v.rHeures ? Math.floor(v.rDispo / v.rHeures) : 0;
+    msgs.push("<b>Le portefeuille dépasse le temps disponible.</b> À " + v.rHeures +
+      " h par client, vous en tenez " + max + " au maximum. Au-delà, ce sont les " +
+      "délais qui glissent — et un délai qui glisse coûte le client, pas l'heure supplémentaire.");
+  }
+  if (resultat <= 0) {
+    msgs.push("<b>Les charges ne sont pas couvertes.</b> Il manque " + fcfa(-resultat) +
+      " par mois. Deux leviers seulement : le panier ou le nombre de clients — pas les heures, elles sont déjà comptées.");
+  }
+  if (!depasse && resultat > 0 && horaire < 3000) {
+    msgs.push("<b>Le revenu horaire est bas.</b> À " + fcfa(horaire) + " de l'heure, " +
+      "la moindre reprise gratuite efface la marge. Regardez la colonne « par heure » du catalogue " +
+      "et retirez ce qui traîne en dessous.");
+  }
+  if (!msgs.length) {
+    msgs.push("<b>Le modèle tient.</b> Il reste " + (v.rDispo - heures) + " h de marge par mois — " +
+      "de quoi absorber une reprise ou prendre un client de plus sans rien casser.");
+  }
+  document.getElementById("rVerdict").innerHTML = msgs.map((m) => '<div class="avert">' + m + "</div>").join("");
+}
+
+champsR.forEach((id) => document.getElementById(id).addEventListener("input", calculer));
+calculer();
+</script>
+</body>
+</html>

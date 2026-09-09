@@ -84,14 +84,27 @@
     nav.menu a{white-space:nowrap}
   }
 
-  /* — ouverture — */
+  /* — ouverture —
+     La photographie passe SOUS un voile sombre, pas derrière un simple
+     calque translucide : le texte doit rester lisible quel que soit l'endroit
+     de l'image, et un dégradé qui s'ouvre vers la droite laisse voir les
+     outils là où il n'y a pas de mots. Contraste mesuré, pas estimé. */
   .hero{
-    padding:96px 0 84px;
-    background:
-      radial-gradient(120% 90% at 78% 8%, rgba(200,118,60,.16) 0%, transparent 58%),
-      linear-gradient(180deg, var(--nuit) 0%, var(--terre) 100%);
+    position:relative; padding:96px 0 84px; overflow:hidden;
     border-bottom:1px solid var(--trait);
+    background:var(--nuit);
   }
+  .hero .fond{
+    position:absolute; inset:0; z-index:0;
+    background-image:url("img/outils.webp");
+    background-size:cover; background-position:center 38%;
+    opacity:.34;
+  }
+  .hero .voile{
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(100deg, var(--nuit) 4%, rgba(26,21,18,.88) 46%, rgba(26,21,18,.42) 100%);
+  }
+  .hero .wrap{position:relative; z-index:2}
   .hero h1{font-size:clamp(2.4rem,6.2vw,4.6rem); letter-spacing:-.015em; margin-top:20px; max-width:15ch}
   .hero p.intro{font-size:clamp(1.02rem,1.9vw,1.28rem); max-width:52ch; margin-top:26px; color:#ddd2c4}
   .cta{display:flex; gap:14px; flex-wrap:wrap; margin-top:36px}
@@ -131,6 +144,8 @@
 
   /* — parole client — */
   .avis{background:var(--terre); border-top:1px solid var(--trait); border-bottom:1px solid var(--trait)}
+  .avis .wrap{grid-template-columns:1fr 1fr}
+  @media (max-width:760px){ .avis .wrap{grid-template-columns:1fr !important; gap:28px !important} }
   .avis blockquote{margin:0; font-family:var(--serif); font-size:clamp(1.35rem,3vw,2.05rem); line-height:1.42; max-width:24ch}
   .avis .qui{margin-top:24px; font-size:13px; letter-spacing:.09em; color:var(--brun)}
 
@@ -156,7 +171,7 @@
 
 <div class="demo">
   <b>Site de démonstration</b> — marque, fondateur, chiffres et avis entièrement fictifs ·
-  produit par ADN NETWORK pour illustrer « Le Site complet »
+  produit par ADN NETWORK pour illustrer « Le Site complet » · photographies CC0
 </div>
 
 <header>
@@ -184,6 +199,8 @@
 <main id="haut">
 
 <section class="hero">
+  <div class="fond" aria-hidden="true"></div>
+  <div class="voile" aria-hidden="true"></div>
   <div class="wrap">
     <p class="lab">Ébénisterie sur mesure — depuis 2014</p>
     <h1>Le bois qui reste quand le reste a bougé.</h1>
@@ -300,7 +317,10 @@
       </p>
     </div>
     <div>
-      <div class="chiffres" style="margin-top:0; border-top:0; padding-top:0">
+      <img src="img/atelier.webp" width="960" height="640" loading="lazy" decoding="async"
+           alt="Intérieur d'un atelier de menuiserie éclairé par des lampes d'établi"
+           style="border:1px solid var(--trait)">
+      <div class="chiffres" style="margin-top:30px; border-top:0; padding-top:0">
         <div><div class="v">2014</div><div class="l">ouverture de l'atelier</div></div>
         <div><div class="v">100 %</div><div class="l">bois de plantation tracé</div></div>
         <div><div class="v">6 sem.</div><div class="l">délai moyen d'une pièce</div></div>
@@ -313,6 +333,9 @@
 <section id="methode">
   <div class="wrap deux">
     <div>
+      <img src="img/rabot.webp" width="960" height="540" loading="lazy" decoding="async"
+           alt="Deux mains poussant un rabot sur une planche, copeaux de bois"
+           style="border:1px solid var(--trait); margin-bottom:30px">
       <p class="lab">La méthode</p>
       <h2 style="margin-top:14px">Vous savez ce qui se passe, et quand.</h2>
       <p>
@@ -331,13 +354,18 @@
 </section>
 
 <section class="avis">
-  <div class="wrap">
+  <div class="wrap" style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center">
+    <img src="img/tiroir.webp" width="1024" height="683" loading="lazy" decoding="async"
+         alt="Détail d'un tiroir en bois massif, poignée et entrée de serrure en laiton"
+         style="border:1px solid var(--trait)">
+    <div>
     <p class="lab">Ils ont commandé</p>
     <blockquote style="margin-top:22px">
       « Le comptoir est arrivé monté, à l'heure, et il n'a pas bougé d'un
       millimètre depuis trois saisons de pluie. »
     </blockquote>
     <p class="qui">Direction d'un hôtel — Cotonou · propos reconstitués pour la démonstration</p>
+    </div>
   </div>
 </section>
 
