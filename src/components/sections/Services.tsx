@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 
 import { disciplineColor } from "@/content/services";
-import { useCopy, useSequence } from "@/hooks/useCopy";
+import { useCopy, useHref, useSequence } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -22,7 +23,8 @@ import { cssVar, pad, withAlpha } from "@/lib/utils";
  * chaque rendu pour une animation qui n'a aucune raison de repasser par React.
  */
 export function Services() {
-  const { services, ui } = useCopy();
+  const { services, ui, vedettes } = useCopy();
+  const href = useHref();
   const sequence = useSequence();
   const root = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
@@ -203,6 +205,29 @@ export function Services() {
 
         {/* hairline de fermeture : la liste est un bloc, pas une suite ouverte */}
         <div className="svc-rule hairline origin-left" />
+
+        {/* — la porte vers les prestations ————————————————
+            Cette section dit ce qu'on SAIT faire ; elle ne donne aucun objet à
+            commander. Sans ce lien, la page /services n'aurait aucun chemin
+            depuis l'accueil — exactement ce qui a rendu La Vitrine
+            introuvable pendant trois semaines. */}
+        <Link
+          href={href("/services")}
+          data-cursor="hover"
+          className="group flex flex-wrap items-baseline justify-between gap-6 py-8 md:py-10"
+        >
+          <span className="display text-[clamp(1.5rem,4vw,3.25rem)] leading-none text-bone transition-transform duration-500 ease-expo md:group-hover:translate-x-4">
+            {vedettes.name}
+          </span>
+          <span className="flex items-center gap-4">
+            <span className="label">{vedettes.cta}</span>
+            <span
+              aria-hidden
+              className="block h-px w-10 bg-signal transition-all duration-500 ease-expo group-hover:w-20"
+            />
+          </span>
+        </Link>
+        <div className="hairline" />
       </div>
     </section>
   );

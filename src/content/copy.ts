@@ -22,6 +22,7 @@
 import {
   communityEn,
   legalEn,
+  vedettesEn,
   vitrineEn,
   navEn,
   projectsEn,
@@ -38,6 +39,7 @@ import {
 } from "@/content/en";
 import { community as communityFr } from "@/content/community";
 import { legal as legalFr, type LegalCopy } from "@/content/legal";
+import { vedettes as vedettesFr, type VedettesCopy } from "@/content/vedettes";
 import { vitrine as vitrineFr, type VitrineCopy } from "@/content/vitrine";
 import { projects as projectsFr, statusLabel as statusLabelFr } from "@/content/projects";
 import type { Project, ProjectStatus } from "@/content/projects";
@@ -133,6 +135,7 @@ export type Copy = {
   community: CommunityCopy;
   legal: LegalCopy;
   vitrine: VitrineCopy;
+  vedettes: VedettesCopy;
   /** Sert aux titres de sections dépourvus de conteneur dédié. */
   labels: {
     openNoFee: string;
@@ -165,6 +168,7 @@ const FR: Copy = {
   community: communityFr,
   legal: legalFr,
   vitrine: vitrineFr,
+  vedettes: vedettesFr,
   labels: {
     openNoFee: "Ouvert — sans frais d'entrée",
     threeRoles: "Trois rôles, une seule table",
@@ -197,6 +201,7 @@ const EN: Copy = {
   community: communityEn,
   legal: legalEn,
   vitrine: vitrineEn,
+  vedettes: vedettesEn,
   labels: {
     openNoFee: "Open — no entry fee",
     threeRoles: "Three roles, one table",

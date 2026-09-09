@@ -123,6 +123,25 @@ export function vitrineMetadata(lang: Lang): Metadata {
   };
 }
 
+/* ── Les dix vedettes ────────────────────────────────────────────────────── */
+
+const VEDETTES_DESCRIPTION: Record<Lang, string> = {
+  fr:
+    "Une prestation nommée et chiffrée par discipline — site, offre IA, pilotage, " +
+    "marque, irrigation, exploitation, transformation, parcours patient et formation.",
+  en:
+    "One named, priced service per discipline — site, AI practice, control desk, " +
+    "brand, irrigation, farm, processing, patient journey and training.",
+};
+
+export function vedettesMetadata(lang: Lang): Metadata {
+  return {
+    title: copy(lang).vedettes.name,
+    description: VEDETTES_DESCRIPTION[lang],
+    alternates: alternatesFor(lang, "/services"),
+  };
+}
+
 /* ── Mentions légales ────────────────────────────────────────────────────── */
 
 export function legalMetadata(lang: Lang): Metadata {
