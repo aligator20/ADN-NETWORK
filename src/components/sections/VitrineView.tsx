@@ -1,10 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 
 import { BriefForm } from "@/components/ui/BriefForm";
 import { GainBand } from "@/components/ui/GainBand";
-import { useCopy, useSequence, useLang } from "@/hooks/useCopy";
+import { projectBySlug } from "@/content/projects";
+import { useCopy, useHref, useSequence, useLang } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -35,6 +37,7 @@ export function VitrineView() {
   const reduced = usePrefersReducedMotion();
   const { vitrine } = useCopy();
   const sequence = useSequence();
+  const href = useHref();
   const lang = useLang();
 
   const prix = (n: number) => formatPrix(n, lang, vitrine.currency);
@@ -105,6 +108,26 @@ export function VitrineView() {
             },
             "-=0.2",
           );
+      });
+
+      // Les services « à la carte » ont leur PROPRE déclencheur. Rattachés à
+      // celui des formules, ils auraient fini de s'animer bien avant qu'on
+      // arrive dessus — une animation jouée hors champ n'est pas une animation.
+      gsap.from(".vt-service", {
+        autoAlpha: 0,
+        y: 26,
+        duration: DUR.base,
+        ease: EASE.expo,
+        stagger: STAGGER.blocks,
+        scrollTrigger: { trigger: ".vt-services", start: "top 84%" },
+      });
+
+      gsap.from(".vt-srule", {
+        scaleX: 0,
+        duration: DUR.cinematic,
+        ease: EASE.power,
+        stagger: 0.1,
+        scrollTrigger: { trigger: ".vt-services", start: "top 84%" },
       });
 
       gsap.from(".vt-step", {
@@ -218,6 +241,76 @@ export function VitrineView() {
             {vitrine.delai}
           </span>
         </p>
+      </section>
+
+      {/* — à la carte ——————————————————————————————————
+          En LIGNES comme les formules, mais sans bande avant/après : ces
+          services ne remplacent pas une situation, ils s'ajoutent à un
+          travail. Leur argument n'est pas la transformation promise, c'est la
+          preuve qu'on l'a déjà fait — d'où le lien vers la réalisation. */}
+      <section className="vt-services border-t border-steel/40 bg-carbon">
+        <div className="mx-auto max-w-[1800px] gutter py-24 md:py-32">
+          <p className="label">{vitrine.servicesLabel}</p>
+          <p className="mt-6 max-w-[58ch] font-mono text-[0.8125rem] leading-[1.9] text-fog">
+            {vitrine.servicesLead}
+          </p>
+
+          <div className="mt-12">
+            {vitrine.services.map((s) => {
+              // Un slug inconnu dégrade en texte simple : mieux vaut une
+              // preuve non cliquable qu'un lien mort sur une page qui vend.
+              const projet = projectBySlug(s.preuve.slug);
+              return (
+                <div key={s.id}>
+                  <div className="vt-srule hairline origin-left" />
+                  <div className="vt-service grid grid-cols-1 gap-y-5 py-9 md:grid-cols-12 md:gap-x-10 md:py-12">
+                    <div className="md:col-span-4">
+                      <h3 className="display text-[clamp(1.35rem,2.8vw,2.25rem)] leading-none text-bone">
+                        {s.name}
+                      </h3>
+                      <p className="mt-4 font-mono text-[0.875rem] text-signal tabular-nums">
+                        {s.plancher ? `${vitrine.from} ${prix(s.prix)}` : prix(s.prix)}
+                        {!s.plancher && s.unite && (
+                          <span className="text-steel"> · {s.unite}</span>
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="md:col-span-5">
+                      <p className="max-w-[38ch] font-mono text-[0.875rem] leading-[1.85] text-bone/85">
+                        {s.promesse}
+                      </p>
+                      <p className="mt-4 max-w-[38ch] font-mono text-[0.75rem] leading-[1.85] text-steel">
+                        {s.contenu}
+                      </p>
+                    </div>
+
+                    <div className="md:col-span-3">
+                      <p className="label text-steel">{vitrine.preuveLabel}</p>
+                      {projet ? (
+                        <Link
+                          href={href(`/work/${s.preuve.slug}`)}
+                          data-cursor="hover"
+                          className="group mt-4 flex items-baseline gap-3 font-mono text-[0.8125rem] leading-[1.7] text-fog transition-colors duration-300 hover:text-bone"
+                        >
+                          <span className="max-w-[26ch]">{s.preuve.texte}</span>
+                          <span aria-hidden className="text-signal">
+                            ↗
+                          </span>
+                        </Link>
+                      ) : (
+                        <p className="mt-4 max-w-[26ch] font-mono text-[0.8125rem] leading-[1.7] text-fog">
+                          {s.preuve.texte}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+            <div className="vt-srule hairline origin-left" />
+          </div>
+        </div>
       </section>
 
       {/* — le parcours ————————————————————————————————— */}

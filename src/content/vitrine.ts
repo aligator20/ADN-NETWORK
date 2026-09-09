@@ -47,6 +47,47 @@ export type Formule = {
   gain: { avant: string; apres: string };
 };
 
+/**
+ * UN TRAVAIL COMMANDABLE SEUL, à côté des formules.
+ *
+ * Les trois formules sont une ÉCHELLE : chacune contient la précédente. Y
+ * ajouter des barreaux les transformerait en tableau comparatif, et le client
+ * choisirait au moins-disant avant d'avoir lu ce que chacune règle. Ces
+ * services-ci se commandent seuls, ou en plus d'une formule.
+ *
+ * RÈGLE D'ADMISSION : aucun service n'entre ici sans une réalisation de ce
+ * site qui prouve qu'on sait le faire — c'est ce que porte `preuve`. Une offre
+ * qu'on ne peut pas honorer coûte plus cher que l'absence d'offre : elle amène
+ * une demande qu'il faut refuser, et un refus après paiement se raconte.
+ */
+export type Service = {
+  id: string;
+  name: string;
+  /** Prix en FCFA. Nombre, pas texte : la mise en forme dépend de la langue. */
+  prix: number;
+  /**
+   * Vrai quand la charge varie trop d'un client à l'autre pour un forfait —
+   * un manuel de quarante pages et un catalogue de six cents ne se facturent
+   * pas au même prix. On affiche alors un plancher, pas un tarif.
+   */
+  plancher?: boolean;
+  /** Ce que le prix couvre exactement, quand ce n'est pas un plancher. */
+  unite?: string;
+  /** Ce que le service règle, en une phrase. */
+  promesse: string;
+  /** Le contenu livré, d'un trait. */
+  contenu: string;
+  /**
+   * La réalisation de ce site qui prouve la compétence.
+   *
+   * `slug` n'est pas typé contre la liste des projets : `ProjectSlug` vit dans
+   * la surcouche anglaise et l'importer ici lierait deux fichiers de contenu
+   * pour un gain d'ergonomie. La vue vérifie l'existence du projet avant de
+   * poser le lien — un slug erroné dégrade en texte simple, jamais en 404.
+   */
+  preuve: { slug: string; texte: string };
+};
+
 export type VitrineCopy = {
   name: string;
   kicker: string;
@@ -54,6 +95,10 @@ export type VitrineCopy = {
   body: readonly string[];
   formulesLabel: string;
   formules: readonly Formule[];
+  servicesLabel: string;
+  servicesLead: string;
+  preuveLabel: string;
+  services: readonly Service[];
   delaiLabel: string;
   delai: string;
   stepsLabel: string;
@@ -145,6 +190,53 @@ export const vitrine: VitrineCopy = {
     },
   ],
 
+  servicesLabel: "À la carte",
+  servicesLead:
+    "Quatre travaux qui se commandent seuls, ou en plus d'une formule. Chacun figure ici parce qu'une réalisation de ce site prouve qu'on sait le faire — vous pouvez aller la voir avant de commander.",
+  preuveLabel: "Déjà fait",
+  services: [
+    {
+      id: "kit",
+      name: "Le Kit de lancement",
+      prix: 60000,
+      unite: "le jeu complet",
+      promesse: "De quoi annoncer votre offre le jour même, partout où vous publiez.",
+      contenu:
+        "Bannière, vignettes carrées, couverture de boutique, et les légendes déjà écrites pour chaque réseau.",
+      preuve: { slug: "full-mesh", texte: "Le kit revendeur de FullMesh Shop" },
+    },
+    {
+      id: "video",
+      name: "La Vidéo verticale",
+      prix: 35000,
+      unite: "la vidéo",
+      promesse: "Le format qui circule vraiment ici : statuts WhatsApp, TikTok, Reels.",
+      contenu:
+        "Un montage 9:16 de trente à soixante secondes, sous-titré, livré en fichier — vous publiez depuis votre compte.",
+      preuve: { slug: "full-mesh", texte: "La série de dix vidéos FullMesh" },
+    },
+    {
+      id: "manuel",
+      name: "Le Manuel",
+      prix: 250000,
+      plancher: true,
+      promesse: "Votre savoir-faire transformé en document qui se vend tout seul.",
+      contenu:
+        "Entretiens, rédaction, mise en page, illustrations et fichier prêt à vendre. Le prix suit le nombre de pages, arrêté au brief.",
+      preuve: { slug: "resine-master", texte: "Le manuel d'atelier Résine Master" },
+    },
+    {
+      id: "plan",
+      name: "Le Plan d'affaires",
+      prix: 300000,
+      plancher: true,
+      promesse: "Le document qu'un bailleur peut instruire sans avoir à vous rappeler.",
+      contenu:
+        "Marché, modèle économique, comptes prévisionnels et plan de financement. Écrit pour être lu par quelqu'un qui doit décider.",
+      preuve: { slug: "ferme-fdr-adone", texte: "Le dossier de la Ferme FDR-Adone" },
+    },
+  ],
+
   delaiLabel: "Délai",
   delai: "Dix jours ouvrés à compter du brief validé. Une relecture est comprise.",
 
@@ -181,7 +273,9 @@ export const vitrine: VitrineCopy = {
   form: {
     name: "devis-vitrine",
     endpoint: "/__forms.html",
-    formuleLegend: "Formule envisagée",
+    // La liste porte les trois formules ET les quatre services : parler de
+    // « formule » y désignerait mal la moitié des choix.
+    formuleLegend: "Ce que vous envisagez",
     metier: { label: "Votre métier", placeholder: "Ingénieur réseau, agronome, ébéniste…" },
     projet: {
       label: "Ce que vous faites, et ce que vous cherchez",

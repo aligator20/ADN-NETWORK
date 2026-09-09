@@ -76,6 +76,50 @@ export const vitrineEn: VitrineCopy = {
     },
   ],
 
+  // Les identifiants, prix, planchers et slugs de preuve viennent du français :
+  // ils partent dans le formulaire et servent à construire des liens. Seul ce
+  // qui se lit est traduit.
+  servicesLabel: "Single items",
+  servicesLead:
+    "Four pieces of work you can order on their own, or on top of a package. Each one is listed here because a project on this site proves we can do it — go and look before you order.",
+  preuveLabel: "Already done",
+  services: [
+    {
+      ...fr.services[0],
+      name: "The Launch Kit",
+      unite: "the full set",
+      promesse: "Enough to announce your offer the same day, everywhere you post.",
+      contenu:
+        "Banner, square thumbnails, shop cover, and the captions already written for each network.",
+      preuve: { ...fr.services[0].preuve, texte: "The FullMesh Shop reseller kit" },
+    },
+    {
+      ...fr.services[1],
+      name: "The Vertical Video",
+      unite: "per video",
+      promesse: "The format that actually travels here: WhatsApp statuses, TikTok, Reels.",
+      contenu:
+        "A thirty to sixty second 9:16 edit, subtitled, delivered as a file — you post it from your own account.",
+      preuve: { ...fr.services[1].preuve, texte: "The FullMesh series of ten videos" },
+    },
+    {
+      ...fr.services[2],
+      name: "The Manual",
+      promesse: "Your know-how turned into a document that sells on its own.",
+      contenu:
+        "Interviews, writing, layout, illustrations and a file ready to sell. The price follows the page count, settled at the brief.",
+      preuve: { ...fr.services[2].preuve, texte: "The Résine Master workshop manual" },
+    },
+    {
+      ...fr.services[3],
+      name: "The Business Plan",
+      promesse: "The document a funder can assess without having to call you back.",
+      contenu:
+        "Market, business model, financial projections and funding plan. Written to be read by someone who has to decide.",
+      preuve: { ...fr.services[3].preuve, texte: "The FDR-Adone farm dossier" },
+    },
+  ],
+
   delaiLabel: "Turnaround",
   delai: "Ten working days from the approved brief. One round of revisions is included.",
 
@@ -111,7 +155,7 @@ export const vitrineEn: VitrineCopy = {
 
   form: {
     ...fr.form,
-    formuleLegend: "Package you have in mind",
+    formuleLegend: "What you have in mind",
     metier: { label: "Your trade", placeholder: "Network engineer, agronomist, cabinetmaker…" },
     projet: {
       label: "What you do, and what you are after",

@@ -37,7 +37,16 @@ export function BriefForm() {
   const [formule, setFormule] = useState<string>("");
   const { etat, prete, dernier, envoyer, surSaisie, envoiEnCours } = useNetlifyForm(F.endpoint);
 
-  const choisie = vitrine.formules.find((f) => f.id === formule);
+  /**
+   * Formules ET services : le devis se demande d'un seul formulaire.
+   *
+   * Chercher uniquement dans `formules` renverrait `undefined` pour une
+   * demande de vidéo ou de manuel, et la demande partirait étiquetée « je ne
+   * sais pas encore » — le devis serait alors à refaire au téléphone, ce que
+   * ce formulaire existe précisément pour éviter.
+   */
+  const commandables = [...vitrine.formules, ...vitrine.services];
+  const choisie = commandables.find((f) => f.id === formule);
 
   /* — Repli email si l'envoi échoue ————————————————————————— */
   const mailto = () => {
@@ -103,7 +112,7 @@ export function BriefForm() {
       <fieldset disabled={envoiEnCours}>
         <legend className="label">{F.formuleLegend}</legend>
         <div className="mt-5 flex flex-wrap gap-3">
-          {vitrine.formules.map((f) => (
+          {commandables.map((f) => (
             <button
               key={f.id}
               type="button"
