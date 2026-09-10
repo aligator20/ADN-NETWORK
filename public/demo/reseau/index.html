@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Le Parcours réseau — démonstration ADN NETWORK</title>
+<!--
+  LE PARCOURS RÉSEAU — DÉMONSTRATION
+
+  Illustre les deux prestations `pathway` du catalogue : Le Parcours réseau et
+  Le Parcours cyber. Ce sont des VOIES D'ACCÈS, pas des prestations de
+  déploiement — la distinction est écrite noir sur blanc, et la page la
+  répète, parce que c'est elle qui empêche un client de commander ce qu'on ne
+  peut pas livrer.
+
+  LE PROGRAMME N'EST PAS INVENTÉ. Les quatorze leçons correspondent aux
+  quatorze carousels « SÉRIE CCNA — ADN NETWORK » déjà produits et publiés.
+  Chaque planche porte l'en-tête et le pied ADN NETWORK : le matériel existe,
+  il est daté, et il est à nous.
+
+  L'ÉTABLI VLSM EST LE CŒUR DE LA PAGE. Le découpage en sous-réseaux est le
+  mur contre lequel butent presque tous les débutants, et c'est aussi la seule
+  chose qu'on peut MONTRER en train de fonctionner : le calcul est
+  entièrement déterministe. Il tourne dans le navigateur, sans réseau.
+
+  Aucune dépendance, aucun tiers, aucun appel sortant.
+
+  ⚠️ RIEN N'EST REPRIS DES OUVRAGES CISCO PRESS NI DES TRAVAUX PRATIQUES
+  NETACAD présents sur le poste : ce sont des œuvres de tiers. Le programme
+  ci-dessous ne cite que des supports produits par ADN NETWORK.
+-->
+<style>
+  :root{
+    --void:#050506; --carbon:#0a0a0c; --graphite:#121215; --ash:#1c1c20;
+    --steel:#2a2a30; --fog:#7d7d86; --bone:#ececee;
+    --signal:#c6f24e; --net:#22d3ee; --cyber:#ff4d58; --or:#f2b705;
+    --mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Consolas, monospace;
+    --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--void); color:var(--bone); font-family:var(--mono); font-size:13.5px; line-height:1.65}
+  h1,h2,h3{font-family:var(--sans); font-weight:700; letter-spacing:-.025em; margin:0; line-height:1.05}
+  .lab{font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--fog)}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 26px}
+  section{padding:60px 0; border-top:1px solid var(--steel)}
+  button{font:inherit; cursor:pointer}
+  input,select{font:inherit; background:var(--graphite); color:var(--bone); border:1px solid var(--steel); padding:9px 11px; width:100%}
+  input:focus,select:focus{outline:1px solid var(--net); border-color:transparent}
+
+  .demo{background:var(--net); color:#04181c; padding:8px 18px; font-size:10px; letter-spacing:.2em; text-transform:uppercase; text-align:center}
+  .demo b{font-weight:700}
+
+  header.top{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 26px; border-bottom:1px solid var(--steel); flex-wrap:wrap}
+  .marque .n{font-family:var(--sans); font-weight:700; font-size:16px; letter-spacing:.05em}
+  .marque .n i{color:var(--signal); font-style:normal}
+
+  .ouv{padding:64px 0 50px}
+  .ouv h1{font-size:clamp(2rem,5.4vw,3.9rem); max-width:18ch; margin-top:14px}
+  .ouv p{max-width:58ch; margin-top:20px; color:#b9b9c2; font-size:14.5px}
+
+  .duo{display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start}
+  @media (max-width:900px){ .duo{grid-template-columns:1fr; gap:30px} }
+
+  .bloc{margin-top:24px}
+  .bloc .t{font-size:10px; letter-spacing:.2em; text-transform:uppercase}
+  .bloc ul{list-style:none; padding:0; margin:10px 0 0}
+  .bloc li{padding:7px 0 7px 18px; position:relative; color:#c2c2ca; font-size:12.8px; border-bottom:1px solid var(--ash)}
+  .bloc li::before{content:"—"; position:absolute; left:0; color:var(--steel)}
+  .refus li::before{content:"×"; color:#ff6b73}
+
+  /* — le programme — */
+  .module{border-top:1px solid var(--steel); padding:26px 0}
+  .module:last-child{border-bottom:1px solid var(--steel)}
+  .module .g{display:grid; grid-template-columns:230px 1fr; gap:26px}
+  @media (max-width:760px){ .module .g{grid-template-columns:1fr; gap:14px} }
+  .module h3{font-size:clamp(1.15rem,2.2vw,1.55rem)}
+  .module .q{color:var(--fog); font-size:12.4px; margin-top:8px; max-width:30ch}
+  .lecons{display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:9px}
+  .lecon{border:1px solid var(--steel); padding:10px 12px; font-size:12.3px; display:flex; gap:9px; align-items:baseline}
+  .lecon i{font-style:normal; font-size:10px; letter-spacing:.14em; color:var(--steel)}
+
+  /* — l'établi — */
+  .etabli{border:1px solid var(--steel); margin-top:26px}
+  .etabli .h{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:13px 18px; border-bottom:1px solid var(--steel); flex-wrap:wrap}
+  .etabli .b{padding:18px}
+  /* min-width:0 sur les enfants de grille.
+     Par defaut un element de grille vaut min-width:auto : il refuse de
+     retrecir sous la largeur de son contenu. Le bloc de configuration est en
+     white-space:pre et le tableau a un min-width de 560 px -- la colonne
+     prenait donc 715 px sur un ecran de 360, et c est TOUTE la page qui
+     partait de travers, pas seulement le bloc. Les boites defilantes
+     interieures ne servent a rien tant que leur colonne ne peut pas
+     retrecir. */
+  .grille{display:grid; grid-template-columns:1fr 2fr; gap:22px}
+  .grille > *{min-width:0}
+  .duo > *{min-width:0}
+  @media (max-width:900px){ .grille{grid-template-columns:1fr} }
+  .champ{margin-bottom:12px}
+  .champ label{display:block; margin-bottom:6px}
+  .besoin{display:grid; grid-template-columns:1fr 92px 34px; gap:8px; margin-bottom:8px}
+  .btn{background:var(--signal); color:var(--void); border:0; padding:10px 18px; font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:700}
+  .btn.sec{background:transparent; color:var(--bone); border:1px solid var(--steel); font-weight:400}
+  .btn.sec:hover{border-color:var(--fog)}
+  .btn.mini{padding:5px 10px; font-size:10px; letter-spacing:.12em}
+  .barre{display:flex; gap:9px; flex-wrap:wrap; align-items:center; margin-top:12px}
+
+  .defile{overflow-x:auto}
+  table{width:100%; border-collapse:collapse; min-width:560px}
+  th{text-align:left; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--fog); font-weight:400; padding:9px 10px; border-bottom:1px solid var(--steel); white-space:nowrap}
+  td{padding:10px; border-bottom:1px solid var(--ash); white-space:nowrap}
+  td.r,th.r{text-align:right; font-variant-numeric:tabular-nums}
+
+  .bilan{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--steel); border:1px solid var(--steel); margin-top:18px}
+  .bilan div{background:var(--void); padding:14px 16px}
+  .bilan .v{font-family:var(--sans); font-size:22px; font-weight:700; margin-top:5px}
+
+  .conf{background:var(--carbon); border:1px solid var(--steel); padding:15px 17px; white-space:pre; overflow-x:auto; font-size:12.2px; line-height:1.75; margin-top:16px; color:#cfe9ef}
+
+  .alerte{border-left:2px solid var(--cyber); padding:11px 15px; background:var(--carbon); margin-top:14px; font-size:12.5px; color:#e8c4c6}
+  .note{border-left:2px solid var(--net); padding:11px 15px; background:var(--carbon); margin-top:16px; font-size:12.5px; color:#b8d8de}
+  .note b{color:var(--net); font-weight:400}
+
+  figure{margin:0; border:1px solid var(--steel); background:var(--carbon)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{padding:11px 16px; border-top:1px solid var(--steel); color:var(--fog); font-size:11.5px}
+
+  @keyframes flux{0%{stroke-dashoffset:64} 100%{stroke-dashoffset:0}}
+  @keyframes clign{0%,100%{opacity:.25} 50%{opacity:1}}
+  .a-flux{stroke-dasharray:8 8; animation:flux 1.6s linear infinite}
+  .a-clign{animation:clign 2s ease-in-out infinite}
+  @media (prefers-reduced-motion: reduce){ .a-flux,.a-clign{animation:none !important} html{scroll-behavior:auto} }
+
+  footer{border-top:1px solid var(--steel); padding:34px 0 46px; color:var(--fog); font-size:12px}
+  footer a{color:var(--net)}
+</style>
+</head>
+<body>
+
+<div class="demo">
+  <b>Démonstration</b> — voie d'accès, pas prestation de déploiement ·
+  programme tiré des quatorze carousels CCNA déjà publiés par ADN NETWORK
+</div>
+
+<header class="top">
+  <div class="marque"><span class="n">ADN<i>°</i>NETWORK</span></div>
+  <span class="lab">Parcours réseau &amp; cyber — édition 01</span>
+</header>
+
+<div class="wrap ouv">
+  <p class="lab" style="color:var(--net)">Le Parcours réseau · Le Parcours cyber</p>
+  <h1>Un métier qui embauche, et presque personne pour ouvrir la porte.</h1>
+  <p>
+    Le secteur recrute plus vite qu'il ne forme, et l'entrée coûte cher :
+    une école, un an, un budget que la plupart n'ont pas. Le parcours prend
+    le problème par l'autre bout — les fondamentaux, dans l'ordre où ils
+    servent, avec de quoi s'exercer.
+  </p>
+
+  <div class="duo" style="margin-top:38px">
+    <div>
+      <div class="bloc">
+        <p class="t" style="color:var(--net)">Ce que le parcours fait</p>
+        <ul>
+          <li>Oriente : quels métiers existent vraiment, et lequel vous irait</li>
+          <li>Enseigne les fondamentaux dans l'ordre où ils servent</li>
+          <li>Prépare aux certifications, sur le programme officiel</li>
+          <li>Met en relation quand quelqu'un est prêt, pas avant</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="bloc refus">
+        <p class="t" style="color:#ff6b73">Ce qu'il ne fait pas</p>
+        <ul>
+          <li>Déployer votre infrastructure. Nous formons, nous n'installons pas</li>
+          <li>Vendre du test d'intrusion. Le volet cyber est <em>défensif</em> : segmenter, authentifier, durcir</li>
+          <li>Délivrer un diplôme. La certification se passe chez l'organisme, pas chez nous</li>
+          <li>Garantir un emploi. Nous ouvrons une porte, nous ne la franchissons pas à votre place</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ LE PROGRAMME ═══════════════════════════ -->
+<section id="programme">
+  <div class="wrap">
+    <p class="lab">Le programme</p>
+    <h2 style="font-size:clamp(1.6rem,3.4vw,2.5rem); margin-top:12px">Quatorze leçons, déjà écrites</h2>
+    <p style="max-width:62ch; margin-top:14px; color:var(--fog)">
+      Chacune correspond à un support « SÉRIE CCNA — ADN NETWORK » produit et
+      publié. Le programme n'est pas une intention : le matériel existe,
+      il est daté, et il porte notre nom sur chaque planche.
+    </p>
+
+    <div style="margin-top:30px">
+      <div class="module">
+        <div class="g">
+          <div>
+            <p class="lab" style="color:var(--net)">Module 01</p>
+            <h3 style="margin-top:8px">Le terrain</h3>
+            <p class="q">De quoi un réseau est fait, avant toute configuration.</p>
+          </div>
+          <div class="lecons">
+            <div class="lecon"><i>01</i><span>Architectures et topologies réseau</span></div>
+            <div class="lecon"><i>02</i><span>Interfaces physiques et câblage</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="g">
+          <div>
+            <p class="lab" style="color:var(--net)">Module 02</p>
+            <h3 style="margin-top:8px">L'adressage</h3>
+            <p class="q">Le mur contre lequel butent presque tous les débutants.</p>
+          </div>
+          <div class="lecons">
+            <div class="lecon"><i>03</i><span>Adressage IPv4 privé</span></div>
+            <div class="lecon"><i>04</i><span>VLSM et découpage de sous-réseaux</span></div>
+            <div class="lecon"><i>05</i><span>Types d'adresses IPv6 et EUI-64</span></div>
+            <div class="lecon"><i>06</i><span>Vérifier l'IP côté client</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="g">
+          <div>
+            <p class="lab" style="color:var(--net)">Module 03</p>
+            <h3 style="margin-top:8px">La commutation</h3>
+            <p class="q">Ce qui fait tenir un réseau d'entreprise, et ce qui le fait tomber.</p>
+          </div>
+          <div class="lecons">
+            <div class="lecon"><i>07</i><span>VTP — VLAN Trunking Protocol</span></div>
+            <div class="lecon"><i>08</i><span>Private VLANs</span></div>
+            <div class="lecon"><i>09</i><span>PortFast et UDLD</span></div>
+            <div class="lecon"><i>10</i><span>Storm control</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="g">
+          <div>
+            <p class="lab" style="color:var(--cyber)">Module 04</p>
+            <h3 style="margin-top:8px">Le contrôle d'accès</h3>
+            <p class="q">Le volet défensif : qui a le droit de brancher un câble, et ce qui se passe sinon.</p>
+          </div>
+          <div class="lecons">
+            <div class="lecon"><i>11</i><span>Port security, violation et err-disable</span></div>
+            <div class="lecon"><i>12</i><span>802.1X — authentification par port</span></div>
+            <div class="lecon"><i>13</i><span>MAB — MAC Authentication Bypass</span></div>
+            <div class="lecon"><i>14</i><span>Les replis de 802.1X</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alerte">
+      <b style="color:var(--cyber); font-weight:400">Pourquoi le module 04 s'arrête là.</b>
+      Segmenter, authentifier, durcir : c'est du défensif, et c'est ce que le
+      matériel couvre. Aucun test d'intrusion n'est enseigné ni vendu — annoncer
+      de l'offensif sans référence derrière fait perdre des contrats au lieu
+      d'en gagner.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ L'ÉTABLI VLSM ══════════════════════════ -->
+<section id="etabli">
+  <div class="wrap">
+    <div class="duo">
+      <div>
+        <p class="lab" style="color:var(--net)">Leçon 04 — l'exercice</p>
+        <h2 style="font-size:clamp(1.6rem,3.4vw,2.5rem); margin-top:12px">Découper un /24 sans gaspiller une seule adresse</h2>
+        <p style="margin-top:16px; color:#d3d3da; max-width:46ch">
+          Posez vos besoins en hôtes. L'établi applique la règle du parcours —
+          <em>toujours servir le plus gros bloc en premier</em> — et montre le
+          calcul, pas seulement le résultat. C'est là que la leçon se comprend.
+        </p>
+      </div>
+
+      <figure>
+        <svg viewBox="0 0 520 240" role="img" aria-label="Schéma animé : un routeur relie deux LAN et une liaison point-à-point">
+          <rect width="520" height="240" fill="#0a0a0c"/>
+          <!-- liens animés -->
+          <g stroke="#22d3ee" stroke-width="1.6" fill="none">
+            <path d="M120 80 L240 118" class="a-flux"/>
+            <path d="M120 178 L240 132" class="a-flux" style="animation-delay:.4s"/>
+            <path d="M300 125 L410 125" class="a-flux" style="animation-delay:.8s"/>
+          </g>
+          <!-- LAN A -->
+          <rect x="24" y="56" width="96" height="46" rx="3" fill="#0d1417" stroke="#22d3ee"/>
+          <text x="36" y="76" font-family="Archivo, Arial" font-size="12" font-weight="700" fill="#ececee">LAN A</text>
+          <text x="36" y="92" font-family="Consolas, monospace" font-size="9" fill="#7d7d86">50 hôtes</text>
+          <!-- LAN B -->
+          <rect x="24" y="154" width="96" height="46" rx="3" fill="#0d1417" stroke="#22d3ee"/>
+          <text x="36" y="174" font-family="Archivo, Arial" font-size="12" font-weight="700" fill="#ececee">LAN B</text>
+          <text x="36" y="190" font-family="Consolas, monospace" font-size="9" fill="#7d7d86">25 hôtes</text>
+          <!-- routeur -->
+          <circle cx="270" cy="125" r="30" fill="#0d1417" stroke="#22d3ee" stroke-width="1.6" class="a-clign"/>
+          <text x="270" y="130" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#22d3ee">R1</text>
+          <!-- liaison p2p -->
+          <rect x="410" y="102" width="86" height="46" rx="3" fill="#0d1417" stroke="#f2b705"/>
+          <text x="422" y="122" font-family="Archivo, Arial" font-size="12" font-weight="700" fill="#ececee">R2</text>
+          <text x="422" y="138" font-family="Consolas, monospace" font-size="9" fill="#f2b705">/30 · 2 utiles</text>
+          <text x="316" y="116" font-family="Consolas, monospace" font-size="8.5" fill="#7d7d86">point-à-point</text>
+        </svg>
+        <figcaption>La liaison inter-routeurs prend un /30 : deux adresses utiles, zéro gaspillage.</figcaption>
+      </figure>
+    </div>
+
+    <div class="etabli">
+      <div class="h">
+        <b style="font-family:var(--sans); font-size:15px">Établi VLSM</b>
+        <span class="lab">Calcul déterministe · rien ne sort du navigateur</span>
+      </div>
+      <div class="b">
+        <div class="grille">
+          <div>
+            <div class="champ">
+              <label class="lab" for="base">Réseau de départ</label>
+              <input id="base" value="192.168.10.0/24">
+            </div>
+            <p class="lab" style="margin-bottom:8px">Besoins, en hôtes utiles</p>
+            <div id="besoins"></div>
+            <div class="barre">
+              <button class="btn sec mini" id="btnPlus">+ Un réseau</button>
+              <button class="btn sec mini" id="btnP2P">+ Liaison /30</button>
+              <button class="btn sec mini" id="btnRaz">Exemple</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="defile"><table id="plan"></table></div>
+            <div class="bilan" id="bilan"></div>
+            <div id="alerte"></div>
+            <p class="lab" style="margin-top:22px">La configuration qui en découle</p>
+            <div class="conf" id="conf"></div>
+          </div>
+        </div>
+
+        <div class="note">
+          <b>Pourquoi le plus gros bloc d'abord.</b> Un sous-réseau doit commencer
+          sur un multiple de sa propre taille. Servir un petit besoin en premier
+          laisse des trous où plus aucun gros bloc ne rentre — et le découpage ne
+          retombe jamais juste. La règle n'est pas une préférence, c'est une
+          conséquence de l'alignement binaire.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Démonstration produite par <a href="/">ADN NETWORK</a> — Cotonou.
+    Le programme reprend quatorze supports CCNA publiés par ADN NETWORK ;
+    rien n'y est repris d'ouvrages ou de travaux pratiques de tiers.
+    Le calcul VLSM tourne dans votre navigateur, sans aucun appel réseau.
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ADRESSES — conversions
+   Tout passe par des entiers non signés : manipuler des adresses en chaînes
+   de caractères produit tôt ou tard une comparaison lexicographique, où
+   « 192.168.10.9 » se retrouve après « 192.168.10.10 ».
+   ══════════════════════════════════════════════════════════════════════════ */
+const enInt = (ip) => ip.split(".").reduce((a, o) => (a << 8 >>> 0) + (parseInt(o, 10) & 255) >>> 0, 0) >>> 0;
+const enIp = (n) => [24, 16, 8, 0].map((d) => (n >>> d) & 255).join(".");
+const masque = (p) => enIp(p === 0 ? 0 : (0xffffffff << (32 - p)) >>> 0);
+
+/** Le plus petit préfixe qui loge `hotes` adresses utilisables. */
+function prefixePour(hotes) {
+  const requis = hotes + 2; // adresse de réseau + broadcast, jamais attribuables
+  let p = 32;
+  while (p >= 0 && Math.pow(2, 32 - p) < requis) p--;
+  return p;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   LE DÉCOUPAGE
+   Du plus gros au plus petit — c'est la règle du support, et elle découle de
+   l'alignement : un bloc doit commencer sur un multiple de sa taille.
+   ══════════════════════════════════════════════════════════════════════════ */
+function decouper(baseIp, basePrefixe, besoins) {
+  const debut = enInt(baseIp) >>> 0;
+  const capacite = Math.pow(2, 32 - basePrefixe);
+  const fin = debut + capacite;
+
+  const tries = besoins
+    .map((b, i) => ({ ...b, ordre: i }))
+    .sort((a, b) => b.hotes - a.hotes);
+
+  let curseur = debut;
+  const plan = [];
+  let deborde = null;
+
+  for (const b of tries) {
+    const p = prefixePour(b.hotes);
+    const taille = Math.pow(2, 32 - p);
+
+    // Alignement calcule sur une variable LOCALE, et le curseur n_est avance
+    // que si le bloc rentre. En avancant avant le controle, un besoin trop
+    // gros poussait le curseur au-dela de la fin et le message annoncait
+    // « il ne reste que -1280 adresses » -- un chiffre negatif dans un outil
+    // pedagogique apprend une chose fausse a celui qui le lit.
+    const reste = curseur % taille;
+    const depart = reste === 0 ? curseur : curseur + (taille - reste);
+
+    if (depart + taille > fin) { deborde = b; break; }
+    curseur = depart;
+
+    const utiles = Math.max(0, taille - 2);
+    plan.push({
+      nom: b.nom, hotes: b.hotes, prefixe: p, taille, utiles,
+      reseau: enIp(curseur),
+      premiere: enIp(curseur + 1),
+      derniere: enIp(curseur + taille - 2),
+      broadcast: enIp(curseur + taille - 1),
+      masque: masque(p),
+      perdues: utiles - b.hotes,
+      ordre: b.ordre,
+    });
+    curseur += taille;
+  }
+
+  return { plan, deborde, consomme: curseur - debut, capacite, libre: fin - curseur };
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   L'INTERFACE
+   ══════════════════════════════════════════════════════════════════════════ */
+const EXEMPLE = [
+  { nom: "LAN A", hotes: 50 },
+  { nom: "LAN B", hotes: 25 },
+  { nom: "Liaison R1–R2", hotes: 2 },
+];
+let besoins = EXEMPLE.map((b) => ({ ...b }));
+
+function rendreBesoins() {
+  document.getElementById("besoins").innerHTML = besoins.map((b, i) =>
+    '<div class="besoin">' +
+      '<input value="' + b.nom.replace(/"/g, "&quot;") + '" data-n="' + i + '" aria-label="Nom du réseau">' +
+      '<input type="number" min="1" max="16000" value="' + b.hotes + '" data-h="' + i + '" aria-label="Nombre d\'hôtes">' +
+      '<button class="btn sec mini" data-sup="' + i + '" aria-label="Retirer">×</button>' +
+    "</div>").join("");
+}
+
+function calculer() {
+  const m = document.getElementById("base").value.trim().match(/^(\d+\.\d+\.\d+\.\d+)\s*\/\s*(\d+)$/);
+  const t = document.getElementById("plan");
+  const bilan = document.getElementById("bilan");
+  const alerte = document.getElementById("alerte");
+  const conf = document.getElementById("conf");
+
+  if (!m || +m[2] < 8 || +m[2] > 30) {
+    t.innerHTML = "";
+    bilan.innerHTML = "";
+    conf.textContent = "";
+    alerte.innerHTML = '<div class="alerte">Réseau de départ illisible. Attendu : <code>192.168.10.0/24</code>, préfixe entre 8 et 30.</div>';
+    return;
+  }
+
+  const r = decouper(m[1], +m[2], besoins.filter((b) => b.hotes > 0));
+
+  t.innerHTML =
+    "<tr><th>Réseau</th><th>Besoin</th><th>Préfixe</th><th>Adresse</th><th>Plage utilisable</th><th class='r'>Perdues</th></tr>" +
+    r.plan.map((p) =>
+      "<tr><td>" + p.nom + "</td>" +
+      "<td style='color:var(--fog)'>" + p.hotes + " hôtes</td>" +
+      "<td style='color:var(--net)'>/" + p.prefixe + "</td>" +
+      "<td>" + p.reseau + "<br><span style='color:var(--fog)'>" + p.masque + "</span></td>" +
+      "<td>" + p.premiere + " → " + p.derniere + "<br><span style='color:var(--fog)'>broadcast " + p.broadcast + "</span></td>" +
+      "<td class='r' style='color:" + (p.perdues === 0 ? "var(--signal)" : p.perdues > 20 ? "var(--or)" : "var(--fog)") + "'>" + p.perdues + "</td></tr>").join("");
+
+  const perdues = r.plan.reduce((s, p) => s + p.perdues, 0);
+  bilan.innerHTML =
+    '<div><div class="lab">Consommé</div><div class="v">' + r.consomme + "</div></div>" +
+    '<div><div class="lab">Encore libre</div><div class="v" style="color:var(--signal)">' + r.libre + "</div></div>" +
+    '<div><div class="lab">Perdues au découpage</div><div class="v" style="color:' + (perdues > 40 ? "var(--or)" : "var(--bone)") + '">' + perdues + "</div></div>" +
+    '<div><div class="lab">Sous-réseaux</div><div class="v">' + String(r.plan.length).padStart(2, "0") + "</div></div>";
+
+  alerte.innerHTML = r.deborde
+    ? '<div class="alerte"><b>Il n\'y a plus la place.</b> « ' + r.deborde.nom + " » demande " +
+      r.deborde.hotes + " hôtes, soit un /" + prefixePour(r.deborde.hotes) +
+      ", et il ne reste que " + r.libre + " adresses. Il faut un préfixe de départ plus large, " +
+      "ou revoir ce besoin.</div>"
+    : "";
+
+  // La configuration : c'est ce qu'on tape réellement sur l'équipement, et
+  // c'est ce qui transforme un tableau en compétence.
+  // Les interfaces se numerotent PAR FAMILLE. Avec un index global, un plan
+  // a deux LAN et une liaison sortait « GigabitEthernet0/0, 0/1, Serial0/0/2 » :
+  // personne ne cable un Serial en position 2 quand il est le premier, et un
+  // formateur qui livre ca perd sa credibilite a la premiere lecture.
+  let nGig = 0, nSer = 0;
+  conf.textContent = r.plan.map((p) => {
+    const int = p.hotes <= 2 ? "Serial0/0/" + nSer++ : "GigabitEthernet0/" + nGig++;
+    return "interface " + int + "\n" +
+      " description " + p.nom + "\n" +
+      " ip address " + p.premiere + " " + p.masque + "\n" +
+      " no shutdown";
+  }).join("\n!\n") + (r.plan.length ? "\n!\nend" : "");
+}
+
+function tout() { rendreBesoins(); calculer(); }
+
+document.getElementById("besoins").addEventListener("input", (e) => {
+  const n = e.target.dataset.n, h = e.target.dataset.h;
+  if (n !== undefined) besoins[+n].nom = e.target.value;
+  if (h !== undefined) besoins[+h].hotes = Math.max(0, parseInt(e.target.value, 10) || 0);
+  calculer();
+});
+document.getElementById("besoins").addEventListener("click", (e) => {
+  const s = e.target.dataset.sup;
+  if (s === undefined) return;
+  besoins.splice(+s, 1);
+  tout();
+});
+document.getElementById("base").addEventListener("input", calculer);
+document.getElementById("btnPlus").addEventListener("click", () => {
+  besoins.push({ nom: "LAN " + String.fromCharCode(65 + besoins.length), hotes: 20 });
+  tout();
+});
+document.getElementById("btnP2P").addEventListener("click", () => {
+  besoins.push({ nom: "Liaison " + (besoins.filter((b) => b.hotes === 2).length + 1), hotes: 2 });
+  tout();
+});
+document.getElementById("btnRaz").addEventListener("click", () => {
+  besoins = EXEMPLE.map((b) => ({ ...b }));
+  document.getElementById("base").value = "192.168.10.0/24";
+  tout();
+});
+
+tout();
+</script>
+</body>
+</html>

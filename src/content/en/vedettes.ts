@@ -65,6 +65,7 @@ export const vedettesEn: VedettesCopy = {
       promesse: "A way into a trade that is hiring, without an expensive school.",
       contenu:
         "Orientation, fundamentals — addressing, VLANs, routing, wireless —, certification preparation and introductions. We train and we point the way; we do not deploy your infrastructure.",
+      demo: [{ ...fr.items[3].demo![0], texte: "The syllabus and the VLSM bench" }],
     },
     {
       ...fr.items[4],
@@ -72,6 +73,7 @@ export const vedettesEn: VedettesCopy = {
       promesse: "A way into a field that recruits faster than it trains.",
       contenu:
         "Defensive fundamentals — port authentication, segmentation, hardening —, certification preparation, guidance along the way. No penetration testing sold: we support the people who want to get in.",
+      demo: [{ ...fr.items[4].demo![0], texte: "Module 04 of the pathway" }],
     },
     {
       ...fr.items[5],

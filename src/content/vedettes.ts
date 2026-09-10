@@ -148,6 +148,7 @@ export const vedettes: VedettesCopy = {
       promesse: "De quoi entrer dans un métier qui embauche, sans école coûteuse.",
       contenu:
         "Orientation, fondamentaux — adressage, VLAN, routage, sans-fil —, préparation aux certifications et mise en relation. Nous formons et nous orientons ; nous ne déployons pas votre infrastructure.",
+      demo: [{ href: "/demo/reseau/", texte: "Le programme et l’établi VLSM" }],
     },
     {
       id: "cybersecurity",
@@ -156,6 +157,10 @@ export const vedettes: VedettesCopy = {
       promesse: "L'entrée dans un domaine qui recrute plus vite qu'il ne forme.",
       contenu:
         "Fondamentaux défensifs — authentification par port, segmentation, durcissement —, préparation aux certifications, accompagnement de parcours. Aucun test d'intrusion vendu : nous accompagnons ceux qui veulent y entrer.",
+      // Même page que le parcours réseau, à l'ancre du module 04 : le
+      // fondamental défensif EST ce module. Une page séparée n'aurait rien
+      // de plus à montrer et diviserait le seul matériel qui existe.
+      demo: [{ href: "/demo/reseau/#programme", texte: "Le module 04 du parcours" }],
     },
     {
       id: "creative",
