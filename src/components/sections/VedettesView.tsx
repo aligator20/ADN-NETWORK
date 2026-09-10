@@ -149,7 +149,7 @@ export function VedettesView() {
                     {/* La démonstration passe AVANT la réalisation : elle
                         s'ouvre et se manipule, là où un lien vers une fiche
                         demande encore de croire sur parole. */}
-                    {v.demo && (
+                    {v.demo && v.demo.length > 0 && (
                       <div className="mb-7">
                         <p className="label" style={{ color: teinte }}>
                           {vedettes.demoLabel}
@@ -158,16 +158,19 @@ export function VedettesView() {
                             fichiers statiques hors du routeur, et le
                             préchargement de Next irait chercher un manifeste
                             de route qui n'existe pas. */}
-                        <a
-                          href={v.demo.href}
-                          data-cursor="hover"
-                          className="mt-4 flex items-baseline gap-3 font-mono text-[0.8125rem] leading-[1.7] text-bone underline decoration-steel underline-offset-4 transition-colors duration-300 hover:decoration-bone"
-                        >
-                          <span className="max-w-[26ch]">{v.demo.texte}</span>
-                          <span aria-hidden style={{ color: teinte }}>
-                            ↗
-                          </span>
-                        </a>
+                        {v.demo.map((d) => (
+                          <a
+                            key={d.href}
+                            href={d.href}
+                            data-cursor="hover"
+                            className="mt-4 flex items-baseline gap-3 font-mono text-[0.8125rem] leading-[1.7] text-bone underline decoration-steel underline-offset-4 transition-colors duration-300 hover:decoration-bone"
+                          >
+                            <span className="max-w-[26ch]">{d.texte}</span>
+                            <span aria-hidden style={{ color: teinte }}>
+                              ↗
+                            </span>
+                          </a>
+                        ))}
                       </div>
                     )}
                     {projet && v.preuve ? (

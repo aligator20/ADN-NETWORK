@@ -36,7 +36,7 @@ export const vedettesEn: VedettesCopy = {
       contenu:
         "Structure, copywriting, layout, publication and domain name. Static pages: nothing to maintain, nothing that falls over, and a hosting bill close to zero.",
       preuve: { ...fr.items[0].preuve!, texte: "The FullMesh Shop store" },
-      demo: { ...fr.items[0].demo!, texte: "Open the sample site" },
+      demo: [{ ...fr.items[0].demo![0], texte: "Open the sample site" }],
     },
     {
       ...fr.items[1],
@@ -45,7 +45,10 @@ export const vedettesEn: VedettesCopy = {
       contenu:
         "Service catalogue, prompt library, production line for visuals and copy, pricing grid, and the kit you sell with. We built ours first.",
       preuve: { ...fr.items[1].preuve!, texte: "FullMesh Shop, our own offering" },
-      demo: { ...fr.items[1].demo!, texte: "Open the launch dossier" },
+      demo: [
+        { ...fr.items[1].demo![0], texte: "The four AI workstreams" },
+        { ...fr.items[1].demo![1], texte: "The launch dossier" },
+      ],
     },
     {
       ...fr.items[2],
@@ -54,7 +57,7 @@ export const vedettesEn: VedettesCopy = {
       contenu:
         "Management and inventory workbooks, written procedures, tracking sheets. A business starts with its measuring instruments, not once the problems have arrived.",
       preuve: { ...fr.items[2].preuve!, texte: "The Résine Master instruments" },
-      demo: { ...fr.items[2].demo!, texte: "Open the demonstration" },
+      demo: [{ ...fr.items[2].demo![0], texte: "Open the demonstration" }],
     },
     {
       ...fr.items[3],

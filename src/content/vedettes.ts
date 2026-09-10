@@ -58,7 +58,11 @@ export type Vedette = {
    */
   preuve?: { slug: string; texte: string };
   /**
-   * Une démonstration ouvrable, produite pour cette prestation.
+   * Les démonstrations ouvrables produites pour cette prestation.
+   *
+   * Une LISTE, parce que la ligne IA en porte deux qui ne se remplacent pas :
+   * l'étendue du travail qu'on fait pour quelqu'un, et l'offre qu'on monte à
+   * quelqu'un. Un champ unique aurait obligé à en cacher une.
    *
    * Un lien vers une réalisation demande de croire sur parole ; une
    * démonstration se manipule. Les fichiers vivent sous /demo, hors du cache
@@ -68,7 +72,7 @@ export type Vedette = {
    * écrit — y compris à l'impression, un document sorti de son écran ne
    * gardant que ce qui est imprimé dessus.
    */
-  demo?: { href: string; texte: string };
+  demo?: readonly { href: string; texte: string }[];
 };
 
 export type VedettesCopy = {
@@ -112,7 +116,7 @@ export const vedettes: VedettesCopy = {
       contenu:
         "Arborescence, rédaction, mise en page, publication et nom de domaine. Pages statiques : rien à maintenir, rien qui tombe, et une facture d'hébergement quasi nulle.",
       preuve: { slug: "full-mesh", texte: "La boutique FullMesh Shop" },
-      demo: { href: "/demo/site/", texte: "Ouvrir le site d'exemple" },
+      demo: [{ href: "/demo/site/", texte: "Ouvrir le site d'exemple" }],
     },
     {
       id: "ai",
@@ -122,7 +126,10 @@ export const vedettes: VedettesCopy = {
       contenu:
         "Catalogue de prestations, bibliothèque de prompts, chaîne de production des visuels et des textes, grille de prix, et le kit qui vous sert à vendre. Nous l'avons monté pour nous d'abord.",
       preuve: { slug: "full-mesh", texte: "FullMesh Shop, notre propre offre" },
-      demo: { href: "/demo/agence-ia/", texte: "Ouvrir le dossier de lancement" },
+      demo: [
+        { href: "/demo/ia/", texte: "Les quatre chantiers IA" },
+        { href: "/demo/agence-ia/", texte: "Le dossier de lancement" },
+      ],
     },
     {
       id: "automation",
@@ -132,7 +139,7 @@ export const vedettes: VedettesCopy = {
       contenu:
         "Classeurs de gestion et d'inventaire, procédures écrites, tableaux de suivi. L'entreprise démarre avec ses instruments de mesure, pas une fois les problèmes arrivés.",
       preuve: { slug: "resine-master", texte: "Les instruments de Résine Master" },
-      demo: { href: "/demo/pilotage/", texte: "Ouvrir la démonstration" },
+      demo: [{ href: "/demo/pilotage/", texte: "Ouvrir la démonstration" }],
     },
     {
       id: "network",

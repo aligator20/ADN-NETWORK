@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Quatre chantiers IA — démonstration ADN NETWORK</title>
+<!--
+  QUATRE CHANTIERS IA — DÉMONSTRATION
+
+  Quatre applications de l'IA choisies sur un seul critère : elles répondent
+  à un besoin qu'une entreprise d'ici a vraiment, et elles peuvent être
+  livrées sans engagement qu'on ne saurait tenir.
+
+  CE QUI A ÉTÉ ÉCARTÉ, ET POURQUOI
+  Pas de robot qui répond tout seul au nom du client : un répondeur qui se
+  trompe sur un prix vend au mauvais prix, et c'est le commerçant qui paie.
+  Pas de modèle entraîné sur mesure, pas d'agent hébergé sous engagement de
+  disponibilité — aucune référence publiée, et une disponibilité se tient ou
+  se paie. Chaque chantier porte donc une section « ce qu'il ne fait pas »,
+  de la même taille que sa promesse.
+
+  LES DEUX DÉMONSTRATIONS INTERACTIVES TOURNENT SUR DES RÈGLES, PAS SUR UN
+  MODÈLE. Rien n'appelle le réseau, aucune clé d'API n'est demandée, aucun
+  texte saisi ne sort du navigateur. Ce qu'elles montrent, c'est la GRILLE
+  de décision — le livrable réel — et non l'inférence. C'est écrit à
+  l'écran, parce que laisser croire qu'un modèle tourne ici serait vendre
+  une capacité qui n'est pas dans le fichier.
+
+  Les illustrations sont animées en SVG et en CSS, sans dépendance, et
+  s'arrêtent si le système déclare préférer moins d'animation.
+-->
+<style>
+  :root{
+    --void:#050506; --carbon:#0a0a0c; --graphite:#121215; --ash:#1c1c20;
+    --steel:#2a2a30; --fog:#7d7d86; --bone:#ececee;
+    --signal:#c6f24e; --ia:#a855f7; --ia-clair:#c9a2fb;
+    --c1:#4ade80; --c2:#f2b705; --c3:#4d93ff; --c4:#ff5fae;
+    --mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Consolas, monospace;
+    --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--void); color:var(--bone); font-family:var(--mono); font-size:13.5px; line-height:1.65}
+  h1,h2,h3{font-family:var(--sans); font-weight:700; letter-spacing:-.025em; margin:0; line-height:1.05}
+  .lab{font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--fog)}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 26px}
+  button{font:inherit; cursor:pointer}
+  select,input,textarea{font:inherit; background:var(--graphite); color:var(--bone); border:1px solid var(--steel); padding:9px 11px; width:100%}
+  select:focus,input:focus,textarea:focus{outline:1px solid var(--ia); border-color:transparent}
+
+  .demo{background:var(--ia); color:#12061f; padding:8px 18px; font-size:10px; letter-spacing:.2em; text-transform:uppercase; text-align:center}
+  .demo b{font-weight:700}
+
+  header.top{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 26px; border-bottom:1px solid var(--steel); flex-wrap:wrap}
+  .marque .n{font-family:var(--sans); font-weight:700; font-size:16px; letter-spacing:.05em}
+  .marque .n i{color:var(--signal); font-style:normal}
+
+  .ouverture{padding:66px 0 54px}
+  .ouverture h1{font-size:clamp(2rem,5.4vw,3.9rem); max-width:19ch; margin-top:14px}
+  .ouverture p{max-width:58ch; margin-top:20px; color:#b9b9c2; font-size:14.5px}
+
+  /* — sommaire — */
+  .somm{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1px; background:var(--steel); border:1px solid var(--steel); margin-top:38px}
+  .somm a{display:block; background:var(--void); padding:16px 18px; text-decoration:none; color:var(--bone); transition:background .25s}
+  .somm a:hover{background:var(--carbon)}
+  .somm a .i{font-size:10px; letter-spacing:.2em}
+  .somm a b{display:block; font-family:var(--sans); font-size:15.5px; margin-top:7px; letter-spacing:-.01em}
+  .somm a span{display:block; color:var(--fog); font-size:12px; margin-top:5px}
+
+  /* — un chantier — */
+  .chantier{border-top:1px solid var(--steel); padding:62px 0}
+  .duo{display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start}
+  @media (max-width:900px){ .duo{grid-template-columns:1fr; gap:30px} }
+  .chantier h2{font-size:clamp(1.6rem,3.6vw,2.6rem); margin-top:12px; max-width:20ch}
+  .chantier .promesse{margin-top:16px; font-size:15px; color:#d3d3da; max-width:46ch}
+
+  .bloc{margin-top:26px}
+  .bloc .t{font-size:10px; letter-spacing:.2em; text-transform:uppercase}
+  .bloc ul{list-style:none; padding:0; margin:10px 0 0}
+  .bloc li{padding:7px 0 7px 18px; position:relative; color:#c2c2ca; font-size:12.8px; border-bottom:1px solid var(--ash)}
+  .bloc li::before{content:"—"; position:absolute; left:0; color:var(--steel)}
+  .refus li::before{content:"×"; color:#ff6b73}
+
+  figure{margin:0; border:1px solid var(--steel); background:var(--carbon); padding:0; overflow:hidden}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{padding:11px 16px; border-top:1px solid var(--steel); color:var(--fog); font-size:11.5px}
+
+  /* ── animations, toutes désactivables ──────────────────────────────── */
+  @keyframes glisse-1{0%,8%{transform:translateX(-118px); opacity:0}
+    18%,74%{transform:translateX(0); opacity:1}
+    88%,100%{transform:translateX(118px); opacity:0}}
+  @keyframes pulse{0%,100%{opacity:.28} 50%{opacity:1}}
+  @keyframes remplir{0%{width:0} 100%{width:var(--w,100%)}}
+  @keyframes converge{0%{transform:translate(var(--dx,0),var(--dy,0)) rotate(var(--r,0deg)); opacity:.25}
+    60%,100%{transform:translate(0,0) rotate(0deg); opacity:1}}
+  @keyframes onde{0%,100%{transform:scaleY(.25)} 50%{transform:scaleY(1)}}
+  @keyframes ecrire{0%{width:0} 100%{width:var(--w,100%)}}
+
+  .a-msg{animation:glisse-1 6s cubic-bezier(.65,.05,0,1) infinite}
+  .a-pulse{animation:pulse 2.4s ease-in-out infinite}
+  .a-conv{animation:converge 4.5s cubic-bezier(.65,.05,0,1) infinite}
+  .a-onde{animation:onde 1.1s ease-in-out infinite; transform-origin:center}
+  .a-ecrire{animation:ecrire 4.5s steps(24) infinite}
+
+  @media (prefers-reduced-motion: reduce){
+    .a-msg,.a-pulse,.a-conv,.a-onde,.a-ecrire{animation:none !important}
+    html{scroll-behavior:auto}
+  }
+
+  /* — les outils interactifs — */
+  .outil{border:1px solid var(--steel); margin-top:28px}
+  .outil .h{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:13px 18px; border-bottom:1px solid var(--steel); flex-wrap:wrap}
+  .outil .b{padding:18px}
+  .btn{background:var(--signal); color:var(--void); border:0; padding:10px 18px; font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:700}
+  .btn.sec{background:transparent; color:var(--bone); border:1px solid var(--steel); font-weight:400}
+  .btn.sec:hover{border-color:var(--fog)}
+  .barre{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px}
+
+  .colonnes{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px}
+  @media (max-width:760px){ .colonnes{grid-template-columns:1fr} }
+  .col{border:1px solid var(--steel); min-height:96px}
+  .col .ct{padding:9px 12px; border-bottom:1px solid var(--steel); font-size:10px; letter-spacing:.18em; text-transform:uppercase}
+  .col .cc{padding:10px 12px}
+  .fiche{border-bottom:1px solid var(--ash); padding:8px 0; font-size:12.3px}
+  .fiche:last-child{border-bottom:0}
+  .fiche em{color:var(--fog); font-style:normal; display:block; font-size:11.5px; margin-top:3px}
+
+  .defile{overflow-x:auto; margin-top:14px}
+  .defile table{min-width:540px; margin-top:0}
+  table{width:100%; border-collapse:collapse; margin-top:14px}
+  th{text-align:left; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--fog); font-weight:400; padding:9px 10px; border-bottom:1px solid var(--steel)}
+  td{padding:10px; border-bottom:1px solid var(--ash); vertical-align:middle}
+  td.r,th.r{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+  .jauge{height:5px; background:var(--ash); position:relative; min-width:70px}
+  .jauge i{position:absolute; inset:0 auto 0 0; display:block}
+  .niv{font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:2px 8px; border:1px solid currentColor; white-space:nowrap}
+
+  .sortie{background:var(--carbon); border:1px solid var(--steel); padding:15px 17px; white-space:pre-wrap; font-size:12.4px; line-height:1.72; margin-top:14px; color:#d6d6dc; max-height:270px; overflow:auto}
+
+  .note{border-left:2px solid var(--ia); padding:11px 15px; background:var(--carbon); margin-top:18px; font-size:12.4px; color:#c3bcd0}
+  .note b{color:var(--ia-clair); font-weight:400}
+
+  footer{border-top:1px solid var(--steel); padding:34px 0 46px; color:var(--fog); font-size:12px}
+  footer a{color:var(--ia-clair)}
+</style>
+</head>
+<body>
+
+<div class="demo">
+  <b>Démonstration</b> — quatre chantiers réels, entreprises et chiffres fictifs ·
+  produit par ADN NETWORK · les deux outils tournent sur des règles, pas sur un modèle
+</div>
+
+<header class="top">
+  <div class="marque"><span class="n">ADN<i>°</i>NETWORK</span></div>
+  <span class="lab">Chantiers IA — édition 01</span>
+</header>
+
+<div class="wrap ouverture">
+  <p class="lab">Ce que l'IA peut vraiment faire ici</p>
+  <h1>Quatre chantiers, choisis parce qu'ils tiennent.</h1>
+  <p>
+    Chacun répond à un besoin qu'une entreprise d'ici a réellement, et chacun
+    peut être livré sans promettre une capacité qu'on n'a pas. C'est pour ça
+    qu'ils portent tous une section « ce qu'il ne fait pas », écrite aussi
+    grand que leur promesse.
+  </p>
+
+  <nav class="somm">
+    <a href="#trieur"><span class="i" style="color:var(--c1)">01</span><b>Le Trieur WhatsApp</b><span>Soixante messages par jour, trois commandes noyées dedans</span></a>
+    <a href="#relance"><span class="i" style="color:var(--c2)">02</span><b>La Relance</b><span>De l'argent dû, et personne pour savoir qui rappeler</span></a>
+    <a href="#dossier"><span class="i" style="color:var(--c3)">03</span><b>Le Dossier en une journée</b><span>Un projet dans une tête, une banque qui veut un document</span></a>
+    <a href="#memoire"><span class="i" style="color:var(--c4)">04</span><b>La Mémoire de l'atelier</b><span>Un savoir-faire qui ne survit pas à celui qui le porte</span></a>
+  </nav>
+</div>
+
+<!-- ═══════════════════════ 01 — LE TRIEUR WHATSAPP ═══════════════════════ -->
+<section class="chantier" id="trieur">
+  <div class="wrap">
+    <div class="duo">
+      <div>
+        <p class="lab" style="color:var(--c1)">01 — Le Trieur WhatsApp</p>
+        <h2>Trois commandes noyées dans soixante messages.</h2>
+        <p class="promesse">
+          Au Bénin, WhatsApp <em>est</em> le commerce. Le problème n'est pas de
+          recevoir : c'est que la commande de 40 000 F arrive entre une question
+          d'horaire et un « bonjour » sans suite, et qu'à vingt heures on ne
+          sait plus laquelle on a oubliée.
+        </p>
+
+        <div class="bloc">
+          <p class="t" style="color:var(--c1)">Ce qui est livré</p>
+          <ul>
+            <li>Une grille de classement : commande, question, relance, à ignorer</li>
+            <li>Les champs à extraire d'une commande — produit, quantité, lieu, échéance</li>
+            <li>Douze réponses types, une par question qui revient</li>
+            <li>La procédure d'acheminement : qui traite quoi, et dans quel délai</li>
+          </ul>
+        </div>
+
+        <div class="bloc refus">
+          <p class="t" style="color:#ff6b73">Ce qu'il ne fait pas</p>
+          <ul>
+            <li>Répondre tout seul en votre nom. Un répondeur qui se trompe sur un prix vend au mauvais prix</li>
+            <li>Se brancher sur votre compte WhatsApp. Vos accès restent les vôtres</li>
+            <li>Décider d'un refus de vente à votre place</li>
+          </ul>
+        </div>
+      </div>
+
+      <figure>
+        <!-- Les messages entrent par la gauche et repartent triés : l'animation
+             montre le FLUX, qui est le vrai sujet. Trois couleurs, trois piles. -->
+        <svg viewBox="0 0 520 300" role="img" aria-label="Animation : des messages entrants se répartissent en trois piles — commandes, questions, à ignorer">
+          <rect width="520" height="300" fill="#0a0a0c"/>
+          <g stroke="#2a2a30" stroke-width="1">
+            <line x1="168" y1="20" x2="168" y2="280"/>
+            <line x1="352" y1="20" x2="352" y2="280"/>
+          </g>
+          <g font-family="Consolas, monospace" font-size="9" fill="#7d7d86" letter-spacing="1.5">
+            <text x="20" y="34">ENTRANT</text>
+            <text x="182" y="34">GRILLE</text>
+            <text x="366" y="34">TRIÉ</text>
+          </g>
+
+          <!-- les bulles entrantes -->
+          <g>
+            <g class="a-msg" style="animation-delay:0s">
+              <rect x="20" y="60" width="128" height="26" rx="3" fill="#1c1c20" stroke="#4ade80"/>
+              <text x="30" y="77" font-family="Consolas, monospace" font-size="9.5" fill="#4ade80">2 sacs ciment Vodjè</text>
+            </g>
+            <g class="a-msg" style="animation-delay:1.4s">
+              <rect x="20" y="104" width="128" height="26" rx="3" fill="#1c1c20" stroke="#4d93ff"/>
+              <text x="30" y="121" font-family="Consolas, monospace" font-size="9.5" fill="#4d93ff">vous ouvrez samedi ?</text>
+            </g>
+            <g class="a-msg" style="animation-delay:2.8s">
+              <rect x="20" y="148" width="128" height="26" rx="3" fill="#1c1c20" stroke="#2a2a30"/>
+              <text x="30" y="165" font-family="Consolas, monospace" font-size="9.5" fill="#7d7d86">bonjour</text>
+            </g>
+            <g class="a-msg" style="animation-delay:4.2s">
+              <rect x="20" y="192" width="128" height="26" rx="3" fill="#1c1c20" stroke="#f2b705"/>
+              <text x="30" y="209" font-family="Consolas, monospace" font-size="9.5" fill="#f2b705">et ma livraison ?</text>
+            </g>
+          </g>
+
+          <!-- la grille, au centre -->
+          <g class="a-pulse">
+            <rect x="196" y="112" width="128" height="76" rx="3" fill="none" stroke="#a855f7" stroke-width="1.5"/>
+            <line x1="196" y1="137" x2="324" y2="137" stroke="#a855f7" stroke-width=".7"/>
+            <line x1="196" y1="163" x2="324" y2="163" stroke="#a855f7" stroke-width=".7"/>
+            <text x="206" y="130" font-family="Consolas, monospace" font-size="9" fill="#c9a2fb">produit + quantité ?</text>
+            <text x="206" y="156" font-family="Consolas, monospace" font-size="9" fill="#c9a2fb">lieu ? échéance ?</text>
+            <text x="206" y="181" font-family="Consolas, monospace" font-size="9" fill="#c9a2fb">déjà client ?</text>
+          </g>
+
+          <!-- les trois piles -->
+          <g font-family="Consolas, monospace" font-size="9">
+            <rect x="366" y="56" width="134" height="58" rx="3" fill="#101410" stroke="#4ade80"/>
+            <text x="376" y="72" fill="#4ade80" letter-spacing="1.2">COMMANDES</text>
+            <text x="376" y="90" fill="#ececee" font-size="17" font-family="Archivo, Arial">03</text>
+            <text x="410" y="90" fill="#7d7d86">à traiter</text>
+
+            <rect x="366" y="124" width="134" height="58" rx="3" fill="#0d1017" stroke="#4d93ff"/>
+            <text x="376" y="140" fill="#4d93ff" letter-spacing="1.2">QUESTIONS</text>
+            <text x="376" y="158" fill="#ececee" font-size="17" font-family="Archivo, Arial">11</text>
+            <text x="410" y="158" fill="#7d7d86">réponse type</text>
+
+            <rect x="366" y="192" width="134" height="58" rx="3" fill="#0e0e10" stroke="#2a2a30"/>
+            <text x="376" y="208" fill="#7d7d86" letter-spacing="1.2">SANS SUITE</text>
+            <text x="376" y="226" fill="#7d7d86" font-size="17" font-family="Archivo, Arial">46</text>
+            <text x="410" y="226" fill="#3a3a40">archivé</text>
+          </g>
+        </svg>
+        <figcaption>Le flux d'une journée : la grille sépare ce qui rapporte de ce qui occupe.</figcaption>
+      </figure>
+    </div>
+
+    <!-- ── l'outil ── -->
+    <div class="outil">
+      <div class="h">
+        <b style="font-family:var(--sans); font-size:15px">Appliquer la grille</b>
+        <span class="lab">Règles locales · aucun modèle, aucun réseau</span>
+      </div>
+      <div class="b">
+        <label class="lab" for="tzConv">Collez une conversation, une ligne par message</label>
+        <textarea id="tzConv" rows="7" style="margin-top:7px"></textarea>
+        <div class="barre">
+          <button class="btn" id="tzGo">Classer</button>
+          <button class="btn sec" id="tzEx">Remettre l'exemple</button>
+        </div>
+        <div class="colonnes" id="tzOut"></div>
+        <div class="note">
+          <b>Ce que cette démonstration montre, et ce qu'elle ne montre pas.</b>
+          Le classement tourne ici sur des règles écrites, dans votre navigateur —
+          c'est la grille qui est le livrable, et c'est elle qu'on vous remet.
+          Aucun modèle ne tourne dans cette page. À l'usage, c'est un modèle qui
+          applique la même grille sur des messages qu'aucune règle ne saurait
+          lire, et un humain qui valide avant de répondre.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ 02 — LA RELANCE ═══════════════════════════ -->
+<section class="chantier" id="relance">
+  <div class="wrap">
+    <div class="duo">
+      <div>
+        <p class="lab" style="color:var(--c2)">02 — La Relance</p>
+        <h2>De l'argent dû, et personne pour savoir qui rappeler.</h2>
+        <p class="promesse">
+          Les créances ne dorment pas parce qu'on manque de courage : c'est
+          qu'on ne sait plus qui doit quoi depuis combien de temps, et qu'on
+          n'a pas envie d'écrire le message. Les deux se règlent.
+        </p>
+
+        <div class="bloc">
+          <p class="t" style="color:var(--c2)">Ce qui est livré</p>
+          <ul>
+            <li>Le calendrier de relance : qui appeler aujourd'hui, et pourquoi lui</li>
+            <li>Trois niveaux de ton, du rappel à la mise en demeure</li>
+            <li>Le texte de chaque niveau, prêt à envoyer</li>
+            <li>La règle d'arrêt : à partir de quand on cesse de relancer</li>
+          </ul>
+        </div>
+
+        <div class="bloc refus">
+          <p class="t" style="color:#ff6b73">Ce qu'il ne fait pas</p>
+          <ul>
+            <li>Recouvrer à votre place. Nous n'exerçons aucune activité de recouvrement</li>
+            <li>Rédiger un acte juridique. La mise en demeure se fait relire par un juriste</li>
+            <li>Envoyer sans que vous ayez lu</li>
+          </ul>
+        </div>
+      </div>
+
+      <figure>
+        <!-- Les jauges se remplissent et changent de couleur avec le retard :
+             on voit le passage d'un niveau de ton au suivant. -->
+        <svg viewBox="0 0 520 300" role="img" aria-label="Animation : quatre créances dont le retard s'allonge, et le niveau de relance qui change avec">
+          <rect width="520" height="300" fill="#0a0a0c"/>
+          <g font-family="Consolas, monospace" font-size="9" fill="#7d7d86" letter-spacing="1.5">
+            <text x="24" y="34">CLIENT</text>
+            <text x="196" y="34">RETARD</text>
+            <text x="424" y="34">NIVEAU</text>
+          </g>
+
+          <g font-family="Consolas, monospace" font-size="10">
+            <!-- 1 : dans les temps -->
+            <text x="24" y="76" fill="#ececee">BATI-SUD</text>
+            <rect x="196" y="68" width="190" height="6" fill="#1c1c20"/>
+            <rect x="196" y="68" width="42" height="6" fill="#4ade80" class="a-pulse"/>
+            <text x="424" y="76" fill="#4ade80">à jour</text>
+
+            <!-- 2 : rappel -->
+            <text x="24" y="126" fill="#ececee">LES PALMIERS</text>
+            <rect x="196" y="118" width="190" height="6" fill="#1c1c20"/>
+            <rect x="196" y="118" width="96" height="6" fill="#f2b705" class="a-pulse" style="animation-delay:.4s"/>
+            <text x="424" y="126" fill="#f2b705">rappel</text>
+
+            <!-- 3 : ferme -->
+            <text x="24" y="176" fill="#ececee">ATELIER NOVA</text>
+            <rect x="196" y="168" width="190" height="6" fill="#1c1c20"/>
+            <rect x="196" y="168" width="146" height="6" fill="#ff8a1f" class="a-pulse" style="animation-delay:.8s"/>
+            <text x="424" y="176" fill="#ff8a1f">ferme</text>
+
+            <!-- 4 : dernier avis -->
+            <text x="24" y="226" fill="#ececee">COOP. TOGBIN</text>
+            <rect x="196" y="218" width="190" height="6" fill="#1c1c20"/>
+            <rect x="196" y="218" width="190" height="6" fill="#ff4d58" class="a-pulse" style="animation-delay:1.2s"/>
+            <text x="424" y="226" fill="#ff4d58">dernier avis</text>
+          </g>
+
+          <g stroke="#2a2a30" stroke-width="1" stroke-dasharray="3 4">
+            <line x1="292" y1="52" x2="292" y2="248"/>
+            <line x1="342" y1="52" x2="342" y2="248"/>
+          </g>
+          <g font-family="Consolas, monospace" font-size="8" fill="#3a3a40">
+            <text x="278" y="266">J+30</text>
+            <text x="328" y="266">J+60</text>
+          </g>
+        </svg>
+        <figcaption>Le ton ne se choisit pas à l'humeur : il suit le retard, et le retard seul.</figcaption>
+      </figure>
+    </div>
+
+    <div class="outil">
+      <div class="h">
+        <b style="font-family:var(--sans); font-size:15px">Le calendrier du jour</b>
+        <span class="lab">Créances fictives · le message se compose ici</span>
+      </div>
+      <div class="b">
+        <div class="defile"><table id="rlTable"></table></div>
+        <div id="rlMsg"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════ 03 — LE DOSSIER EN UNE JOURNÉE ═════════════════════ -->
+<section class="chantier" id="dossier">
+  <div class="wrap">
+    <div class="duo">
+      <div>
+        <p class="lab" style="color:var(--c3)">03 — Le Dossier en une journée</p>
+        <h2>Le projet existe. Le document, non.</h2>
+        <p class="promesse">
+          Un projet vit dans une tête, dans quarante photos et dans trois
+          cahiers. La banque, elle, veut un document qu'elle puisse instruire
+          sans rappeler personne. Le travail n'est pas d'écrire joli : c'est de
+          poser les questions dont l'absence de réponse fait refuser le dossier.
+        </p>
+
+        <div class="bloc">
+          <p class="t" style="color:var(--c3)">Ce qui est livré</p>
+          <ul>
+            <li>Le plan attendu par un bailleur, section par section</li>
+            <li>La liste des questions à trancher avant d'écrire</li>
+            <li>Les tableaux de chiffres, et l'hypothèse écrite sous chacun</li>
+            <li>Le document mis en page, plus une version d'une page</li>
+          </ul>
+        </div>
+
+        <div class="bloc refus">
+          <p class="t" style="color:#ff6b73">Ce qu'il ne fait pas</p>
+          <ul>
+            <li>Inventer un chiffre. Une donnée manquante s'écrit « à confirmer », elle ne se comble pas</li>
+            <li>Garantir un accord. Un bon dossier rend instruisable, il ne décide pas</li>
+            <li>Signer une projection à votre place</li>
+          </ul>
+        </div>
+
+        <div class="note">
+          <b>Pourquoi cette règle-là est la plus importante.</b> Sur un dossier
+          de ce site, la version révisée retirait d'elle-même des capacités que
+          la première annonçait comme acquises. Nous avons corrigé la fiche en
+          conséquence. Un dossier qui retire ses propres promesses est plus
+          solide qu'un dossier qui les garde.
+        </div>
+      </div>
+
+      <figure>
+        <!-- Les fragments épars convergent vers une page structurée : c'est
+             exactement le geste que la prestation vend. -->
+        <svg viewBox="0 0 520 300" role="img" aria-label="Animation : des notes éparses convergent pour former un document structuré">
+          <rect width="520" height="300" fill="#0a0a0c"/>
+
+          <!-- fragments -->
+          <g class="a-conv" style="--dx:-96px; --dy:-52px; --r:-14deg">
+            <rect x="66" y="72" width="58" height="40" rx="2" fill="#1c1c20" stroke="#2a2a30"/>
+            <g stroke="#4d93ff" stroke-width="1.4" opacity=".8">
+              <line x1="74" y1="84" x2="112" y2="84"/><line x1="74" y1="92" x2="104" y2="92"/><line x1="74" y1="100" x2="108" y2="100"/>
+            </g>
+          </g>
+          <g class="a-conv" style="--dx:-84px; --dy:64px; --r:11deg; animation-delay:.35s">
+            <rect x="66" y="150" width="58" height="40" rx="2" fill="#1c1c20" stroke="#2a2a30"/>
+            <g stroke="#4d93ff" stroke-width="1.4" opacity=".8">
+              <line x1="74" y1="162" x2="110" y2="162"/><line x1="74" y1="170" x2="98" y2="170"/><line x1="74" y1="178" x2="112" y2="178"/>
+            </g>
+          </g>
+          <g class="a-conv" style="--dx:-58px; --dy:-88px; --r:20deg; animation-delay:.7s">
+            <rect x="66" y="220" width="58" height="40" rx="2" fill="#1c1c20" stroke="#2a2a30"/>
+            <g stroke="#4d93ff" stroke-width="1.4" opacity=".8">
+              <line x1="74" y1="232" x2="106" y2="232"/><line x1="74" y1="240" x2="112" y2="240"/>
+            </g>
+          </g>
+
+          <!-- flèches -->
+          <g stroke="#2a2a30" stroke-width="1.2" fill="none">
+            <path d="M132 92 L196 132"/><path d="M132 170 L196 150"/><path d="M132 240 L196 168"/>
+          </g>
+
+          <!-- le document -->
+          <rect x="212" y="44" width="196" height="216" rx="3" fill="#101215" stroke="#4d93ff" stroke-width="1.5"/>
+          <rect x="212" y="44" width="196" height="30" fill="#4d93ff" opacity=".14"/>
+          <text x="226" y="64" font-family="Archivo, Arial" font-size="12" font-weight="700" fill="#ececee">DOSSIER</text>
+          <g font-family="Consolas, monospace" font-size="8" fill="#7d7d86">
+            <text x="226" y="96">01 — LE BESOIN</text>
+            <text x="226" y="128">02 — LE MARCHÉ</text>
+            <text x="226" y="160">03 — LE MODÈLE</text>
+            <text x="226" y="192">04 — LES CHIFFRES</text>
+            <text x="226" y="224">05 — CE QUI RESTE À CONFIRMER</text>
+          </g>
+          <g fill="#2a2a30">
+            <rect x="226" y="102" width="168" height="3"/><rect x="226" y="108" width="132" height="3"/>
+            <rect x="226" y="134" width="168" height="3"/><rect x="226" y="140" width="146" height="3"/>
+            <rect x="226" y="166" width="168" height="3"/><rect x="226" y="172" width="120" height="3"/>
+            <rect x="226" y="198" width="168" height="3"/><rect x="226" y="204" width="154" height="3"/>
+          </g>
+          <rect x="226" y="230" width="96" height="3" fill="#f2b705"/>
+
+          <!-- la mention qui fait la différence -->
+          <g class="a-pulse">
+            <rect x="424" y="204" width="80" height="46" rx="3" fill="#141110" stroke="#f2b705"/>
+            <text x="434" y="222" font-family="Consolas, monospace" font-size="8" fill="#f2b705">À CONFIRMER</text>
+            <text x="434" y="238" font-family="Archivo, Arial" font-size="15" font-weight="700" fill="#ececee">04</text>
+          </g>
+        </svg>
+        <figcaption>Ce qui manque est nommé, pas comblé — c'est ce qui rend le reste croyable.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 04 — LA MÉMOIRE DE L'ATELIER ═════════════════════════ -->
+<section class="chantier" id="memoire">
+  <div class="wrap">
+    <div class="duo">
+      <div>
+        <p class="lab" style="color:var(--c4)">04 — La Mémoire de l'atelier</p>
+        <h2>Un savoir-faire qui ne survit pas à celui qui le porte.</h2>
+        <p class="promesse">
+          Le patron sait doser, régler, rattraper. Rien n'est écrit. Le jour où
+          il n'est pas là, l'atelier s'arrête ; le jour où il forme quelqu'un,
+          il recommence tout à l'oral. On transforme ce qu'il sait en
+          procédures que quelqu'un d'autre peut suivre.
+        </p>
+
+        <div class="bloc">
+          <p class="t" style="color:var(--c4)">Ce qui est livré</p>
+          <ul>
+            <li>Des entretiens enregistrés, retranscrits et rangés par geste</li>
+            <li>Une fiche par opération : matériel, dosage, durée, points de contrôle</li>
+            <li>Le tableau des ratés courants et de leur rattrapage</li>
+            <li>Un manuel de formation, et les fiches à photocopier pour l'atelier</li>
+          </ul>
+        </div>
+
+        <div class="bloc refus">
+          <p class="t" style="color:#ff6b73">Ce qu'il ne fait pas</p>
+          <ul>
+            <li>Inventer un tour de main. Ce qui n'a pas été dit en entretien n'entre pas au manuel</li>
+            <li>Remplacer la formation pratique. Une fiche ne forme pas une main</li>
+            <li>Certifier une conformité réglementaire ou sanitaire</li>
+          </ul>
+        </div>
+      </div>
+
+      <figure>
+        <!-- La parole devient de l'écrit : l'onde à gauche, les fiches à
+             droite. Le titre s'écrit lettre à lettre. -->
+        <svg viewBox="0 0 520 300" role="img" aria-label="Animation : une parole enregistrée se transforme en fiches de procédure">
+          <rect width="520" height="300" fill="#0a0a0c"/>
+          <g font-family="Consolas, monospace" font-size="9" fill="#7d7d86" letter-spacing="1.5">
+            <text x="24" y="34">ENTRETIEN</text>
+            <text x="292" y="34">PROCÉDURES</text>
+          </g>
+
+          <!-- l'onde -->
+          <g fill="#ff5fae">
+            <rect x="30" y="130" width="5" height="40" class="a-onde" style="animation-delay:0s"/>
+            <rect x="42" y="120" width="5" height="60" class="a-onde" style="animation-delay:.1s"/>
+            <rect x="54" y="106" width="5" height="88" class="a-onde" style="animation-delay:.2s"/>
+            <rect x="66" y="126" width="5" height="48" class="a-onde" style="animation-delay:.3s"/>
+            <rect x="78" y="112" width="5" height="76" class="a-onde" style="animation-delay:.4s"/>
+            <rect x="90" y="134" width="5" height="32" class="a-onde" style="animation-delay:.5s"/>
+            <rect x="102" y="118" width="5" height="64" class="a-onde" style="animation-delay:.6s"/>
+            <rect x="114" y="128" width="5" height="44" class="a-onde" style="animation-delay:.7s"/>
+            <rect x="126" y="108" width="5" height="84" class="a-onde" style="animation-delay:.8s"/>
+            <rect x="138" y="130" width="5" height="40" class="a-onde" style="animation-delay:.9s"/>
+          </g>
+          <text x="30" y="216" font-family="Consolas, monospace" font-size="9" fill="#7d7d86">« tu attends que ça</text>
+          <text x="30" y="230" font-family="Consolas, monospace" font-size="9" fill="#7d7d86">tire un peu, puis tu</text>
+          <text x="30" y="244" font-family="Consolas, monospace" font-size="9" fill="#7d7d86">coules doucement »</text>
+
+          <path d="M172 150 L268 150" stroke="#2a2a30" stroke-width="1.2"/>
+          <path d="M258 144 L268 150 L258 156" stroke="#2a2a30" stroke-width="1.2" fill="none"/>
+
+          <!-- les fiches -->
+          <g>
+            <rect x="292" y="56" width="204" height="62" rx="3" fill="#141014" stroke="#ff5fae"/>
+            <text x="304" y="76" font-family="Archivo, Arial" font-size="11" font-weight="700" fill="#ececee">COULÉE — DOSAGE</text>
+            <g font-family="Consolas, monospace" font-size="8" fill="#c9bcc4">
+              <text x="304" y="93">résine 2 · durcisseur 1 · au poids</text>
+              <text x="304" y="107">attendre le filet · couler en continu</text>
+            </g>
+
+            <rect x="292" y="130" width="204" height="62" rx="3" fill="#141014" stroke="#ff5fae" opacity=".82"/>
+            <text x="304" y="150" font-family="Archivo, Arial" font-size="11" font-weight="700" fill="#ececee">BULLES — RATTRAPAGE</text>
+            <g font-family="Consolas, monospace" font-size="8" fill="#c9bcc4">
+              <text x="304" y="167">chalumeau à 20 cm · deux passages</text>
+              <text x="304" y="181">jamais après polymérisation</text>
+            </g>
+
+            <rect x="292" y="204" width="204" height="62" rx="3" fill="#141014" stroke="#ff5fae" opacity=".64"/>
+            <text x="304" y="224" font-family="Archivo, Arial" font-size="11" font-weight="700" fill="#ececee">DÉMOULAGE</text>
+            <g font-family="Consolas, monospace" font-size="8" fill="#c9bcc4">
+              <text x="304" y="241">24 h minimum · test de l'ongle</text>
+              <text x="304" y="255">si ça marque, on attend</text>
+            </g>
+          </g>
+        </svg>
+        <figcaption>Ce qui se disait à l'oral devient une fiche qu'un nouveau peut suivre seul.</figcaption>
+      </figure>
+    </div>
+
+    <div class="note">
+      <b>Ce chantier a déjà été livré.</b> Le manuel d'atelier de Résine Master
+      est exactement ce livrable : ratios, temps de mélange, règles de
+      polymérisation, ratés courants. Il sert aujourd'hui de support au centre
+      de formation du projet.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Démonstration produite par <a href="/">ADN NETWORK</a> — Cotonou.
+    Entreprises, créances et chiffres fictifs ; les deux outils tournent sur
+    des règles écrites, dans votre navigateur, sans aucun appel réseau.
+    Voir aussi le <a href="/demo/agence-ia/">dossier de lancement d'une agence IA</a>.
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;" }[c]));
+const fcfa = (n) => Math.round(n).toLocaleString("fr").replace(/ /g, " ") + " F";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   01 — LE TRIEUR
+   Règles écrites, appliquées dans le navigateur. Ce qui est démontré, c'est
+   la GRILLE — le livrable — et non l'inférence d'un modèle. Le dire est plus
+   important que le cacher : une démonstration qui laisse croire qu'un modèle
+   tourne vend une capacité absente du fichier.
+   ══════════════════════════════════════════════════════════════════════════ */
+const EXEMPLE = [
+  "Bonjour",
+  "il me faut 2 sacs de ciment livrés à Vodjè demain matin",
+  "vous ouvrez le samedi ?",
+  "c'est combien la tôle bac alu ?",
+  "ok",
+  "ma commande de jeudi elle est où ??",
+  "bonsoir je veux 15 barres de fer 12 pour Calavi avant vendredi",
+  "merci",
+].join("\n");
+
+/* Chaque règle porte le MOTIF qui l'a déclenchée : sans ça, le classement est
+   une boîte noire, et une boîte noire ne se corrige pas avec le client. */
+const REGLES = [
+  // ⚠️ L'ORDRE EST LA RÈGLE : on descend du plus spécifique au plus général,
+  // et la première règle qui déclenche gagne.
+  //
+  // La relance passe AVANT l'intention d'achat. « ma commande de jeudi elle
+  // est où ?? » contient « commande de » : rangée après, elle créait une
+  // commande neuve à chaque client qui s'impatiente, et le client qui
+  // réclamait se voyait répondre comme s'il commandait pour la première fois.
+  { classe: "relance", motif: /\b(o[uù] (est|en est)|toujours pas|j'attends|ma commande .*(o[uù]|\?\?))/i, quoi: "suivi d'une commande passée" },
+  { classe: "commande", motif: /(\d+)\s*(sacs?|barres?|tonnes?|seaux?|m2|m²|pi[eè]ces?|cartons?)/i, quoi: "quantité + unité" },
+  { classe: "commande", motif: /\b(je veux|il me faut|je prends|commande de|livr(er|aison) [àa])\b/i, quoi: "intention d'achat" },
+  { classe: "question", motif: /\b(c'est combien|quel prix|combien co[uû]te|prix de)\b/i, quoi: "demande de prix" },
+  { classe: "question", motif: /\b(ouvr(ez|e)|horaire|samedi|dimanche|ferm(é|e))\b/i, quoi: "horaires" },
+  { classe: "question", motif: /\b(dispo|en stock|avez-vous|il y a)\b/i, quoi: "disponibilité" },
+  { classe: "question", motif: /\?/, quoi: "point d'interrogation" },
+  { classe: "sans-suite", motif: /^(bonjour|bonsoir|salut|merci|ok|d'accord|bien re[çc]u)\.?$/i, quoi: "civilité seule" },
+];
+
+/* Les champs extraits d'une commande. Un champ absent est signalé, jamais
+   deviné : une quantité devinée se livre en trop ou en trop peu. */
+function extraire(t) {
+  const q = t.match(/(\d+)\s*(sacs?|barres?|tonnes?|seaux?|m2|m²|pi[eè]ces?|cartons?)/i);
+  // Pas de `\b` final : en JavaScript il se définit sur l'ASCII, et après
+  // « è » il n'y a aucune frontière de mot. Le motif marchait sur « Calavi »
+  // et laissait tomber « Vodjè » — l'espèce de bug qui a l'air juste.
+  const lieu = t.match(/\b(Vodj[eè]|Calavi|Akpakpa|Godomey|Cotonou|Togbin|Fidjross[eè])/i);
+  const quand = t.match(/\b(aujourd'hui|demain|apr[eè]s-demain|avant \w+|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|ce matin|matin|soir)\b/i);
+  return {
+    quantite: q ? q[1] + " " + q[2] : null,
+    lieu: lieu ? lieu[1] : null,
+    echeance: quand ? quand[1] : null,
+  };
+}
+
+function classer(ligne) {
+  for (const r of REGLES) if (r.motif.test(ligne)) return r;
+  return { classe: "sans-suite", quoi: "aucune règle déclenchée" };
+}
+
+function rendreTrieur() {
+  const lignes = document.getElementById("tzConv").value
+    .split("\n").map((l) => l.trim()).filter(Boolean);
+
+  const piles = { commande: [], question: [], "sans-suite": [], relance: [] };
+  lignes.forEach((l) => {
+    const r = classer(l);
+    // Les champs sont extraits des commandes ET des relances : sur une
+    // relance ils servent à retrouver l'affaire, pas à en créer une.
+    const avecChamps = r.classe === "commande" || r.classe === "relance";
+    piles[r.classe].push({ texte: l, quoi: r.quoi, champs: avecChamps ? extraire(l) : null });
+  });
+
+  // Les relances rejoignent les commandes : ce sont des affaires en cours,
+  // pas des questions — les mélanger fait perdre exactement les clients
+  // qu'on a déjà convaincus.
+  const aTraiter = piles.commande.concat(piles.relance);
+
+  const colonne = (titre, couleur, items, rendu) =>
+    '<div class="col"><div class="ct" style="color:' + couleur + '">' + titre +
+    " · " + items.length + '</div><div class="cc">' +
+    (items.length ? items.map(rendu).join("") : '<span style="color:var(--steel)">—</span>') +
+    "</div></div>";
+
+  const manque = (c) => {
+    const abs = Object.entries({ quantité: c.quantite, lieu: c.lieu, échéance: c.echeance })
+      .filter(([, v]) => !v).map(([k]) => k);
+    return abs.length ? '<em style="color:#ff8a1f">à demander : ' + abs.join(", ") + "</em>" : "";
+  };
+
+  document.getElementById("tzOut").innerHTML =
+    colonne("À traiter", "var(--c1)", aTraiter, (m) =>
+      '<div class="fiche">' + esc(m.texte) +
+      '<em style="color:var(--c2)">' + m.quoi + "</em>" +
+      (m.champs
+        ? '<em>' + ([m.champs.quantite, m.champs.lieu, m.champs.echeance].filter(Boolean).join(" · ") || "aucun champ lisible") + "</em>" +
+          (m.quoi === "suivi d'une commande passée" ? "" : manque(m.champs))
+        : "") + "</div>") +
+    colonne("Réponse type", "var(--c3)", piles.question, (m) =>
+      '<div class="fiche">' + esc(m.texte) + "<em>" + m.quoi + "</em></div>") +
+    colonne("Sans suite", "var(--fog)", piles["sans-suite"], (m) =>
+      '<div class="fiche" style="color:var(--fog)">' + esc(m.texte) + "</div>");
+}
+
+document.getElementById("tzConv").value = EXEMPLE;
+document.getElementById("tzGo").addEventListener("click", rendreTrieur);
+document.getElementById("tzEx").addEventListener("click", () => {
+  document.getElementById("tzConv").value = EXEMPLE;
+  rendreTrieur();
+});
+rendreTrieur();
+
+/* ══════════════════════════════════════════════════════════════════════════
+   02 — LA RELANCE
+   Le niveau suit le RETARD, jamais l'humeur. Une règle écrite se défend
+   devant le client ; une décision au ressenti ne se défend pas.
+   ══════════════════════════════════════════════════════════════════════════ */
+const CREANCES = [
+  { client: "Entreprise BATI-SUD", facture: "F-2026-0014", montant: 186000, jours: 12 },
+  { client: "Résidence Les Palmiers", facture: "F-2026-0015", montant: 272568, jours: 34 },
+  { client: "Atelier NOVA", facture: "F-2026-0011", montant: 96400, jours: 58 },
+  { client: "Coopérative TOGBIN", facture: "F-2026-0008", montant: 204918, jours: 96 },
+];
+
+const NIVEAUX = [
+  { max: 15, nom: "à jour", couleur: "var(--c1)", ton: null },
+  { max: 45, nom: "rappel", couleur: "var(--c2)",
+    ton: (c) => "Bonjour,\n\nLa facture " + c.facture + " d'un montant de " + fcfa(c.montant) +
+      " est arrivée à échéance il y a " + c.jours + " jours.\n\nS'il s'agit d'un oubli, un règlement par mobile money suffit — " +
+      "dites-nous si vous préférez un échelonnement.\n\nBien à vous." },
+  { max: 75, nom: "ferme", couleur: "#ff8a1f",
+    ton: (c) => "Bonjour,\n\nNous vous avons relancé au sujet de la facture " + c.facture + " (" + fcfa(c.montant) +
+      "), échue depuis " + c.jours + " jours, et n'avons pas eu de retour.\n\nNous suspendons les livraisons sur votre compte " +
+      "jusqu'au règlement. Merci de nous indiquer une date avant vendredi.\n\nBien à vous." },
+  { max: Infinity, nom: "dernier avis", couleur: "#ff4d58",
+    ton: (c) => "Bonjour,\n\nLa facture " + c.facture + " (" + fcfa(c.montant) + ") reste impayée après " +
+      c.jours + " jours et trois relances.\n\nSans règlement ni proposition écrite sous huit jours, le dossier sera " +
+      "transmis pour recouvrement.\n\n[À FAIRE RELIRE PAR UN JURISTE AVANT ENVOI]\n\nBien à vous." },
+];
+
+const niveauDe = (j) => NIVEAUX.find((n) => j <= n.max);
+
+let choisie = null;
+
+function rendreRelance() {
+  const aRelancer = CREANCES.filter((c) => niveauDe(c.jours).ton);
+  document.getElementById("rlTable").innerHTML =
+    "<tr><th>Client</th><th>Facture</th><th class='r'>Montant</th><th class='r'>Retard</th><th>Niveau</th><th></th></tr>" +
+    CREANCES.map((c) => {
+      const n = niveauDe(c.jours);
+      const part = Math.min(100, (c.jours / 96) * 100);
+      return "<tr><td>" + c.client + "</td><td style='color:var(--fog)'>" + c.facture +
+        "</td><td class='r'>" + fcfa(c.montant) +
+        "</td><td class='r'>" + c.jours + " j</td>" +
+        "<td><div class='jauge'><i style='width:" + part + "%; background:" + n.couleur + "'></i></div>" +
+        "<span class='niv' style='color:" + n.couleur + "; margin-top:6px; display:inline-block'>" + n.nom + "</span></td>" +
+        "<td class='r'>" + (n.ton
+          ? "<button class='btn sec' style='padding:5px 11px; font-size:10px' data-c='" + c.facture + "'>Le message</button>"
+          : "<span style='color:var(--steel)'>—</span>") + "</td></tr>";
+    }).join("") +
+    "<tr><td colspan='6' style='color:var(--fog); border-bottom:0'>" +
+      aRelancer.length + " relance(s) à envoyer aujourd'hui · " +
+      fcfa(aRelancer.reduce((s, c) => s + c.montant, 0)) + " en jeu</td></tr>";
+
+  document.getElementById("rlMsg").innerHTML = choisie
+    ? '<p class="lab" style="margin-top:20px">Message — niveau « ' + niveauDe(choisie.jours).nom + ' »</p>' +
+      '<div class="sortie">' + esc(niveauDe(choisie.jours).ton(choisie)) + "</div>" +
+      '<div class="note"><b>Rien n\'est envoyé depuis cette page.</b> Le texte se compose ' +
+      "dans votre navigateur et attend d'être relu. Le dernier niveau porte une " +
+      "consigne de relecture juridique : nous rédigeons, nous ne mettons pas en demeure.</div>"
+    : '<p class="lab" style="margin-top:20px">Choisissez une créance pour voir son message</p>';
+}
+
+document.getElementById("rlTable").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-c]");
+  if (!b) return;
+  choisie = CREANCES.find((c) => c.facture === b.dataset.c);
+  rendreRelance();
+});
+rendreRelance();
+</script>
+</body>
+</html>
