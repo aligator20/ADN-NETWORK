@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 
+import { SchemaReseau } from "@/components/ui/SchemaReseau";
 import { projectBySlug } from "@/content/projects";
 import { disciplineColor } from "@/content/services";
 import { useCopy, useDisciplineName, useHref, useLang } from "@/hooks/useCopy";
@@ -36,13 +37,29 @@ import { pad } from "@/lib/utils";
 export function VedettesView() {
   const root = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
-  const { vedettes } = useCopy();
+  const { vedettes, vitrine } = useCopy();
   const disciplineName = useDisciplineName();
   const href = useHref();
   const lang = useLang();
 
   const prix = (n: number) => formatPrix(n, lang, vedettes.currency);
   const minimum = Math.min(...vedettes.items.map((v) => v.prix));
+
+  /**
+   * Les trois portes du schéma, DÉRIVÉES.
+   *
+   * La première ne porte pas de prix : les guides se vendent sur la boutique,
+   * qui est seule autorité sur ses tarifs — /boutique le dit, et le dessin ne
+   * peut pas prétendre le contraire deux clics plus loin.
+   */
+  const portes = [
+    { nom: "Un guide FullMesh" },
+    { nom: vitrine.formules[0].name, prix: prix(vitrine.formules[0].prix) },
+    {
+      nom: vedettes.items[0].name,
+      prix: `${vedettes.from} ${prix(Math.min(vedettes.items[0].prix, vitrine.formules[2].prix))}`,
+    },
+  ];
 
   useGSAP(
     () => {
@@ -58,6 +75,16 @@ export function VedettesView() {
       // Un déclencheur PAR LIGNE : dix blocs sur un seul déclencheur seraient
       // tous joués à l'entrée du premier, et les sept derniers auraient fini
       // de s'animer bien avant qu'on les atteigne.
+      gsap.utils.toArray<HTMLElement>(".vd-liaison").forEach((l) => {
+        gsap.from(l, {
+          autoAlpha: 0,
+          y: 26,
+          duration: DUR.base,
+          ease: EASE.expo,
+          scrollTrigger: { trigger: l, start: "top 88%" },
+        });
+      });
+
       gsap.utils.toArray<HTMLElement>(".vd-item").forEach((ligne) => {
         gsap.from(ligne, {
           autoAlpha: 0,
@@ -202,6 +229,74 @@ export function VedettesView() {
             );
           })}
           <div className="hairline origin-left" />
+        </div>
+
+        <p className="mt-10 max-w-[62ch] border-l-2 border-signal py-1 pl-6 font-mono text-[0.8125rem] leading-[1.9] text-fog">
+          {vedettes.prixNote}
+        </p>
+      </section>
+
+      {/* — les liaisons ————————————————————————————————
+          Elles ne sont pas une onzième vedette : elles ne se vendent pas au
+          travail fourni. D'où le bloc séparé, le fond distinct, et l'absence
+          de prix en gros caractères — ce qui compte ici est la contrepartie,
+          pas le montant. */}
+      <section className="vd-liaisons border-t border-steel/40 bg-carbon">
+        <div className="mx-auto max-w-[1800px] gutter py-24 md:py-32">
+          <p className="label">{vedettes.liaisonsLabel}</p>
+          <h2 className="mt-6 max-w-[26ch] display text-[clamp(1.75rem,4.4vw,3.25rem)] leading-[1.02] text-bone">
+            {vedettes.liaisonsTitre}
+          </h2>
+          <p className="mt-8 max-w-[58ch] font-mono text-[0.8125rem] leading-[1.9] text-fog">
+            {vedettes.liaisonsLead}
+          </p>
+
+          <SchemaReseau legende={vedettes.liaisonsTitre} portes={portes} />
+
+          <div className="mt-16">
+            {vedettes.liaisons.map((l, i) => (
+              <div key={l.id}>
+                <div className="hairline" />
+                <div className="vd-liaison grid grid-cols-1 gap-y-6 py-10 md:grid-cols-12 md:gap-x-10 md:py-12">
+                  <div className="md:col-span-4">
+                    <span className="label text-signal">{pad(i + 1, 2)}</span>
+                    <h3 className="display mt-4 text-[clamp(1.5rem,3.2vw,2.35rem)] leading-none text-bone">
+                      {l.name}
+                    </h3>
+                    <p className="mt-5 font-mono text-[0.8125rem] text-signal">
+                      <span className="text-steel">{vedettes.liaisonsCoutLabel} · </span>
+                      {l.cout}
+                    </p>
+                  </div>
+
+                  <div className="md:col-span-4">
+                    <p className="max-w-[36ch] font-mono text-[0.875rem] leading-[1.85] text-bone/85">
+                      {l.promesse}
+                    </p>
+                    <p className="mt-4 max-w-[38ch] font-mono text-[0.75rem] leading-[1.85] text-steel">
+                      {l.contenu}
+                    </p>
+                  </div>
+
+                  <div className="md:col-span-4">
+                    <p className="label text-steel">{vedettes.liaisonsGainLabel}</p>
+                    <p className="mt-4 max-w-[36ch] font-mono text-[0.8125rem] leading-[1.85] text-fog">
+                      {l.gain}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="hairline" />
+          </div>
+
+          {/* — l'état réel, en toutes lettres ————————————— */}
+          <div className="mt-16 border-l-2 border-signal py-1 pl-6">
+            <p className="label text-signal">{vedettes.etatTitre}</p>
+            <p className="mt-4 max-w-[62ch] font-mono text-[0.8125rem] leading-[1.9] text-bone/85">
+              {vedettes.etat}
+            </p>
+          </div>
         </div>
       </section>
     </div>

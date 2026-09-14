@@ -140,7 +140,7 @@ export const vitrine: VitrineCopy = {
     {
       id: "page",
       name: "La Page",
-      prix: 75000,
+      prix: 37500,
       promesse: "Une adresse à votre nom, que vous envoyez au lieu de vous expliquer.",
       livrables: [
         "Entretien de cadrage et rédaction complète",
@@ -157,7 +157,7 @@ export const vitrine: VitrineCopy = {
     {
       id: "dossier",
       name: "Le Dossier",
-      prix: 175000,
+      prix: 87500,
       promesse: "Le document que vous laissez après un rendez-vous.",
       livrables: [
         "Tout ce que contient La Page",
@@ -174,7 +174,7 @@ export const vitrine: VitrineCopy = {
     {
       id: "identite",
       name: "L'Identité",
-      prix: 350000,
+      prix: 175000,
       promesse: "De quoi tenir partout de la même façon, pas seulement sur une page.",
       livrables: [
         "Tout ce que contient Le Dossier",
@@ -198,7 +198,7 @@ export const vitrine: VitrineCopy = {
     {
       id: "kit",
       name: "Le Kit de lancement",
-      prix: 60000,
+      prix: 30000,
       unite: "le jeu complet",
       promesse: "De quoi annoncer votre offre le jour même, partout où vous publiez.",
       contenu:
@@ -208,7 +208,7 @@ export const vitrine: VitrineCopy = {
     {
       id: "video",
       name: "La Vidéo verticale",
-      prix: 35000,
+      prix: 17500,
       unite: "la vidéo",
       promesse: "Le format qui circule vraiment ici : statuts WhatsApp, TikTok, Reels.",
       contenu:
@@ -218,7 +218,7 @@ export const vitrine: VitrineCopy = {
     {
       id: "manuel",
       name: "Le Manuel",
-      prix: 250000,
+      prix: 125000,
       plancher: true,
       promesse: "Votre savoir-faire transformé en document qui se vend tout seul.",
       contenu:
@@ -228,7 +228,7 @@ export const vitrine: VitrineCopy = {
     {
       id: "plan",
       name: "Le Plan d'affaires",
-      prix: 300000,
+      prix: 150000,
       plancher: true,
       promesse: "Le document qu'un bailleur peut instruire sans avoir à vous rappeler.",
       contenu:

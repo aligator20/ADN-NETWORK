@@ -28,6 +28,49 @@ export const vedettesEn: VedettesCopy = {
   currency: "FCFA",
   cta: "See the ten services",
 
+  liaisonsLabel: "The links",
+  liaisonsTitre: "What makes this a network rather than a catalogue",
+  liaisonsLead:
+    "Ten services side by side make a list. What follows is not sold by the hour: it costs nothing to join, and it is worth more the more of us there are. That is the only real difference between an agency and a network.",
+  liaisonsGainLabel: "What it gives back",
+  liaisonsCoutLabel: "To join",
+
+  liaisons: [
+    {
+      ...fr.liaisons[0],
+      name: "The Directory",
+      cout: "0 F — included",
+      promesse: "Every page produced here enters a public directory, for good.",
+      contenu:
+        "Sorted by trade and by city, readable without an account. Nothing for you to maintain: your page is already written, it goes in as it stands.",
+      gain: "Every page that joins makes the directory more consulted — so every page already there more visible. It is the only thing on this site whose value grows without anyone touching it.",
+    },
+    {
+      ...fr.liaisons[1],
+      name: "Introductions",
+      cout: "0 F between members",
+      promesse: "A request that reaches us goes out to someone in the directory.",
+      contenu:
+        "We know what each member does, because we wrote their page. When a client is looking for a supplier, a craftsman or a technician, they are pointed at a member by name, not handed a list.",
+      gain: "The more trades the directory covers, the more incoming requests find a taker. One more member is one fewer request that goes nowhere.",
+    },
+    {
+      ...fr.liaisons[2],
+      name: "Referral",
+      cout: "0 F — 20 % of the first order",
+      promesse: "Bring someone in, take a share of what they pay.",
+      contenu:
+        "Twenty per cent of their first order, settled by mobile money, with no minimum. Nothing to front, nothing to stock: the same mechanism as the FullMesh reseller network, applied to services.",
+      gain: "It is the only mechanism that grows the directory with no advertising budget — and whoever refers has an interest in the work being done well.",
+    },
+  ],
+
+  etatTitre: "Where the network stands today",
+  etat: "The directory still holds only the projects on this site. We would rather write that than let you find it out: a network that claims to be full when it is empty loses everything it built at the first search. So you know exactly what you are joining — and first place there beats hundredth.",
+
+  prixNote:
+    "The figures above account for what the network gives back: a page enters the directory and gets found there, a client who brings another takes their share. It is not a discount and there is no deadline — it is a shared cost.",
+
   items: [
     {
       ...fr.items[0],
