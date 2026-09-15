@@ -37,7 +37,18 @@ export function Services() {
         root.current?.querySelectorAll<HTMLElement>(".svc-row") ?? [],
       );
 
-      /* — Entrée : les lignes montent de leur masque ————————————— */
+      /* — Entrée : les lignes montent de leur masque —————————————
+         Le masque coupe ce qui dépasse. Un enfant laissé en bas par un passage
+         précédent — au montage, ou parce que le visiteur vient d'activer la
+         préférence pendant sa visite — n'est pas seulement mal placé : il est
+         invisible DÉFINITIVEMENT, puisque la branche « mouvement réduit » ne
+         crée aucune animation pour le ramener. On remet donc à plat avant de
+         renoncer à animer. */
+      if (reduced) {
+        gsap.set(".svc-row .svc-mask > *", { clearProps: "transform" });
+        gsap.set(".svc-rule", { clearProps: "transform" });
+      }
+
       if (!reduced) {
         gsap.from(".svc-row .svc-mask > *", {
           yPercent: 110,

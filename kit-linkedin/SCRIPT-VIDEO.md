@@ -30,6 +30,21 @@ pour éviter.
 
 ---
 
+## Ce qui est déjà prêt, et ce qui ne l'est pas
+
+**Prêt :** les images fixes. `site/` contient quinze captures du site en haute
+densité — l'accueil, les prix, le schéma, les quatre démonstrations —, et
+`carrousel/` les douze diapositives. Tout ça se pose tel quel dans un montage.
+
+**Prêt aussi :** `schema-anime.gif`, la boucle du schéma du réseau. C'est la
+seule animation du kit, et elle sert au plan C ci-dessous si vous préférez ne
+pas filmer.
+
+**Pas prêt, et ça ne peut pas l'être :** les plans où l'on voit quelqu'un
+*manipuler* le site. Une capture fixe ne montre pas qu'un stock bouge quand on
+enregistre une vente. Ces cinq plans-là demandent un enregistrement d'écran —
+c'est l'objet de la section suivante.
+
 ## Ce qu'il faut enregistrer avant de monter
 
 Cinq captures d'écran animées, prises **sur téléphone ou en fenêtre étroite**
@@ -48,6 +63,10 @@ Cinq captures d'écran animées, prises **sur téléphone ou en fenêtre étroit
 > retours coulent en sens inverse. C'est du mouvement réel, gratuit, qui dit
 > exactement ce que la voix est en train de dire. Le filmer en défilant
 > lentement, sans rien toucher, et le laisser respirer.
+>
+> Si l'enregistrement d'écran est mauvais — saccades, barre de défilement —,
+> `schema-anime.gif` fait le même plan, en boucle propre, et s'importe
+> directement dans n'importe quel logiciel de montage.
 
 ---
 

@@ -270,15 +270,27 @@ async function verifierFontes() {
  * une mise à l'échelle silencieuse est exactement le genre de panne qui se
  * découvre une fois le visuel publié.
  */
-async function rendre(svg, fichier) {
+async function rendre(svg, fichier, surcouches = []) {
   const attendu = {
     width: Number(/\bwidth="(\d+)"/.exec(svg)[1]),
     height: Number(/\bheight="(\d+)"/.exec(svg)[1]),
   };
 
-  const info = await sharp(Buffer.from(svg, "utf8"), { density: 72 })
-    .png({ compressionLevel: 9 })
-    .toFile(fichier);
+  /* Les captures d'écran sont posées PAR-DESSUS le SVG rendu, et non inséré
+     dedans en base64 : un PNG de 2880 px encodé dans du XML fait grossir la
+     source de plusieurs mégaoctets et ralentit le rendu sans rien apporter. */
+  let tuyau = sharp(Buffer.from(svg, "utf8"), { density: 72 });
+  if (surcouches.length) {
+    /* Les ordonnées viennent d'empilements de tailles de corps : elles sont
+       fractionnaires par nature. Le SVG s'en accommode, le compositeur non —
+       il exige des entiers et échoue net. On arrondit ici plutôt que sur
+       chaque appel, où l'oubli reviendrait à chaque nouvelle diapositive. */
+    tuyau = tuyau.composite(
+      surcouches.map((s) => ({ ...s, left: Math.round(s.left), top: Math.round(s.top) })),
+    );
+  }
+
+  const info = await tuyau.png({ compressionLevel: 9 }).toFile(fichier);
 
   if (info.width !== attendu.width || info.height !== attendu.height) {
     throw new Error(
