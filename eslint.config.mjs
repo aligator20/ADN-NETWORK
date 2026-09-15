@@ -21,6 +21,10 @@ const eslintConfig = [
       "next-env.d.ts",
       // Runtime Deno, bundle par Netlify au deploiement (voir tsconfig).
       "netlify/**",
+      // Outillage Node en CommonJS : produit les visuels LinkedIn AVANT le
+      // build, ne part jamais au navigateur. Les regles de l'app — modules
+      // ES, regles React, `require` interdit — n'ont rien a y verifier.
+      "kit-linkedin/**",
     ],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),

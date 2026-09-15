@@ -12,6 +12,7 @@ import { Vitrine } from "@/components/sections/Vitrine";
 import { Work } from "@/components/sections/Work";
 import { copy, disciplineNameIn, nextProjectIn, projectBySlugIn } from "@/content/copy";
 import { projects } from "@/content/projects";
+import { services } from "@/content/services";
 import type { Lang } from "@/lib/lang";
 import { alternatesFor } from "@/lib/seo";
 
@@ -54,19 +55,41 @@ export function HomeBody() {
 
 /* ── Réalisations ────────────────────────────────────────────────────────── */
 
-const WORK_DESCRIPTION: Record<Lang, string> = {
-  fr:
-    `Les ${projects.length} projets d'ADN NETWORK — digital, IA, automatisation, ` +
-    "réseaux, cybersécurité, création, agritech, agriculture et agroalimentaire.",
-  en:
-    `The ${projects.length} projects of ADN NETWORK — digital, AI, automation, ` +
-    "networks, cybersecurity, creative, agritech, farming and food processing.",
-};
+/**
+ * Les disciplines RÉELLEMENT représentées dans les réalisations.
+ *
+ * Cette liste était écrite à la main, et elle avait dérivé : elle annonçait
+ * « IA, réseaux, cybersécurité » — trois disciplines sans un seul projet
+ * publié — et passait la santé sous silence alors qu'un projet la porte.
+ *
+ * Une description de page n'est pas un texte décoratif : c'est ce que Google
+ * affiche sous le titre, donc la première phrase que lit quelqu'un qui ne
+ * connaît pas le site. Promettre de la cybersécurité à quelqu'un qui arrive
+ * sur une page où il n'y en a pas, c'est le perdre au premier écran. On la
+ * calcule à partir des projets, et elle ne peut plus mentir.
+ *
+ * L'ordre est celui des disciplines du site, pas celui des projets : c'est le
+ * même que dans le menu et dans le code couleur.
+ */
+function disciplinesPubliees(lang: Lang): string {
+  const presentes = new Set(projects.map((p) => p.discipline));
+  const noms = services
+    .filter((s) => presentes.has(s.id))
+    .map((s) => disciplineNameIn(lang, s.id).toLowerCase());
+
+  const et = lang === "fr" ? " et " : " and ";
+  return noms.length < 2 ? noms.join("") : `${noms.slice(0, -1).join(", ")}${et}${noms.at(-1)}`;
+}
 
 export function workMetadata(lang: Lang): Metadata {
+  const description =
+    lang === "fr"
+      ? `Les ${projects.length} projets d'ADN NETWORK — ${disciplinesPubliees("fr")}.`
+      : `The ${projects.length} projects of ADN NETWORK — ${disciplinesPubliees("en")}.`;
+
   return {
     title: copy(lang).ui.selectedProjects,
-    description: WORK_DESCRIPTION[lang],
+    description,
     alternates: alternatesFor(lang, "/work"),
   };
 }
