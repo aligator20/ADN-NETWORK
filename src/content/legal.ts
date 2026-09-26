@@ -72,7 +72,11 @@ export const legal: LegalCopy = {
     },
     {
       title: "Langue et cookies",
-      body: "Aucun cookie publicitaire ni traceur d'audience n'est déposé sur votre appareil. Le site ne comporte ni mesure d'audience, ni bouton de réseau social embarqué, ni régie publicitaire. Un unique témoin technique enregistre la langue que vous choisissez, afin de ne pas vous la redemander à chaque visite : il ne contient que « fr » ou « en », et rien qui permette de vous identifier. Sans choix explicite de votre part, la langue est déduite des préférences déclarées par votre navigateur et, à défaut, du pays depuis lequel vous consultez le site — sans que cette information soit conservée. C'est la raison pour laquelle aucune bannière de consentement ne vous est présentée : il n'y a rien à consentir.",
+      body: "Aucun cookie publicitaire ni traceur d'audience n'est déposé sur votre appareil. Le site ne comporte ni mesure d'audience, ni régie publicitaire. Un unique témoin technique enregistre la langue que vous choisissez, afin de ne pas vous la redemander à chaque visite : il ne contient que « fr » ou « en », et rien qui permette de vous identifier. Sans choix explicite de votre part, la langue est déduite des préférences déclarées par votre navigateur et, à défaut, du pays depuis lequel vous consultez le site — sans que cette information soit conservée. C'est la raison pour laquelle aucune bannière de consentement ne vous est présentée : il n'y a rien à consentir.",
+    },
+    {
+      title: "Publications des réseaux sociaux",
+      body: "La page Actualités reprend nos publications : le texte y est recopié et le visuel est le nôtre, de sorte que la page se lit sans qu'aucune requête ne parte vers un réseau social. Elle propose en outre d'afficher la publication d'origine dans le cadre du réseau qui l'héberge, derrière un bouton « Afficher la publication ». Tant que vous ne cliquez pas sur ce bouton, rien n'est chargé depuis ce réseau et aucun de ses cookies n'est déposé. Si vous cliquez, ce cadre est fourni par le réseau concerné et relève alors de ses propres règles, sur lesquelles nous n'avons pas la main — c'est pourquoi le chargement vous est laissé.",
     },
     {
       title: "Liens externes",

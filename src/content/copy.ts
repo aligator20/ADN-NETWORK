@@ -20,6 +20,7 @@
  * langues, et elles continuent de s'importer depuis leur module d'origine.
  */
 import {
+  actualitesEn,
   boutiqueEn,
   communityEn,
   legalEn,
@@ -38,6 +39,7 @@ import {
   sequencesEn,
   uiEn,
 } from "@/content/en";
+import { actualites as actualitesFr, type ActualitesCopy } from "@/content/actualites";
 import { community as communityFr } from "@/content/community";
 import { legal as legalFr, type LegalCopy } from "@/content/legal";
 import { boutique as boutiqueFr, type BoutiqueCopy } from "@/content/boutique";
@@ -136,6 +138,7 @@ export type Copy = {
   statusLabel: Record<ProjectStatus, string>;
   community: CommunityCopy;
   legal: LegalCopy;
+  actualites: ActualitesCopy;
   vitrine: VitrineCopy;
   vedettes: VedettesCopy;
   boutique: BoutiqueCopy;
@@ -170,6 +173,7 @@ const FR: Copy = {
   statusLabel: statusLabelFr,
   community: communityFr,
   legal: legalFr,
+  actualites: actualitesFr,
   vitrine: vitrineFr,
   vedettes: vedettesFr,
   boutique: boutiqueFr,
@@ -204,6 +208,7 @@ const EN: Copy = {
   statusLabel: statusLabelEn,
   community: communityEn,
   legal: legalEn,
+  actualites: actualitesEn,
   vitrine: vitrineEn,
   vedettes: vedettesEn,
   boutique: boutiqueEn,

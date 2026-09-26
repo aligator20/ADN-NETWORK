@@ -29,6 +29,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/work", priority: 0.9, freq: "monthly" },
     { path: "/reseau", priority: 0.9, freq: "monthly" },
     { path: "/vitrine", priority: 0.9, freq: "monthly" },
+    // Les actualités changent plus souvent que le reste : la fréquence le dit.
+    { path: "/actualites", priority: 0.6, freq: "monthly" },
     ...projects.map((p) => ({
       path: `/work/${p.slug}`,
       priority: 0.7,

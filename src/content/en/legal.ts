@@ -39,7 +39,11 @@ export const legalEn: LegalCopy = {
     },
     {
       title: "Language and cookies",
-      body: "No advertising cookie and no analytics tracker is placed on your device. The site has no audience measurement, no embedded social media button and no ad network. A single technical marker records the language you choose, so that you are not asked again on every visit: it contains only “fr” or “en”, and nothing that could identify you. Without an explicit choice from you, the language is inferred from the preferences your browser declares and, failing that, from the country you are browsing from — without that information being stored. This is why you are shown no consent banner: there is nothing to consent to.",
+      body: "No advertising cookie and no analytics tracker is placed on your device. The site has no audience measurement and no ad network. A single technical marker records the language you choose, so that you are not asked again on every visit: it contains only “fr” or “en”, and nothing that could identify you. Without an explicit choice from you, the language is inferred from the preferences your browser declares and, failing that, from the country you are browsing from — without that information being stored. This is why you are shown no consent banner: there is nothing to consent to.",
+    },
+    {
+      title: "Social media posts",
+      body: "The News page carries our own posts: the text is copied there and the image is ours, so the page reads without a single request leaving for a social network. It also offers to display the original post inside the frame of the network hosting it, behind a “Show the post” button. As long as you do not click that button, nothing is loaded from that network and none of its cookies are placed. If you do click, the frame is served by the network in question and is then governed by its own rules, over which we have no control — which is precisely why the loading is left to you.",
     },
     {
       title: "External links",

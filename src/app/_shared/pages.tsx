@@ -10,6 +10,7 @@ import { ProjectView } from "@/components/sections/ProjectView";
 import { Services } from "@/components/sections/Services";
 import { Vitrine } from "@/components/sections/Vitrine";
 import { Work } from "@/components/sections/Work";
+import { publications } from "@/content/actualites";
 import { copy, disciplineNameIn, nextProjectIn, projectBySlugIn } from "@/content/copy";
 import { projects } from "@/content/projects";
 import { services } from "@/content/services";
@@ -181,6 +182,27 @@ export function boutiqueMetadata(lang: Lang): Metadata {
     title: copy(lang).boutique.name,
     description: BOUTIQUE_DESCRIPTION[lang],
     alternates: alternatesFor(lang, "/boutique"),
+  };
+}
+
+/* ── Actualités ──────────────────────────────────────────────────────────── */
+
+/**
+ * La description reprend la publication la plus récente : c'est elle que Google
+ * affichera sous le titre, et c'est elle qui donne une raison de cliquer. Une
+ * description figée annoncerait la même chose dans un an.
+ */
+export function actualitesMetadata(lang: Lang): Metadata {
+  const { actualites } = copy(lang);
+  const derniere = publications[0];
+  const description = derniere
+    ? `${actualites.title} — ${derniere.titre} (${derniere.reseau}).`
+    : actualites.lead;
+
+  return {
+    title: actualites.kicker,
+    description,
+    alternates: alternatesFor(lang, "/actualites"),
   };
 }
 
