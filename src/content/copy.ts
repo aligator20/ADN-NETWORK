@@ -280,6 +280,23 @@ export function projectBySlugIn(lang: Lang, slug: string): Project | undefined {
   return copy(lang).projects.find((p) => p.slug === slug);
 }
 
+/**
+ * Le portfolio d'un service, dans la langue demandée.
+ *
+ * Même règle que `projectsProving` : une réalisation entre par sa discipline
+ * ou par son champ `prouve`, les livrées d'abord. `prouve` étant une donnée de
+ * structure, elle traverse la traduction sans être redéclarée — l'anglais ne
+ * peut donc pas attester d'un service que le français n'atteste pas.
+ */
+export function projectsProvingIn(lang: Lang, id: Service["id"]): readonly Project[] {
+  return copy(lang)
+    .projects.filter((p) => p.discipline === id || (p.prouve ?? []).includes(id))
+    .sort(
+      (a, b) =>
+        Number(b.status === "livre") - Number(a.status === "livre") || b.year - a.year,
+    );
+}
+
 /** Projet suivant, en boucle — voir la note dans `projects.ts`. */
 export function nextProjectIn(lang: Lang, slug: string): Project | undefined {
   const all = copy(lang).projects;

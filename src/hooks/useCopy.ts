@@ -7,6 +7,7 @@ import {
   disciplineNameIn,
   projectCategoriesIn,
   projectsByCategoryIn,
+  projectsProvingIn,
   type Copy,
   type ProjectCategory,
 } from "@/content/copy";
@@ -90,4 +91,10 @@ export function useProjectCategories(): readonly ProjectCategory[] {
 export function useProjectsByCategory(): (id: ServiceId | null) => readonly Project[] {
   const lang = useLang();
   return (id) => projectsByCategoryIn(lang, id);
+}
+
+/** Le portfolio d'un service — ce qui prouve qu'on sait le faire. */
+export function useProjectsProving(): (id: ServiceId) => readonly Project[] {
+  const lang = useLang();
+  return (id) => projectsProvingIn(lang, id);
 }

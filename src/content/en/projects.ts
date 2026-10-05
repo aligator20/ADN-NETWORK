@@ -145,6 +145,10 @@ const EN: Record<ProjectSlug, Traduction> = {
         title: "The document base",
         body: "Quote, invoice, maintenance contract, business contract, site sheet, client sheet, quality report, team schedule, internal procedure: nine ready-to-use templates from day one.",
       },
+      {
+        title: "The site, live",
+        body: "Eleven pages: the offer, maintenance under contract, the quote request, the work done, advice, the company and its legal pages. The catalogue — seventeen priced services — is read as the site is built: the price shown online and the price on the quote come out of the same file and cannot drift apart. The diagnosis page prices an estimate without waiting for an answer. One dynamic function only, the assistant, which hands over to WhatsApp as soon as a request goes past what it can handle.",
+      },
     ],
   },
 

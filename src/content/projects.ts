@@ -74,6 +74,26 @@ export type Project = {
   year: number;
   /** Détermine à lui seul la catégorie ET la couleur du projet. */
   discipline: ServiceId;
+  /**
+   * LES AUTRES SERVICES QUE CETTE RÉALISATION PROUVE.
+   *
+   * Une réalisation n'a qu'une discipline — c'est ce qui la range dans la
+   * galerie — mais elle atteste souvent plusieurs prestations. FullMesh Shop
+   * est un site (`digital`) ; c'est aussi l'offre IA que nous avons montée
+   * pour nous-mêmes, donc la preuve de la prestation `ai`. Sans ce champ, il
+   * aurait fallu soit inventer un second projet, soit laisser L'Agence IA sans
+   * rien derrière elle.
+   *
+   * C'est ce champ qui alimente le portfolio de chaque service sur la
+   * boutique : on ajoute une réalisation, on dit ce qu'elle prouve, et elle
+   * apparaît sous les prestations concernées. Il n'y a aucune liste à tenir à
+   * côté — c'est toujours la même règle ici, une seconde liste diverge.
+   *
+   * ⚠️ Une réalisation ne prouve que ce qu'elle a réellement produit. Cocher
+   * un service pour remplir un vide se retourne au premier client qui ouvre
+   * la fiche et n'y trouve pas ce qu'on lui a annoncé.
+   */
+  prouve?: readonly ServiceId[];
   /** Où en est réellement le projet. Voir `ProjectStatus`. */
   status: ProjectStatus;
   /** Une phrase. Ce que le projet change, pas la liste de ce qui a été fait. */
@@ -218,6 +238,10 @@ export const projects: readonly Project[] = [
   },
   {
     slug: "adone-green-service",
+    // Le site est construit — onze pages, catalogue lu à la construction — mais
+    // pas encore publié. La fiche le dit noir sur blanc ; c'est une preuve de
+    // production, pas une adresse à visiter.
+    prouve: ["digital"],
     title: "ADONE Green Services",
     client: "Groupe ADONE",
     year: 2026,
@@ -228,6 +252,10 @@ export const projects: readonly Project[] = [
     stack: ["Agents IA", "Devis & planning", "Suivi de chantier", "Pilotage"],
     cover: "/work/adone-green-service.svg",
     coverFit: "contain", // composition verticale construite : la recadrer la détruit
+    // Vérifié en ligne avant d'être écrit ici. Une adresse se constate, elle
+    // ne s'anticipe pas : la fiche a porté « en préparation » tant que le site
+    // n'était pas servi.
+    url: "https://adone-green-services.netlify.app",
     figures: [
       { value: "150→400", label: "M FCFA — CA projeté" },
       { value: "5–10 M", label: "FCFA — levée Phase 1" },
@@ -269,10 +297,23 @@ export const projects: readonly Project[] = [
         title: "Le socle documentaire",
         body: "Devis, facture, contrat d'entretien, contrat entreprise, fiche chantier, fiche client, rapport qualité, planning d'équipe, procédure interne : neuf modèles prêts à l'emploi dès le premier jour.",
       },
+      {
+        // Publié. L'adresse est en `url` sur la fiche : le bouton « Voir le
+        // site » y mène. Elle n'a été écrite qu'une fois le site réellement
+        // en ligne — un lien qui ne mène nulle part coûte plus qu'un lien
+        // absent.
+        title: "Le site, en ligne",
+        body: "Onze pages : l'offre, l'entretien sous contrat, la demande de devis, les réalisations, les conseils, la maison et ses pages légales. Le catalogue — dix-sept prestations chiffrées — est lu au moment de la construction du site : le prix affiché en ligne et le prix du devis sortent du même fichier et ne peuvent pas diverger. La page de diagnostic chiffre une estimation sans attendre de réponse. Une seule fonction dynamique, l'assistant, qui bascule sur WhatsApp dès qu'une demande dépasse ce qu'il sait traiter.",
+      },
     ],
   },
   {
     slug: "full-mesh",
+    // C'est un site, et c'est aussi l'offre IA que nous avons montée pour
+    // nous-mêmes — catalogue, prompts, chaîne de production — ainsi que la
+    // charte qui la tient. Elle atteste donc trois prestations, et c'est le
+    // seul projet du tableau dans ce cas.
+    prouve: ["ai", "creative"],
     title: "FullMesh Shop",
     // La boutique est en ligne : la fiche affiche donc « Visiter le site ».
     // Elle est aussi la SEULE autorité sur les prix — voir le commentaire de
@@ -597,6 +638,10 @@ export const projects: readonly Project[] = [
   /* ══════════════════════════════════════════ AGROALIMENTAIRE ══ */
   {
     slug: "adn-taste",
+    // La marque produit et le conditionnement sont du travail de marque : la
+    // gamme, les sachets et leur habillage existent. Le dossier de marque en
+    // est donc attesté, la transformation alimentaire aussi.
+    prouve: ["creative"],
     title: "ADN TASTE — Maison Adone",
     client: "Groupe ADONE",
     year: 2026,
@@ -779,6 +824,28 @@ export const projectCategories: readonly ProjectCategory[] = services
 export function projectsByCategory(id: ServiceId | null): readonly Project[] {
   const list = id ? projects.filter((p) => p.discipline === id) : projects;
   return [...list].sort((a, b) => b.year - a.year);
+}
+
+/**
+ * LE PORTFOLIO D'UN SERVICE — ce qui prouve qu'on sait le faire.
+ *
+ * Plus large que `projectsByCategory` : une réalisation entre ici par sa
+ * discipline OU par son champ `prouve`. C'est la différence entre « ranger un
+ * projet dans une catégorie » et « répondre à quelqu'un qui demande ce qui
+ * prouve que vous savez faire ça ».
+ *
+ * Les livrés d'abord, puis les plus récents : devant un acheteur, une
+ * réalisation terminée pèse plus qu'un projet en cours, quelle que soit sa
+ * date. Une liste vide n'est pas une anomalie — c'est un service qu'on vend
+ * sans rien avoir à montrer, et la vue le dit au lieu de le cacher.
+ */
+export function projectsProving(id: ServiceId): readonly Project[] {
+  return projects
+    .filter((p) => p.discipline === id || (p.prouve ?? []).includes(id))
+    .sort(
+      (a, b) =>
+        Number(b.status === "livre") - Number(a.status === "livre") || b.year - a.year,
+    );
 }
 
 /** Libellé de discipline d'un projet — évite de recroiser les deux tableaux à la main. */

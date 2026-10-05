@@ -168,13 +168,20 @@ export function vedettesMetadata(lang: Lang): Metadata {
 
 /* ── La Boutique ─────────────────────────────────────────────────────────── */
 
+/**
+ * La page ne vendait que les guides FullMesh ; elle porte maintenant tout le
+ * catalogue. La description suit, sinon le résultat de recherche continuerait
+ * d'annoncer un rayon pour une page qui en compte quatre.
+ */
 const BOUTIQUE_DESCRIPTION: Record<Lang, string> = {
   fr:
-    "FullMesh Shop — dix-sept guides numériques pour trouver des clients, se " +
-    "lancer avec peu, faire travailler l'IA et apprendre un métier. Revente à 35 %.",
+    "Dix-sept prestations chiffrées — sites, marque, IA, agriculture, santé — " +
+    "à mettre dans une sélection et à commander en un envoi. Plus les guides " +
+    "numériques FullMesh Shop, payables en ligne.",
   en:
-    "FullMesh Shop — seventeen digital guides on finding customers, starting " +
-    "small, putting AI to work and learning a trade. Reselling at 35 %.",
+    "Seventeen priced services — sites, branding, AI, farming, health — to add " +
+    "to a selection and order in one send. Plus the FullMesh Shop digital " +
+    "guides, payable online.",
 };
 
 export function boutiqueMetadata(lang: Lang): Metadata {
