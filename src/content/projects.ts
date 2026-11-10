@@ -303,7 +303,15 @@ export const projects: readonly Project[] = [
         // en ligne — un lien qui ne mène nulle part coûte plus qu'un lien
         // absent.
         title: "Le site, en ligne",
-        body: "Onze pages : l'offre, l'entretien sous contrat, la demande de devis, les réalisations, les conseils, la maison et ses pages légales. Le catalogue — dix-sept prestations chiffrées — est lu au moment de la construction du site : le prix affiché en ligne et le prix du devis sortent du même fichier et ne peuvent pas diverger. La page de diagnostic chiffre une estimation sans attendre de réponse. Une seule fonction dynamique, l'assistant, qui bascule sur WhatsApp dès qu'une demande dépasse ce qu'il sait traiter.",
+        body: "Douze pages : l'offre, l'entretien sous contrat, la boutique, la demande de devis, les réalisations, les conseils, la maison et ses pages légales. Le catalogue — dix-sept prestations chiffrées — est lu au moment de la construction du site : le prix affiché en ligne et le prix du devis sortent du même fichier et ne peuvent pas diverger. La page de diagnostic chiffre une estimation sans attendre de réponse. Une seule fonction dynamique, l'assistant, qui bascule sur WhatsApp dès qu'une demande dépasse ce qu'il sait traiter.",
+      },
+      {
+        // Mis à jour le 10 novembre 2026, après avoir ouvert les douze pages
+        // en ligne une par une. La page de suivi de livraison existe dans le
+        // dépôt mais n'est pas publiée : elle n'est donc pas décrite ici. On
+        // ne raconte que ce qu'un visiteur peut aller voir.
+        title: "La boutique, et ce qu'elle engage",
+        body: "Plantes, fleurs et pots livrés sous 72 heures à Cotonou. Douze espèces décrites par leur nom courant et leur nom latin, filtrables par exposition, par arrosage et par usage — en pot, en haie, en bordure, à l'intérieur. Chaque fiche porte ce qui pique, ce qui irrite et ce qui demande des gants : une sève de croton annoncée avant l'achat coûte moins cher qu'un client déçu. Trois engagements affichés plutôt que promis : livraison sous 72 heures, remboursement sous 14 jours si la livraison est impossible, prix total confirmé avant tout paiement.",
       },
     ],
   },

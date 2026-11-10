@@ -147,7 +147,11 @@ const EN: Record<ProjectSlug, Traduction> = {
       },
       {
         title: "The site, live",
-        body: "Eleven pages: the offer, maintenance under contract, the quote request, the work done, advice, the company and its legal pages. The catalogue — seventeen priced services — is read as the site is built: the price shown online and the price on the quote come out of the same file and cannot drift apart. The diagnosis page prices an estimate without waiting for an answer. One dynamic function only, the assistant, which hands over to WhatsApp as soon as a request goes past what it can handle.",
+        body: "Twelve pages: the offer, maintenance under contract, the shop, the quote request, the work done, advice, the company and its legal pages. The catalogue — seventeen priced services — is read as the site is built: the price shown online and the price on the quote come out of the same file and cannot drift apart. The diagnosis page prices an estimate without waiting for an answer. One dynamic function only, the assistant, which hands over to WhatsApp as soon as a request goes past what it can handle.",
+      },
+      {
+        title: "The shop, and what it commits to",
+        body: "Plants, flowers and pots delivered within 72 hours in Cotonou. Twelve species given by both common and Latin name, filterable by light, by watering and by use — in a pot, as a hedge, as an edging, indoors. Every entry states what has thorns, what irritates and what needs gloves: croton sap declared before the sale costs less than a disappointed customer. Three commitments shown rather than promised: delivery within 72 hours, a refund within 14 days if delivery proves impossible, and the full price confirmed before any payment.",
       },
     ],
   },
