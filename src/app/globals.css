@@ -255,3 +255,11 @@
     }
   }
 }
+
+/* L'entrée de l'annonce des activités : elle monte et se révèle, sans
+   rebond. Déclarée ici et non en classe utilitaire — une animation nommée se
+   relit, une suite de classes arbitraires non. */
+@keyframes annonce {
+  from { opacity: 0; transform: translateY(14px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}

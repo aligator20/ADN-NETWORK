@@ -473,45 +473,43 @@ export const projects: readonly Project[] = [
     ],
   },
   {
-    // Le slug reste `tshirt-gemini` bien que le projet ait dépassé le t-shirt :
-    // il sert de lien permanent, et le renommer casserait toute adresse déjà
-    // partagée pour un gain purement cosmétique.
-    slug: "tshirt-gemini",
-    title: "GEMINI",
-    client: "Maison des dualités",
+    // ⚠️ GEMINI occupait cette place. Il en sort à la demande de Sylvère, le
+    // temps qu'il reprenne le dossier — ce n'est pas un retrait définitif, et
+    // ses fichiers restent sur le poste. La discipline `creative` garde donc
+    // une preuve livrée pendant ce temps-là, ce qui est tout l'enjeu : une
+    // prestation vendue sans rien à montrer est une prestation qu'on ne vend
+    // pas.
+    slug: "oim-thug-merch",
+    title: "OIM THUG",
+    client: "THUGLAND ENTERTAINMENT",
     year: 2026,
     discipline: "creative",
     status: "livre",
     summary:
-      "Une marque dont le sujet — la dualité — est tenu par la construction, pas par l'illustration : deux masses identiques, reliées deux fois, jamais fondues en une seule.",
-    stack: ["Identité de marque", "Emblème", "Typographie", "Palette", "Textile"],
-    // La couverture porte l'EMBLÈME, pas une pièce. La charte pose elle-même
-    // sa hiérarchie — « trône pour les grands formats » — et une plaque de
-    // portfolio est un grand format. Elle est rendue depuis le vectoriel du
-    // dossier : nette à n'importe quelle taille, et sans le fond parasite
-    // qu'aurait traîné un export aplati.
-    cover: "/work/tshirt-gemini.webp",
-    coverFit: "contain", // 1000×1250, soit le 4:5 exact de la plaque
+      "La ligne de vêtements d'un artiste et de son label : un signe qui tient sur un torse à trois mètres, décliné en sept planches et prêt à imprimer.",
+    stack: ["Identité de label", "Ligne de merch", "Fichiers d'impression", "Site"],
+    cover: "/work/oim-thug-merch.webp",
+    // Huit pièces alignées : la planche entière vaut mieux qu'un seul
+    // t-shirt recadré, parce que c'est la COHÉRENCE de la gamme qui est le
+    // travail. En `contain`, elle n'est pas rognée.
+    coverFit: "contain",
+    url: "https://oimthug.life",
     detail: [
       {
-        title: "Le manifeste",
-        body: "Pas de jumeaux illustrés, pas de symbole ésotérique. La dualité vit dans la construction même : deux masses identiques, reliées deux fois, jamais fondues en une seule. Trois principes en découlent — la structure avant l'illustration, un seul accent par pièce, rien qui ne serve la lecture.",
+        title: "Le signe avant le nom",
+        body: "Un point d'interrogation posé sur un œil. C'est tout, et c'est ce qui permet de le reconnaître à trois mètres, brodé sur une poitrine ou réduit à une étiquette de col. Le nom complet — OIM THUG — ne vient qu'ensuite, en appui. Un logo qu'il faut lire pour identifier ne tient pas sur un vêtement en mouvement.",
       },
       {
-        title: "L'emblème",
-        body: "Deux souverains identiques partagent un seul siège. Celui de gauche est une masse pleine, celui de droite un contour gravé — même silhouette, deux traitements, aucune hiérarchie. La couronne porte le signe : cinq montants verticaux, deux liaisons horizontales. Le halo est un disque unique : ce qu'ils partagent. La fente centrale n'est jamais comblée.",
+        title: "Le label et son adresse",
+        body: "THUGLAND ENTERTAINMENT, « home of the misunderstood », avec son monogramme propre. Les pièces portent toutes la même mention d'origine — Calavi, 229. Un vêtement qui dit d'où il vient se défend mieux qu'un vêtement qui imite ce qui vient d'ailleurs.",
       },
       {
-        title: "Le glyphe",
-        body: "Le signe réduit à sa charpente : deux barres verticales, deux liaisons horizontales, sur une grille de 4 × 3 au rapport 11:15. C'est la version courte de l'emblème — là où le trône ne tient pas, en étiquette, en broderie, en favicon, le glyphe prend le relais. En dessous de vingt millimètres, il reste seul.",
+        title: "Sept planches, une gamme",
+        body: "Le signe seul, l'œil, le logo complet, THUGLAND, « PROFESSIONAL THUG », « NEVER FUCKING PLAY », et les panoplies — dix-huit visuels tirés des sorties de l'artiste. Chaque planche s'applique sur la même base de pièces : t-shirt classique et oversize, capuche en six couleurs, débardeur, crop. On ne redessine pas à chaque sortie, on décline.",
       },
       {
-        title: "Le système",
-        body: "Deux familles typographiques et aucune autre. Cinq couleurs, chacune avec son rôle — l'encre pour la structure, le crème pour le fond, le jaune Gémeaux en signature, la sauge en second, l'ardoise pour les textes secondaires. Une règle absolue : jaune ou sauge sur une pièce donnée, jamais les deux ensemble. Une charte qui interdit vaut mieux qu'une charte qui suggère.",
-      },
-      {
-        title: "Pensés par paires",
-        body: "La gamme applique le manifeste à la lettre : chaussettes dépareillées, casquettes vendues en paire crème et encre, petit devant et emblème au dos. Le motif secondaire — la constellation de Castor et Pollux — reste discret : nuque, doublure, intérieur de packaging, jamais en couverture totale.",
+        title: "Prêt pour l'imprimeur, pas pour l'écran",
+        body: "Les logos sont livrés en 30 et 35 centimètres, 300 points par pouce, en PDF et en PNG, en blanc et en argent, avec leur catalogue A4. C'est la différence entre un fichier qu'un sérigraphe accepte et un fichier qu'il renvoie : un visuel d'écran agrandi sur un dos se voit immédiatement.",
       },
     ],
   },

@@ -124,7 +124,7 @@ export const vedettesEn: VedettesCopy = {
       promesse: "A system that holds everywhere, not a logo dropped onto a file.",
       contenu:
         "Emblem, reduced mark, type families, palette with roles, secondary motif and usage rules. A set of guidelines that forbids is worth more than one that suggests.",
-      preuve: { ...fr.items[5].preuve!, texte: "The GEMINI brand book" },
+      preuve: { ...fr.items[5].preuve!, texte: "The OIM THUG line" },
     },
     {
       ...fr.items[6],

@@ -249,7 +249,7 @@ export const vedettes: VedettesCopy = {
       promesse: "Un système qui tient partout, pas un logo posé sur un fichier.",
       contenu:
         "Emblème, déclinaison réduite, familles typographiques, palette à rôles, motif secondaire et règles d'usage. Une charte qui interdit vaut mieux qu'une charte qui suggère.",
-      preuve: { slug: "tshirt-gemini", texte: "Le dossier GEMINI" },
+      preuve: { slug: "oim-thug-merch", texte: "La ligne OIM THUG" },
     },
     {
       id: "agritech",

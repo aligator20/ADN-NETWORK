@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { AnnonceActivites } from "@/components/chrome/AnnonceActivites";
 import { Cursor } from "@/components/chrome/Cursor";
 import { Grain } from "@/components/chrome/Grain";
 import { GridOverlay } from "@/components/chrome/GridOverlay";
@@ -104,6 +105,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <Grain />
         <Header />
         <StatusBar />
+        <AnnonceActivites />
         <Cursor />
         <Preloader onComplete={markReady} />
       </SmoothScroll>

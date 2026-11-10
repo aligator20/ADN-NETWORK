@@ -23,7 +23,7 @@ type ProjectSlug =
   | "adone-green-service"
   | "full-mesh"
   | "resine-master"
-  | "tshirt-gemini"
+  | "oim-thug-merch"
   | "ferme-fdr-adone"
   | "complexe-porcin"
   | "adn-taste"
@@ -266,30 +266,26 @@ const EN: Record<ProjectSlug, Traduction> = {
   // Pas de `client` traduit : « Maison des dualités » est la baseline de la
   // marque, imprimée telle quelle sur les pièces. La traduire ferait dire au
   // site autre chose que ce que porte le vêtement.
-  "tshirt-gemini": {
+  "oim-thug-merch": {
     summary:
-      "A brand whose subject — duality — is carried by construction rather than illustration: two identical masses, linked twice, never merged into one.",
-    stack: ["Brand identity", "Emblem", "Typography", "Palette", "Textile"],
+      "The clothing line of an artist and his label: a mark that holds on a chest at three metres, worked into seven boards and ready for the printer.",
+    stack: ["Label identity", "Merch line", "Print-ready files", "Site"],
     detail: [
       {
-        title: "The manifesto",
-        body: "No illustrated twins, no esoteric symbol. Duality lives in the construction itself: two identical masses, linked twice, never merged into one. Three principles follow — structure before illustration, one accent per piece, nothing that does not serve legibility.",
+        title: "The mark before the name",
+        body: "A question mark set over an eye. That is all, and that is what makes it recognisable at three metres, embroidered on a chest or shrunk to a neck label. The full name — OIM THUG — only comes after, in support. A logo you have to read to identify does not hold on a garment in motion.",
       },
       {
-        title: "The emblem",
-        body: "Two identical sovereigns share a single seat. The left one is a solid mass, the right an engraved outline — same silhouette, two treatments, no hierarchy. The crown carries the sign: five vertical uprights, two horizontal links. The halo is a single disc: what they share. The central slit is never filled in.",
+        title: "The label and where it is from",
+        body: "THUGLAND ENTERTAINMENT, “home of the misunderstood”, with its own monogram. Every piece carries the same origin line — Calavi, 229. A garment that says where it comes from defends itself better than one imitating what comes from elsewhere.",
       },
       {
-        title: "The glyph",
-        body: "The sign reduced to its frame: two vertical bars, two horizontal links, on a 4 × 3 grid at a ratio of 11:15. It is the short version of the emblem — wherever the throne will not fit, on a label, an embroidery, a favicon, the glyph takes over. Below twenty millimetres it stands alone.",
+        title: "Seven boards, one range",
+        body: "The mark alone, the eye, the full logo, THUGLAND, “PROFESSIONAL THUG”, “NEVER FUCKING PLAY”, and the panoplies — eighteen visuals drawn from the artist's releases. Each board goes onto the same base of garments: classic and oversize tee, hoodie in six colours, vest, crop. You do not redraw for every release, you decline.",
       },
       {
-        title: "The system",
-        body: "Two type families and no others. Five colours, each with a role — ink for structure, cream for ground, Gemini yellow as signature, sage second, slate for secondary text. One absolute rule: yellow or sage on a given piece, never both. A set of guidelines that forbids is worth more than one that suggests.",
-      },
-      {
-        title: "Thought in pairs",
-        body: "The range applies the manifesto to the letter: mismatched socks, caps sold as a cream-and-ink pair, small on the front and the emblem across the back. The secondary motif — the constellation of Castor and Pollux — stays discreet: nape, lining, inside of the packaging, never as full coverage.",
+        title: "Ready for the printer, not for a screen",
+        body: "The logos ship at 30 and 35 centimetres, 300 dots per inch, as PDF and PNG, in white and in silver, with their A4 catalogue. That is the difference between a file a screen printer accepts and one he sends back: a screen graphic blown up across a back shows immediately.",
       },
     ],
   },

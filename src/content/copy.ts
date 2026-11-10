@@ -106,7 +106,16 @@ export type CommunityCopy = {
   };
 };
 
+export type AnnonceCopy = {
+  kicker: string;
+  titre: string;
+  lead: string;
+  fermer: string;
+  continuer: string;
+};
+
 export type Copy = {
+  annonce: AnnonceCopy;
   site: {
     name: string;
     wordmark: { first: string; second: string };
@@ -177,6 +186,13 @@ const FR: Copy = {
   vitrine: vitrineFr,
   vedettes: vedettesFr,
   boutique: boutiqueFr,
+  annonce: {
+    kicker: "Le groupe",
+    titre: "Cinq activités, une seule maison",
+    lead: "Vous êtes peut-être venu pour l'une et vous en cherchiez une autre. Voici tout ce qu'on fait, et où ça se passe.",
+    fermer: "Fermer",
+    continuer: "Continuer sur le site",
+  },
   labels: {
     openNoFee: "Ouvert — sans frais d'entrée",
     threeRoles: "Trois rôles, une seule table",
@@ -212,6 +228,13 @@ const EN: Copy = {
   vitrine: vitrineEn,
   vedettes: vedettesEn,
   boutique: boutiqueEn,
+  annonce: {
+    kicker: "The group",
+    titre: "Five activities, one house",
+    lead: "You may have come for one and been looking for another. Here is everything we do, and where it happens.",
+    fermer: "Close",
+    continuer: "Carry on to the site",
+  },
   labels: {
     openNoFee: "Open — no entry fee",
     threeRoles: "Three roles, one table",
