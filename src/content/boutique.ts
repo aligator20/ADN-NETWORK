@@ -35,6 +35,15 @@ export type Rayon = {
   titre: string;
   /** Ce que le rayon règle, en une phrase. */
   promesse: string;
+  /**
+   * La teinte du rayon, pour les couvertures composées.
+   *
+   * ⚠️ CE N'EST PAS UNE COULEUR DE DISCIPLINE. Le site réserve ses sept
+   * teintes à un usage de CODE : chacune désigne un métier d'ADN, jamais une
+   * décoration. Celles-ci appartiennent à FullMesh, elles vivent avec son
+   * jaune, et elles ne sortent pas du rayon des guides.
+   */
+  teinte: string;
   /** Les titres, tels qu'ils s'appellent sur la boutique. */
   titres: readonly string[];
 };
@@ -101,6 +110,9 @@ export type BoutiqueCopy = {
   };
 
   /* ── Les ebooks — le seul rayon qui part chez Chariow ────────────────── */
+  /** L'étagère des couvertures composées. */
+  etagereLabel: string;
+  etagereTout: string;
   produitsLabel: string;
   produitsTitre: string;
   produitsLead: string;
@@ -202,6 +214,8 @@ export const boutique: BoutiqueCopy = {
     },
   },
 
+  etagereLabel: "L'étagère",
+  etagereTout: "Tous les rayons",
   produitsLabel: "Les guides numériques",
   produitsTitre: "FullMesh Shop",
   produitsLead:
@@ -223,6 +237,7 @@ export const boutique: BoutiqueCopy = {
   rayons: [
     {
       id: "vendre",
+      teinte: "#f5c518",
       titre: "Trouver des clients, et se faire payer",
       promesse: "Le passage de la compétence au revenu, là où presque tout le monde reste bloqué.",
       titres: [
@@ -236,6 +251,7 @@ export const boutique: BoutiqueCopy = {
     },
     {
       id: "lancer",
+      teinte: "#e8734a",
       titre: "Se lancer avec ce qu'on a",
       promesse: "Démarrer sans capital, sans local, sans attendre un financement qui ne viendra pas.",
       titres: [
@@ -247,6 +263,7 @@ export const boutique: BoutiqueCopy = {
     },
     {
       id: "ia",
+      teinte: "#7c6cf0",
       titre: "Faire travailler l'IA",
       promesse: "L'outil qui remplace le collaborateur qu'on ne peut pas encore embaucher.",
       titres: [
@@ -258,6 +275,7 @@ export const boutique: BoutiqueCopy = {
     },
     {
       id: "metier",
+      teinte: "#3fb98a",
       titre: "Apprendre un métier en entier",
       promesse: "Un métier pris du premier geste jusqu'à la première vente.",
       titres: [

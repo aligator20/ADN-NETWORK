@@ -12,7 +12,7 @@ import { Whatsapp } from "@/components/ui/Whatsapp";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { formatPrix } from "@/lib/prix";
-import { cn } from "@/lib/utils";
+import { cn, pad } from "@/lib/utils";
 
 /**
  * PAGE /boutique — LA BOUTIQUE
@@ -39,6 +39,54 @@ import { cn } from "@/lib/utils";
 
 /** Le jaune électrique de FullMesh, borné au rayon des guides. */
 const JAUNE = "#f5c518";
+
+/**
+ * UNE COUVERTURE, COMPOSÉE PLUTÔT QUE PHOTOGRAPHIÉE.
+ *
+ * Les dix-sept guides n'ont aucune image sur ce dépôt. Les lister en texte les
+ * faisait passer pour une table des matières ; attendre dix-sept visuels
+ * aurait repoussé le rayon à un jour indéterminé. La couverture est donc
+ * DESSINÉE À PARTIR DU TITRE : dégradé de la teinte du rayon, tranche à
+ * gauche, titre composé dans la fonte d'affichage.
+ *
+ * C'est la même règle que la galerie des réalisations, qui compose une plaque
+ * teintée pour un projet sans photo. Aucun fichier à produire, rien à
+ * compresser, et un titre corrigé redessine sa couverture tout seul.
+ *
+ * Le titre est posé EN BAS, là où le dégradé a rejoint le noir : c'est ce qui
+ * garantit sa lisibilité quelle que soit la teinte du rayon — un texte clair
+ * sur le jaune FullMesh serait illisible.
+ */
+function Couverture({ titre, teinte, rang }: { titre: string; teinte: string; rang: number }) {
+  return (
+    <span
+      aria-hidden
+      className="relative block aspect-[3/4] overflow-hidden"
+      style={{
+        background: `linear-gradient(158deg, ${teinte} 0%, color-mix(in srgb, ${teinte} 32%, #08080a) 52%, #08080a 100%)`,
+      }}
+    >
+      {/* La tranche. C'est ce détail qui fait lire une couverture plutôt
+          qu'une vignette : un livre a une épaisseur. */}
+      <span
+        className="absolute inset-y-0 left-0 w-[7%]"
+        style={{ background: "linear-gradient(90deg, rgba(0,0,0,.55), rgba(255,255,255,.10))" }}
+      />
+      <span className="absolute inset-0 flex flex-col justify-between py-5 pl-[13%] pr-4">
+        <span className="flex items-baseline justify-between gap-2">
+          <span className="font-mono text-[0.5rem] uppercase tracking-[0.22em] text-void/70">
+            FullMesh
+          </span>
+          <span className="font-mono text-[0.5rem] tabular-nums text-void/50">{pad(rang, 2)}</span>
+        </span>
+        <span>
+          <span className="mb-3 block h-px w-8" style={{ background: teinte }} />
+          <span className="display block text-[0.92rem] leading-[1.12] text-bone">{titre}</span>
+        </span>
+      </span>
+    </span>
+  );
+}
 
 /** La clé de la sélection dans le navigateur du visiteur. */
 const CLE = "adn-boutique-selection";
@@ -121,6 +169,8 @@ export function BoutiqueView() {
 
   const [famille, setFamille] = useState<FamilleId>("tout");
   const [ouvert, setOuvert] = useState(false);
+  /** Le rayon de guides mis en avant sur l'étagère. « tout » : aucun filtre. */
+  const [rayon, setRayon] = useState<string>("tout");
 
   const P = boutique.panier;
   const F = P.form;
@@ -180,6 +230,13 @@ export function BoutiqueView() {
 
     return [...prestations, ...formules, ...carte];
   }, [vedettes, vitrine, href, prouvantes]);
+
+  /* Les dix-sept guides, aplatis en une seule étagère et teintés par leur
+     rayon. Le filtre ne masque pas : il réduit la pile, et le compteur dit
+     combien il en reste — un rayon vide se verrait tout de suite. */
+  const livres = boutique.rayons
+    .filter((r) => rayon === "tout" || r.id === rayon)
+    .flatMap((r) => r.titres.map((titre) => ({ titre, teinte: r.teinte })));
 
   const visibles = articles.filter((a) => famille === "tout" || a.famille === famille);
   const choisis = articles.filter((a) => selection.contient(a.cle));
@@ -536,46 +593,88 @@ export function BoutiqueView() {
                 </ul>
               </div>
 
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:col-span-7">
-                {boutique.rayons.map((r) => (
-                  <div key={r.id} className="flex flex-col border border-steel/60 bg-carbon p-6">
-                    <span aria-hidden className="mb-5 block h-px w-10" style={{ background: JAUNE }} />
-                    <h3 className="display text-[clamp(1.05rem,1.9vw,1.35rem)] leading-[1.1] text-bone">
-                      {r.titre}
-                    </h3>
-                    <p className="mt-3 font-mono text-[0.75rem] leading-[1.7] text-fog">
-                      {r.promesse}
-                    </p>
-                    <ul className="mt-5 space-y-2">
-                      {r.titres.map((t) => (
-                        <li
-                          key={t}
-                          className="flex gap-3 font-mono text-[0.75rem] leading-[1.6] text-bone/80"
-                        >
-                          <span aria-hidden style={{ color: JAUNE }}>
-                            ·
-                          </span>
-                          <span>{t}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-auto pt-6">
-                      <a
-                        href={boutique.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+              {/* Les rayons en légende : ils disent par quel problème le
+                  catalogue est rangé, et servent de filtre à l'étagère. */}
+              <div className="md:col-span-7">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
+                  {boutique.rayons.map((r) => {
+                    const actif = rayon === r.id;
+                    return (
+                      <button
+                        key={r.id}
+                        type="button"
                         data-cursor="hover"
-                        className="label transition-colors duration-300 hover:text-bone"
-                        style={{ color: JAUNE }}
+                        onClick={() => setRayon(actif ? "tout" : r.id)}
+                        aria-pressed={actif}
+                        className="group border-l-2 pl-5 text-left transition-colors duration-300"
+                        style={{ borderColor: actif ? r.teinte : "var(--color-steel)" }}
                       >
-                        {boutique.ctaBoutique} ↗
-                      </a>
-                    </p>
-                  </div>
-                ))}
-                <p className="font-mono text-[0.75rem] leading-[1.8] text-fog sm:col-span-2">
+                        <span className="flex items-baseline gap-3">
+                          <span
+                            className="display text-[clamp(1rem,1.8vw,1.25rem)] leading-[1.1] text-bone"
+                          >
+                            {r.titre}
+                          </span>
+                          <span
+                            className="font-mono text-[0.6875rem] tabular-nums"
+                            style={{ color: r.teinte }}
+                          >
+                            {r.titres.length}
+                          </span>
+                        </span>
+                        <span className="mt-2 block font-mono text-[0.75rem] leading-[1.65] text-fog">
+                          {r.promesse}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="mt-8 font-mono text-[0.75rem] leading-[1.8] text-fog">
                   {boutique.prixNote}
                 </p>
+              </div>
+            </div>
+
+            {/* ── L'étagère ──────────────────────────────────────────────
+                Dix-sept couvertures composées, pleine largeur. Chacune ouvre
+                la boutique : c'est là, et seulement là, que le prix est à
+                jour. */}
+            <div className="mt-16 md:mt-20">
+              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3 border-b border-steel/40 pb-5">
+                <p className="label" style={{ color: JAUNE }}>
+                  {boutique.etagereLabel}
+                </p>
+                <p className="font-mono text-[0.75rem] text-fog">
+                  {rayon === "tout"
+                    ? boutique.etagereTout
+                    : boutique.rayons.find((r) => r.id === rayon)?.titre}
+                  <span className="ml-3 tabular-nums text-bone">{livres.length}</span>
+                </p>
+              </div>
+
+              <div className="mt-8 grid grid-cols-2 gap-x-5 gap-y-9 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+                {livres.map((l, i) => (
+                  <a
+                    key={l.titre}
+                    href={boutique.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="hover"
+                    className="group block"
+                  >
+                    <span className="block transition-transform duration-500 ease-expo group-hover:-translate-y-1.5">
+                      <Couverture titre={l.titre} teinte={l.teinte} rang={i + 1} />
+                    </span>
+                    <span className="mt-3 flex items-baseline justify-between gap-2">
+                      <span className="label text-fog transition-colors duration-300 group-hover:text-bone">
+                        {boutique.ctaBoutique}
+                      </span>
+                      <span aria-hidden style={{ color: l.teinte }}>
+                        ↗
+                      </span>
+                    </span>
+                  </a>
+                ))}
               </div>
             </div>
           </div>

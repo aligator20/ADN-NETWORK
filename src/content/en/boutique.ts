@@ -92,6 +92,8 @@ export const boutiqueEn: BoutiqueCopy = {
     },
   },
 
+  etagereLabel: "The shelf",
+  etagereTout: "All aisles",
   produitsLabel: "The digital guides",
   produitsTitre: "FullMesh Shop",
   produitsLead:

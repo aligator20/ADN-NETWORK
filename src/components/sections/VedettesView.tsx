@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useRef } from "react";
 
 import { SchemaReseau } from "@/components/ui/SchemaReseau";
-import { projectBySlug } from "@/content/projects";
+import { statusLabel } from "@/content/projects";
 import { disciplineColor } from "@/content/services";
-import { useCopy, useDisciplineName, useHref, useLang } from "@/hooks/useCopy";
+import { useCopy, useDisciplineName, useHref, useLang, useProjectsProving } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -41,6 +41,7 @@ export function VedettesView() {
   const disciplineName = useDisciplineName();
   const href = useHref();
   const lang = useLang();
+  const prouvantes = useProjectsProving();
 
   const prix = (n: number) => formatPrix(n, lang, vedettes.currency);
   const minimum = Math.min(...vedettes.items.map((v) => v.prix));
@@ -141,8 +142,8 @@ export function VedettesView() {
       <section className="mx-auto max-w-[1800px] gutter py-24 md:py-32">
         <div className="mt-2">
           {vedettes.items.map((v, i) => {
-            // Un slug inconnu dégrade en texte simple plutôt qu'en lien mort.
-            const projet = v.preuve ? projectBySlug(v.preuve.slug) : undefined;
+            // Tout ce qui atteste cette prestation, dérivé des réalisations.
+            const realisations = prouvantes(v.id);
             const teinte = disciplineColor[v.id];
             return (
               <div key={v.id}>
@@ -200,19 +201,44 @@ export function VedettesView() {
                         ))}
                       </div>
                     )}
-                    {projet && v.preuve ? (
+                    {realisations.length > 0 ? (
                       <>
-                        <p className="label text-steel">{vedettes.preuveLabel}</p>
-                        <Link
-                          href={href(`/work/${v.preuve.slug}`)}
-                          data-cursor="hover"
-                          className="group mt-4 flex items-baseline gap-3 font-mono text-[0.8125rem] leading-[1.7] text-fog transition-colors duration-300 hover:text-bone"
-                        >
-                          <span className="max-w-[26ch]">{v.preuve.texte}</span>
-                          <span aria-hidden style={{ color: teinte }}>
-                            ↗
-                          </span>
-                        </Link>
+                        <p className="label text-fog">{vedettes.preuveLabel}</p>
+                        {/* TOUT ce qui atteste cette prestation, pas une seule
+                            pièce choisie à la main. La liste se déduit des
+                            réalisations — par leur discipline ou par leur champ
+                            `prouve` — donc en ajouter une la fait apparaître
+                            ici sans toucher à cette vue. La page ne montrait
+                            qu'un projet sur deux ou trois : du travail livré
+                            restait invisible à l'endroit exact où quelqu'un
+                            se demande si l'on sait faire. */}
+                        <ul className="mt-4 space-y-3">
+                          {realisations.map((p) => (
+                            <li key={p.slug}>
+                              <Link
+                                href={href(`/work/${p.slug}`)}
+                                data-cursor="hover"
+                                className="group flex items-baseline gap-3 font-mono text-[0.8125rem] leading-[1.7] text-fog transition-colors duration-300 hover:text-bone"
+                              >
+                                <span className="max-w-[26ch]">
+                                  {p.title}
+                                  {/* L'état se lit à côté du nom : une étude
+                                      et un travail livré ne valent pas la même
+                                      promesse devant un acheteur. */}
+                                  {p.status !== "livre" && (
+                                    <span className="text-fog/70">
+                                      {" "}
+                                      — {statusLabel[p.status].toLowerCase()}
+                                    </span>
+                                  )}
+                                </span>
+                                <span aria-hidden style={{ color: teinte }}>
+                                  ↗
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
                       </>
                     ) : (
                       /* Rien de publié dans cette discipline. On l'écrit,
