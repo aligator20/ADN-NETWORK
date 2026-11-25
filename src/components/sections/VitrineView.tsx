@@ -5,6 +5,7 @@ import { useRef } from "react";
 
 import { BriefForm } from "@/components/ui/BriefForm";
 import { GainBand } from "@/components/ui/GainBand";
+import { Photo } from "@/components/ui/Photo";
 import { projectBySlug } from "@/content/projects";
 import { useCopy, useHref, useSequence, useLang } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -175,6 +176,13 @@ export function VitrineView() {
           ))}
         </div>
       </section>
+
+      {/* Quelqu'un qui exerce un métier, et son téléphone : c'est exactement
+          ce que La Vitrine met en ligne — une page à son nom, qu'il puisse
+          montrer. L'image n'est pas une cliente : voir LICENCES.md. */}
+      <div className="mx-auto mt-16 max-w-[1800px] gutter md:mt-24">
+        <Photo src="/scenes/vitrine-artisane.webp" />
+      </div>
 
       {/* — les formules ————————————————————————————————
           Une par ligne, séparées par des filets. Trois colonnes côte à côte

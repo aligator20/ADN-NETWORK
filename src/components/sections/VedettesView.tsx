@@ -5,6 +5,7 @@ import { useRef } from "react";
 
 import { SchemaReseau } from "@/components/ui/SchemaReseau";
 import { statusLabel } from "@/content/projects";
+import { Photo } from "@/components/ui/Photo";
 import { disciplineColor } from "@/content/services";
 import { useCopy, useDisciplineName, useHref, useLang, useProjectsProving } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -139,6 +140,13 @@ export function VedettesView() {
         </div>
       </section>
 
+      {/* Un métier en train de se faire, avant la liste des prestations. Dix
+          lignes de catalogue se lisent comme un tarif ; une image de travail
+          rappelle de quoi on parle. Ce n'est pas une cliente — LICENCES.md. */}
+      <div className="mx-auto mt-16 max-w-[1800px] gutter md:mt-24">
+        <Photo src="/scenes/services-couture.webp" />
+      </div>
+
       <section className="mx-auto max-w-[1800px] gutter py-24 md:py-32">
         <div className="mt-2">
           {vedettes.items.map((v, i) => {
@@ -150,6 +158,38 @@ export function VedettesView() {
                 <div className="hairline origin-left" />
                 <div className="vd-item grid grid-cols-1 gap-y-6 py-10 md:grid-cols-12 md:gap-x-10 md:py-14">
                   <div className="md:col-span-4">
+                    {/* L'IMAGE DE LA DISCIPLINE.
+                        Son fichier porte l'identifiant de la discipline —
+                        /scenes/disciplines/<id>.webp — donc aucune table de
+                        correspondance à tenir : une discipline ajoutée demain
+                        trouve son image en la déposant au bon nom.
+
+                        Ce sont des matières et des objets, jamais une
+                        personne : voir public/scenes/LICENCES.md. Une figure
+                        fabriquée sur un site qui promet de ne rien inventer
+                        se retourne contre lui dès qu'on la repère.
+
+                        `aria-hidden` et alt vide : l'image n'ajoute aucune
+                        information que le titre ne donne déjà. La faire lire
+                        à voix haute allongerait la page sans rien apprendre. */}
+                    <figure
+                      aria-hidden
+                      className="relative mb-6 block aspect-[16/9] overflow-hidden bg-carbon"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/scenes/disciplines/${v.id}.webp`}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                      <span
+                        aria-hidden
+                        className="absolute inset-x-0 top-0 block h-px"
+                        style={{ background: teinte }}
+                      />
+                    </figure>
                     <p className="flex items-baseline gap-4">
                       <span className="label" style={{ color: teinte }}>
                         {pad(i + 1, 2)}

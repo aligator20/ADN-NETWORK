@@ -78,6 +78,21 @@ export const legal: LegalCopy = {
       title: "Publications des réseaux sociaux",
       body: "La page Actualités reprend nos publications : le texte y est recopié et le visuel est le nôtre, de sorte que la page se lit sans qu'aucune requête ne parte vers un réseau social. Elle propose en outre d'afficher la publication d'origine dans le cadre du réseau qui l'héberge, derrière un bouton « Afficher la publication ». Tant que vous ne cliquez pas sur ce bouton, rien n'est chargé depuis ce réseau et aucun de ses cookies n'est déposé. Si vous cliquez, ce cadre est fourni par le réseau concerné et relève alors de ses propres règles, sur lesquelles nous n'avons pas la main — c'est pourquoi le chargement vous est laissé.",
     },
+    /**
+     * ⚠️ CE PARAGRAPHE N'EST PAS DÉCORATIF : C'EST UNE OBLIGATION DE LICENCE.
+     *
+     * Les photographies d'illustration du site viennent de Freepik sous sa
+     * licence gratuite, qui EXIGE une attribution visible. Tant que ces
+     * fichiers sont dans public/scenes, cette mention doit rester. Le relevé
+     * fichier par fichier est dans public/scenes/LICENCES.md.
+     *
+     * Le jour où les photographies de Sylvère les remplacent, ce paragraphe
+     * part avec elles — et pas avant.
+     */
+    {
+      title: "Crédits photographiques",
+      body: "Les photographies d'illustration de ce site proviennent de Freepik et sont utilisées sous sa licence gratuite. Elles ne montrent aucun client d'ADN NETWORK, aucune réalisation et aucun lieu où nous serions intervenus : les personnes qui y figurent n'ont aucun lien avec l'entreprise et n'ont rien approuvé. Les images illustrant les dix disciplines ont été produites par intelligence artificielle pour ADN NETWORK et ne représentent personne. Les captures de réalisations, elles, sont de vraies captures de vrais livrables.",
+    },
     {
       title: "Liens externes",
       body: "Certaines pages renvoient vers des sites tiers, notamment les sites en ligne de projets présentés. ADN NETWORK n'exerce aucun contrôle sur leur contenu et ne saurait être tenu responsable de ce qui y est publié.",

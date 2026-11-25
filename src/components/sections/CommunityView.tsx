@@ -3,6 +3,7 @@
 import { useRef } from "react";
 
 import { JoinForm } from "@/components/ui/JoinForm";
+import { Photo } from "@/components/ui/Photo";
 import { useCopy } from "@/hooks/useCopy";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, STAGGER } from "@/lib/motion";
@@ -86,6 +87,13 @@ export function CommunityView() {
           ))}
         </div>
       </section>
+
+      {/* Le marché, et le téléphone qui relie — c'est littéralement ce que
+          fait La Mise en relation : une demande qui arrive repart vers
+          quelqu'un de l'annuaire. L'image sépare la promesse des rôles. */}
+      <div className="mx-auto mt-16 max-w-[1800px] gutter md:mt-24">
+        <Photo src="/scenes/reseau-marche.webp" />
+      </div>
 
       {/* — les trois rôles ————————————————————————————— */}
       <section className="mx-auto max-w-[1800px] gutter py-24 md:py-32">

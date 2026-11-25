@@ -45,6 +45,13 @@ export const legalEn: LegalCopy = {
       title: "Social media posts",
       body: "The News page carries our own posts: the text is copied there and the image is ours, so the page reads without a single request leaving for a social network. It also offers to display the original post inside the frame of the network hosting it, behind a “Show the post” button. As long as you do not click that button, nothing is loaded from that network and none of its cookies are placed. If you do click, the frame is served by the network in question and is then governed by its own rules, over which we have no control — which is precisely why the loading is left to you.",
     },
+    /* Obligation de licence, pas de décoration — voir la version française et
+       public/scenes/LICENCES.md. Elle reste tant que les photographies
+       Freepik sont dans public/scenes. */
+    {
+      title: "Photo credits",
+      body: "The illustrative photographs on this site come from Freepik and are used under its free licence. They show no ADN NETWORK client, no delivered work and no place where we have worked: the people pictured have no connection with the company and have endorsed nothing. The images illustrating the ten disciplines were produced by artificial intelligence for ADN NETWORK and depict no one. The project screenshots, by contrast, are genuine captures of genuine deliverables.",
+    },
     {
       title: "External links",
       body: "Some pages link to third-party sites, in particular the live sites of the projects presented. ADN NETWORK exercises no control over their content and cannot be held responsible for what is published there.",
