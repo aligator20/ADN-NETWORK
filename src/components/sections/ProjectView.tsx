@@ -239,7 +239,7 @@ export function ProjectView({
                 <span>
                   <span className="label block">
                     {ui.dossierLabel}
-                    <span className="ml-3 text-steel">
+                    <span className="ml-3 text-fog">
                       PDF · {project.dossier.pages} {ui.dossierPages} ·{" "}
                       {project.dossier.mo.toLocaleString(lang, {
                         minimumFractionDigits: 1,
@@ -271,7 +271,7 @@ export function ProjectView({
                 <p className="label" style={{ color }}>
                   L&apos;opportunité
                 </p>
-                <p className="label mt-4 max-w-[24ch] leading-[1.8] text-steel">
+                <p className="label mt-4 max-w-[24ch] leading-[1.8]">
                   Chiffres issus du plan d&apos;affaires du projet.
                 </p>
               </div>

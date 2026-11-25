@@ -125,12 +125,63 @@ export type BoutiqueCopy = {
   /** L'adresse réelle de la boutique. Elle vit ici, une seule fois. */
   url: string;
   ficheLabel: string;
+  /**
+   * Ce qui s'affiche quand l'adresse de téléchargement ne répond pas.
+   *
+   * Voir `chariowEnLigne` ci-dessous : à `false`, ces libellés remplacent les
+   * boutons d'achat et l'étagère devient commandable par WhatsApp, titre par
+   * titre.
+   */
+  panne: {
+    label: string;
+    titre: string;
+    corps: string;
+    /** Le bouton de remplacement, en tête du rayon. */
+    cta: string;
+    /** Le libellé sous chaque couverture. */
+    commander: string;
+    /** Le message WhatsApp du bouton de tête, qui ne désigne aucun titre. */
+    message: string;
+    /** Celui d'une couverture. LE TITRE EST AJOUTÉ À LA SUITE, par la vue. */
+    messageTitre: string;
+    /** Celui d'une demande de revente, qui n'a plus de lien où aller. */
+    messageRevendeur: string;
+  };
 
   /* ── Revendre ────────────────────────────────────────────────────────── */
   revendeurLabel: string;
   revendeurTitre: string;
   revendeur: readonly { titre: string; corps: string }[];
 };
+
+/**
+ * L'ADRESSE DE TÉLÉCHARGEMENT RÉPOND-ELLE ?
+ *
+ * ÉTAT AU 17 NOVEMBRE 2026 : OUI. Treize pages produit demandées à froid
+ * répondent 200, et la boutique s'ouvre normalement dans un navigateur.
+ *
+ * CE QUE CE BOOLÉEN COMMANDE. À `true`, tout part chez le vendeur, qui est la
+ * seule autorité sur les prix. À `false` : les deux boutons d'achat et celui
+ * de la revente basculent sur WhatsApp, chacune des dix-sept couvertures
+ * ouvre une commande À SON TITRE, un bandeau dit la panne, et la note qui
+ * renvoie les prix « sur la boutique » disparaît — elle désignerait alors une
+ * porte fermée.
+ *
+ * POURQUOI IL EXISTE. Les 16 et 17 novembre 2026, cette adresse a renvoyé une
+ * erreur 500 sur toutes ses pages. Pendant cette fenêtre, le site a continué
+ * d'envoyer dix-sept couvertures et deux boutons vers une erreur de serveur :
+ * un visiteur qui clique ne distingue pas la panne d'un prestataire de notre
+ * propre amateurisme. La panne était chez l'hébergeur du vendeur, rien ici ne
+ * pouvait la relever — mais le mur d'erreurs, lui, était évitable. C'est ce
+ * que ce commutateur supprime : un mot à changer, et le rayon reste vendeur.
+ *
+ * ⚠️ ON NE LE PASSE À `false` QU'APRÈS AVOIR OUVERT L'ADRESSE DANS UN VRAI
+ * NAVIGATEUR. `curl` seul ne suffit pas à condamner une boutique : c'est sur
+ * cette seule foi que celle-ci a été déclarée morte, et c'est un navigateur
+ * qui a montré qu'elle servait de nouveau. Une ligne de commande dit qu'une
+ * requête a échoué, pas qu'un client ne peut pas acheter.
+ */
+export const chariowEnLigne = true;
 
 export const boutique: BoutiqueCopy = {
   kicker: "La boutique",
@@ -291,6 +342,18 @@ export const boutique: BoutiqueCopy = {
   ctaRevendeur: "Devenir revendeur",
   url: "https://fullmeshshop.mychariow.market",
   ficheLabel: "Le travail de marque derrière la boutique",
+  panne: {
+    label: "Téléchargement en panne",
+    titre: "La boutique de téléchargement ne répond pas",
+    corps:
+      "La panne est chez l'hébergeur des guides, et nous n'avons pas de date de rétablissement. Le catalogue ci-dessous est à jour : demandez le titre qui vous intéresse, on vous donne son prix et on vous envoie le fichier.",
+    cta: "Commander un guide",
+    commander: "Demander ce guide",
+    message: "Bonjour, je voudrais commander un guide FullMesh.",
+    messageTitre: "Bonjour, je voudrais ce guide FullMesh : ",
+    messageRevendeur:
+      "Bonjour, je voudrais revendre les guides FullMesh. Comment ça se passe ?",
+  },
 
   revendeurLabel: "Revendre",
   revendeurTitre: "35 % sur chaque vente, sans rien avancer",

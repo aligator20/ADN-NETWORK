@@ -239,7 +239,7 @@ function Filter({
       style={active ? { color } : undefined}
     >
       {label}
-      <sup className="ml-1.5 text-[0.5rem] text-steel">{pad(count, 2)}</sup>
+      <sup className="ml-1.5 text-[0.5rem] text-fog">{pad(count, 2)}</sup>
       <span
         className={cn(
           "absolute inset-x-0 bottom-0 h-px origin-left transition-transform duration-400 ease-expo",

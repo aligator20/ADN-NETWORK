@@ -41,9 +41,14 @@ export const site = {
    *
    * `wa` ne contient que des chiffres, indicatif compris et sans « + » :
    * c'est le format exigé par wa.me. `waDisplay` est la forme lisible.
-   * Numéro repris des dossiers FDR, porcin et du site AquaControl.
+   * NUMÉRO OFFICIEL D'ADN NETWORK, et de personne d'autre. Il portait jusqu'au
+   * 25 novembre 2026 le `+229 01 56 22 37 76`, repris des dossiers FDR, porcin
+   * et du site AquaControl — or ce numéro est celui de FullMesh. Chaque
+   * visiteur qui cliquait sur le bouton WhatsApp écrivait donc à la mauvaise
+   * entreprise. Sylvère a tranché ce jour-là : ne pas le « corriger » en
+   * reprenant un numéro trouvé dans un autre dossier du poste.
    */
-  whatsapp: { wa: "2290156223776", display: "+229 01 56 22 37 76" },
+  whatsapp: { wa: "2290191882492", display: "+229 01 91 88 24 92" },
   /**
    * ⚠️ À REMPLACER par le domaine réel avant mise en ligne.
    *
@@ -127,6 +132,7 @@ export const nav: readonly NavItem[] = [
   { label: "Réalisations", href: "/work" },
   { label: "Structure", href: "/", anchor: "about" },
   { label: "Le Réseau", href: "/reseau" },
+  { label: "La Méthode", href: "/methode" },
   { label: "La Vitrine", href: "/vitrine" },
   { label: "La Boutique", href: "/boutique" },
   { label: "Actualités", href: "/actualites" },

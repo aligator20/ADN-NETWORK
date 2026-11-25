@@ -46,7 +46,7 @@ export function Champ({
         className="mt-4 w-full border-0 border-b border-steel bg-transparent pb-3 font-mono text-[0.875rem] text-bone outline-none transition-colors duration-300 placeholder:text-steel focus:border-signal disabled:opacity-40"
       />
       {hint && (
-        <p id={`${id}-hint`} className="mt-3 font-mono text-[0.6875rem] text-steel">
+        <p id={`${id}-hint`} className="mt-3 font-mono text-[0.6875rem] text-fog">
           {hint}
         </p>
       )}

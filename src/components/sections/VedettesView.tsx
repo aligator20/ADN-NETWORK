@@ -154,7 +154,7 @@ export function VedettesView() {
                       <span className="label" style={{ color: teinte }}>
                         {pad(i + 1, 2)}
                       </span>
-                      <span className="label text-steel">{disciplineName(v.id)}</span>
+                      <span className="label">{disciplineName(v.id)}</span>
                     </p>
                     <h2 className="display mt-4 text-[clamp(1.6rem,3.6vw,2.75rem)] leading-none text-bone">
                       {v.name}
@@ -290,7 +290,7 @@ export function VedettesView() {
                       {l.name}
                     </h3>
                     <p className="mt-5 font-mono text-[0.8125rem] text-signal">
-                      <span className="text-steel">{vedettes.liaisonsCoutLabel} · </span>
+                      <span className="text-fog">{vedettes.liaisonsCoutLabel} · </span>
                       {l.cout}
                     </p>
                   </div>
@@ -299,13 +299,13 @@ export function VedettesView() {
                     <p className="max-w-[36ch] font-mono text-[0.875rem] leading-[1.85] text-bone/85">
                       {l.promesse}
                     </p>
-                    <p className="mt-4 max-w-[38ch] font-mono text-[0.75rem] leading-[1.85] text-steel">
+                    <p className="mt-4 max-w-[38ch] font-mono text-[0.75rem] leading-[1.85] text-fog">
                       {l.contenu}
                     </p>
                   </div>
 
                   <div className="md:col-span-4">
-                    <p className="label text-steel">{vedettes.liaisonsGainLabel}</p>
+                    <p className="label">{vedettes.liaisonsGainLabel}</p>
                     <p className="mt-4 max-w-[36ch] font-mono text-[0.8125rem] leading-[1.85] text-fog">
                       {l.gain}
                     </p>

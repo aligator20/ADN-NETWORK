@@ -65,6 +65,7 @@ const LABELS_EN: Record<string, string> = {
   Réalisations: "Work",
   Structure: "Structure",
   "Le Réseau": "The Network",
+  "La Méthode": "The Method",
   "La Vitrine": "The Showcase",
   "La Boutique": "The Shop",
   "Actualités": "News",

@@ -108,11 +108,11 @@ export function Community() {
               </p>
               <dl className="mt-7 space-y-3">
                 <div className="flex items-baseline gap-4">
-                  <dt className="label w-20 shrink-0 text-steel">Apporte</dt>
+                  <dt className="label w-20 shrink-0">Apporte</dt>
                   <dd className="font-mono text-[0.75rem] text-bone/80">{r.give}</dd>
                 </div>
                 <div className="flex items-baseline gap-4">
-                  <dt className="label w-20 shrink-0 text-steel">Reçoit</dt>
+                  <dt className="label w-20 shrink-0">Reçoit</dt>
                   <dd className="font-mono text-[0.75rem] text-bone/80">{r.get}</dd>
                 </div>
               </dl>

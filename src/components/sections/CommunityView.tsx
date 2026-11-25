@@ -170,7 +170,7 @@ export function CommunityView() {
               <p className="label mt-8 leading-[1.9]">
                 {labels.noAccount}
                 <br />
-                <span className="text-steel">{labels.dataUse}</span>
+                <span className="text-fog">{labels.dataUse}</span>
               </p>
             </div>
 

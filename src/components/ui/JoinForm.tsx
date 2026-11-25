@@ -227,7 +227,7 @@ export function JoinForm() {
       </Magnetic>
 
       {!prete && etat === "saisie" && (
-        <p className="label mt-4 text-steel">{F.incomplete}</p>
+        <p className="label mt-4 text-bone">{F.incomplete}</p>
       )}
 
       {etat === "echec" && (

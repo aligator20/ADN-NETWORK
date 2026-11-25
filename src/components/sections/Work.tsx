@@ -236,7 +236,7 @@ function FilterButton({
       aria-pressed={active}
     >
       {label}
-      <sup className="ml-1.5 text-[0.5rem] text-steel">{pad(count, 2)}</sup>
+      <sup className="ml-1.5 text-[0.5rem] text-fog">{pad(count, 2)}</sup>
       {/* Le soulignement porte la couleur : l'état actif se lit sans compter
           sur la seule nuance de gris du libellé. */}
       <span

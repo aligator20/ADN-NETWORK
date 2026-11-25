@@ -147,6 +147,25 @@ export function vitrineMetadata(lang: Lang): Metadata {
   };
 }
 
+/* ── Le Plan de marche ─────────────────────────────────────────────────── */
+
+const METHODE_DESCRIPTION: Record<Lang, string> = {
+  fr:
+    'Vous dites ce qui ne va pas, avec vos mots. ADN NETWORK rend une méthode, ' +
+    'des gestes datés et quatre semaines de suivi. Diagnostic gratuit.',
+  en:
+    'You say what is going wrong, in your own words. ADN NETWORK hands back a ' +
+    'method, dated steps and four weeks of follow-up. Free diagnosis.',
+};
+
+export function methodeMetadata(lang: Lang): Metadata {
+  return {
+    title: copy(lang).methode.name,
+    description: METHODE_DESCRIPTION[lang],
+    alternates: alternatesFor(lang, '/methode'),
+  };
+}
+
 /* ── Les dix vedettes ────────────────────────────────────────────────────── */
 
 const VEDETTES_DESCRIPTION: Record<Lang, string> = {

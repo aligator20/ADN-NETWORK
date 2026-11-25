@@ -44,6 +44,11 @@ export const activites: readonly Activite[] = [
   {
     id: "fullmesh",
     nom: "FullMesh Shop",
+    // Adresse rouverte et revérifiée le 17 novembre 2026, après deux jours
+    // d'erreur 500 côté hébergeur du vendeur. Si elle retombe, c'est cette
+    // ligne qu'on bascule sur `/boutique` (interne), en même temps que
+    // `chariowEnLigne` dans `boutique.ts` : la règle en tête de fichier
+    // interdit qu'une fenêtre qui s'impose au visiteur l'envoie dans le vide.
     phrase: "Dix-sept guides numériques, payables et téléchargeables en ligne.",
     href: "https://fullmeshshop.mychariow.market",
     interne: false,

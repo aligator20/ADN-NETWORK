@@ -33,6 +33,9 @@ export function Cover({
 }) {
   const color = disciplineColor[project.discipline];
   const fit = project.coverFit ?? "cover";
+  // Voir `coverAnchor` dans projects.ts : une capture de site se retient par le
+  // haut, où vivent le nom et la promesse. Sans effet en `contain`.
+  const ancre = project.coverAnchor === "haut" ? "object-top" : "object-center";
 
   return (
     <span className={cn("relative block h-full w-full overflow-hidden bg-carbon", className)}>
@@ -53,7 +56,7 @@ export function Cover({
           <img
             src={project.cover}
             alt={project.title}
-            className="absolute inset-0 h-full w-full object-cover"
+            className={cn("absolute inset-0 h-full w-full object-cover", ancre)}
           />
         ) : (
           // `w-auto h-auto` + `max-*` : l'image se réduit si elle dépasse, mais

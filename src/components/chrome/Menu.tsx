@@ -193,7 +193,7 @@ export function Menu() {
                             <span className="mask">
                               <motion.span
                                 variants={ITEM}
-                                className="label block text-steel"
+                                className="label block"
                               >
                                 {current ? "●" : "↗"}
                               </motion.span>
@@ -235,7 +235,7 @@ export function Menu() {
                   <p className="label mt-4 leading-[1.9]">
                     {site.base.city.toUpperCase()} — {site.base.country}
                     <br />
-                    <span className="text-steel">{site.base.coords}</span>
+                    <span className="text-fog">{site.base.coords}</span>
                   </p>
                 </div>
 

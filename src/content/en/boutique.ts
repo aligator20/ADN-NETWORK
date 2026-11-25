@@ -119,6 +119,18 @@ export const boutiqueEn: BoutiqueCopy = {
   ctaRevendeur: "Become a reseller",
   url: fr.url,
   ficheLabel: "The brand work behind the shop",
+  panne: {
+    label: "Downloads down",
+    titre: "The download shop is not responding",
+    corps:
+      "The outage is at the guides' host, and we have no restoration date. The catalogue below is current: ask for the title you want, we give you its price and send you the file.",
+    cta: "Order a guide",
+    commander: "Ask for this guide",
+    message: "Hello, I would like to order a FullMesh guide.",
+    messageTitre: "Hello, I would like this FullMesh guide: ",
+    messageRevendeur:
+      "Hello, I would like to resell the FullMesh guides. How does it work?",
+  },
 
   revendeurLabel: "Reselling",
   revendeurTitre: "35 % on every sale, with nothing fronted",

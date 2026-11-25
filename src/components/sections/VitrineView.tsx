@@ -202,7 +202,7 @@ export function VitrineView() {
                   <p className="max-w-[34ch] font-mono text-[0.875rem] leading-[1.85] text-bone/85">
                     {f.promesse}
                   </p>
-                  <p className="mt-5 max-w-[34ch] font-mono text-[0.75rem] leading-[1.85] text-steel">
+                  <p className="mt-5 max-w-[34ch] font-mono text-[0.75rem] leading-[1.85] text-fog">
                     {f.pour}
                   </p>
                 </div>
@@ -271,7 +271,7 @@ export function VitrineView() {
                       <p className="mt-4 font-mono text-[0.875rem] text-signal tabular-nums">
                         {s.plancher ? `${vitrine.from} ${prix(s.prix)}` : prix(s.prix)}
                         {!s.plancher && s.unite && (
-                          <span className="text-steel"> · {s.unite}</span>
+                          <span className="text-fog"> · {s.unite}</span>
                         )}
                       </p>
                     </div>
@@ -280,13 +280,13 @@ export function VitrineView() {
                       <p className="max-w-[38ch] font-mono text-[0.875rem] leading-[1.85] text-bone/85">
                         {s.promesse}
                       </p>
-                      <p className="mt-4 max-w-[38ch] font-mono text-[0.75rem] leading-[1.85] text-steel">
+                      <p className="mt-4 max-w-[38ch] font-mono text-[0.75rem] leading-[1.85] text-fog">
                         {s.contenu}
                       </p>
                     </div>
 
                     <div className="md:col-span-3">
-                      <p className="label text-steel">{vitrine.preuveLabel}</p>
+                      <p className="label">{vitrine.preuveLabel}</p>
                       {projet ? (
                         <Link
                           href={href(`/work/${s.preuve.slug}`)}

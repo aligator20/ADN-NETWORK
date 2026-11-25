@@ -185,7 +185,7 @@ export function About() {
               <p className="label max-w-[22ch] leading-[1.9] md:text-right">
                 {site.base.city.toUpperCase()} — {site.base.country}
                 <br />
-                <span className="text-steel">{site.base.coords}</span>
+                <span className="text-fog">{site.base.coords}</span>
               </p>
             </div>
           </div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import type { FamilleId } from "@/content/boutique";
+import { chariowEnLigne, type FamilleId } from "@/content/boutique";
 import { disciplineColor } from "@/content/services";
 import { useCopy, useHref, useLang, useProjectsProving } from "@/hooks/useCopy";
 import { useNetlifyForm } from "@/hooks/useNetlifyForm";
@@ -161,7 +161,7 @@ function useSelection() {
 export function BoutiqueView() {
   const root = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
-  const { boutique, vedettes, vitrine } = useCopy();
+  const { boutique, vedettes, vitrine, site } = useCopy();
   const href = useHref();
   const lang = useLang();
   const prouvantes = useProjectsProving();
@@ -296,9 +296,26 @@ export function BoutiqueView() {
     return () => window.removeEventListener("keydown", surTouche);
   }, [ouvert]);
 
-  const lienChariow = (texte: string, plein: boolean) => (
+  /** WhatsApp, avec le message déjà écrit. Le même lien ouvre l'appli et le web. */
+  const wa = (message: string) =>
+    `https://wa.me/${site.whatsapp.wa}?text=${encodeURIComponent(message)}`;
+
+  /**
+   * Un bouton sortant du rayon des guides.
+   *
+   * TANT QUE L'ADRESSE DE TÉLÉCHARGEMENT NE RÉPOND PAS, il ne part plus chez
+   * le vendeur : il ouvre WhatsApp avec le message de repli, et porte son
+   * libellé. Voir `chariowEnLigne` dans `boutique.ts`. Un bouton qui mène à
+   * une erreur de serveur est plus coûteux qu'un bouton absent — le visiteur a
+   * cliqué pour rien, et c'est nous qu'il juge.
+   */
+  const lienSortant = (
+    texte: string,
+    plein: boolean,
+    repli: { texte: string; message: string },
+  ) => (
     <a
-      href={boutique.url}
+      href={chariowEnLigne ? boutique.url : wa(repli.message)}
       target="_blank"
       rel="noopener noreferrer"
       data-cursor="hover"
@@ -308,7 +325,7 @@ export function BoutiqueView() {
       )}
       style={plein ? { background: JAUNE, color: "#0a0a0b" } : undefined}
     >
-      {texte}
+      {chariowEnLigne ? texte : repli.texte}
       <span aria-hidden>↗</span>
     </a>
   );
@@ -569,12 +586,46 @@ export function BoutiqueView() {
                 <h2 className="display mt-4 text-[clamp(1.75rem,4vw,3rem)] leading-[1.02] text-bone">
                   {boutique.produitsTitre}
                 </h2>
-                <p className="mt-6 max-w-[40ch] font-mono text-[0.8125rem] leading-[1.85] text-fog">
-                  {boutique.produitsLead}
-                </p>
+                {chariowEnLigne ? (
+                  <p className="mt-6 max-w-[40ch] font-mono text-[0.8125rem] leading-[1.85] text-fog">
+                    {boutique.produitsLead}
+                  </p>
+                ) : (
+                  /* LA PANNE, DITE AVANT TOUT LE RESTE. Le rayon reste en
+                     place — un catalogue de dix-sept titres est une
+                     information vraie, et les guides existent — mais la phrase
+                     qui promettait un paiement « dans la minute » ne peut pas
+                     tenir au-dessus d'une porte fermée. */
+                  <div
+                    /* 40ch, comme le texte qu'il remplace : au-delà, la bordure
+                       gauche et le retrait poussent le bloc sous le bord droit
+                       d'un écran de téléphone. */
+                    className="mt-6 max-w-[40ch] border-l-2 bg-carbon py-4 pl-5 pr-4"
+                    style={{ borderColor: JAUNE }}
+                  >
+                    <p className="label" style={{ color: JAUNE }}>
+                      {boutique.panne.label}
+                    </p>
+                    <p className="mt-2 font-mono text-[0.8125rem] leading-[1.55] text-bone">
+                      {boutique.panne.titre}
+                    </p>
+                    <p className="mt-3 font-mono text-[0.75rem] leading-[1.8] text-fog">
+                      {boutique.panne.corps}
+                    </p>
+                  </div>
+                )}
                 <div className="mt-8 flex flex-wrap gap-3">
-                  {lienChariow(boutique.ctaBoutique, true)}
-                  {lienChariow(boutique.ctaRevendeur, false)}
+                  {lienSortant(boutique.ctaBoutique, true, {
+                    texte: boutique.panne.cta,
+                    message: boutique.panne.message,
+                  })}
+                  {/* En panne, un seul bouton : deux liens WhatsApp côte à
+                      côte transforment un dépannage en mur de boutons. */}
+                  {chariowEnLigne &&
+                    lienSortant(boutique.ctaRevendeur, false, {
+                      texte: boutique.ctaRevendeur,
+                      message: boutique.panne.messageRevendeur,
+                    })}
                 </div>
                 <ul className="mt-10 space-y-3">
                   {boutique.regle.map((r) => (
@@ -629,16 +680,27 @@ export function BoutiqueView() {
                     );
                   })}
                 </div>
-                <p className="mt-8 font-mono text-[0.75rem] leading-[1.8] text-fog">
-                  {boutique.prixNote}
-                </p>
+                {/* La note renvoyait les prix « sur la boutique, seul endroit
+                    où ils sont à jour ». Tant que cette boutique ne répond
+                    pas, elle envoie chercher un prix derrière une porte
+                    fermée : le bandeau de panne dit déjà comment l'obtenir. */}
+                {chariowEnLigne && (
+                  <p className="mt-8 font-mono text-[0.75rem] leading-[1.8] text-fog">
+                    {boutique.prixNote}
+                  </p>
+                )}
               </div>
             </div>
 
             {/* ── L'étagère ──────────────────────────────────────────────
-                Dix-sept couvertures composées, pleine largeur. Chacune ouvre
-                la boutique : c'est là, et seulement là, que le prix est à
-                jour. */}
+                Dix-sept couvertures composées, pleine largeur. En marche
+                normale, chacune ouvre la boutique : c'est là, et seulement là,
+                que le prix est à jour.
+
+                EN PANNE, CHACUNE OUVRE UNE COMMANDE À SON TITRE. C'est même
+                mieux que le lien d'origine, qui envoyait les dix-sept vers une
+                seule vitrine où il fallait retrouver le guide à la main : ici
+                le titre voyage avec la demande, et nous savons quoi répondre. */}
             <div className="mt-16 md:mt-20">
               <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3 border-b border-steel/40 pb-5">
                 <p className="label" style={{ color: JAUNE }}>
@@ -656,7 +718,11 @@ export function BoutiqueView() {
                 {livres.map((l, i) => (
                   <a
                     key={l.titre}
-                    href={boutique.url}
+                    href={
+                      chariowEnLigne
+                        ? boutique.url
+                        : wa(`${boutique.panne.messageTitre}${l.titre}`)
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     data-cursor="hover"
@@ -667,7 +733,7 @@ export function BoutiqueView() {
                     </span>
                     <span className="mt-3 flex items-baseline justify-between gap-2">
                       <span className="label text-fog transition-colors duration-300 group-hover:text-bone">
-                        {boutique.ctaBoutique}
+                        {chariowEnLigne ? boutique.ctaBoutique : boutique.panne.commander}
                       </span>
                       <span aria-hidden style={{ color: l.teinte }}>
                         ↗
@@ -697,7 +763,15 @@ export function BoutiqueView() {
                 </div>
               ))}
             </div>
-            <div className="mt-10">{lienChariow(boutique.ctaRevendeur, true)}</div>
+            {/* Le programme de revente, lui, n'est pas en panne : seul son
+                lien d'inscription l'était. Il garde donc son libellé, et passe
+                par WhatsApp le temps que la boutique revienne. */}
+            <div className="mt-10">
+              {lienSortant(boutique.ctaRevendeur, true, {
+                texte: boutique.ctaRevendeur,
+                message: boutique.panne.messageRevendeur,
+              })}
+            </div>
           </div>
         </section>
       </div>

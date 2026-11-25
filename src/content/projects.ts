@@ -139,6 +139,18 @@ export type Project = {
    */
   coverFit?: "cover" | "contain";
   /**
+   * Par quel bord une couverture `cover` est retenue quand la plaque est plus
+   * large qu'elle. Défaut : le centre.
+   *
+   * `haut` est fait pour les CAPTURES DE SITE. Une page web met son nom, sa
+   * navigation et sa promesse dans les deux cents premiers pixels ; recadrée
+   * par le centre dans un bandeau, elle ne montre plus qu'un morceau de
+   * paragraphe coupé en deux — ce qui donne l'impression d'une image ratée
+   * alors que c'est le cadrage qui l'est. Sans effet sur `contain`, où
+   * l'image entière est déjà visible.
+   */
+  coverAnchor?: "haut" | "centre";
+  /**
    * Site en ligne du projet. Renseigné → la fiche affiche un bouton « Visiter
    * le site » et l'index marque le projet d'un ↗. Vide ou absent → rien ne
    * s'affiche, plutôt qu'un lien mort.
@@ -181,9 +193,14 @@ export const projects: readonly Project[] = [
     summary:
       "L'irrigation pilotée par les capteurs et la météo : l'eau va là où le rendement se joue.",
     stack: ["IoT", "Pilotage par seuils", "Pompe solaire", "Suivi à distance"],
+    // La page de soutien, capturée telle qu'elle est servie, le 17 novembre
+    // 2026, au 4:5 de la plaque. `coverFit` reste au défaut `cover` : l'image
+    // est déjà au bon rapport, rien n'est perdu.
     cover: "/work/aquacontrol-ai.webp",
+    coverAnchor: "haut",
     // Le site de soutien est servi depuis /public : c'est un fichier HTML
-    // autonome, il n'a besoin d'aucun hébergement séparé.
+    // autonome, il n'a besoin d'aucun hébergement séparé. C'est donc le seul
+    // projet dont la miniature se capture en local, sans sortir du dépôt.
     url: "/sites/aquacontrol-ai.html",
     // Chiffres repris du dossier révisé. L'ancien jeu — 4,45 M de budget, cinq
     // exploitations pilotes, 200 ms de latence — venait du dossier d'origine,
@@ -250,8 +267,14 @@ export const projects: readonly Project[] = [
     summary:
       "Aménagement paysager et entretien d'espaces verts, avec huit agents IA qui tiennent le devis, le planning et la qualité.",
     stack: ["Agents IA", "Devis & planning", "Suivi de chantier", "Pilotage"],
-    cover: "/work/adone-green-service.svg",
-    coverFit: "contain", // composition verticale construite : la recadrer la détruit
+    // LA VRAIE PAGE, PAS UN DESSIN DE LA PAGE. Capture du site en ligne au
+    // format 4:5 de la plaque, le 17 novembre 2026. Elle remplace une
+    // composition SVG, qui donnait une idée du site sans jamais le montrer :
+    // un portfolio de sites se juge sur les sites. L'ancienne reste dans
+    // `public/work/adone-green-service.svg` si l'on veut revenir en arrière.
+    cover: "/work/adone-green-service.webp",
+    coverFit: "cover", // déjà au 4:5 de la plaque : rien n'est recadré
+    coverAnchor: "haut",
     // Vérifié en ligne avant d'être écrit ici. Une adresse se constate, elle
     // ne s'anticipe pas : la fiche a porté « en préparation » tant que le site
     // n'était pas servi.
@@ -327,6 +350,11 @@ export const projects: readonly Project[] = [
     // Elle est aussi la SEULE autorité sur les prix — voir le commentaire de
     // `figures` — ce qui est la seconde raison de poser ce lien ici plutôt que
     // de recopier un catalogue qui bouge.
+    //
+    // Adresse revérifiée dans un navigateur le 17 novembre 2026, après deux
+    // jours d'erreur 500 chez l'hébergeur du vendeur. Si elle retombe, `url`
+    // est optionnel : on retire la ligne et la fiche garde ses sections — le
+    // travail décrit a bien eu lieu, c'est le lien qui ment, pas la fiche.
     url: "https://fullmeshshop.mychariow.market",
     year: 2026,
     discipline: "digital",
@@ -339,10 +367,20 @@ export const projects: readonly Project[] = [
       "Réseau de revendeurs",
       "Accompagnement",
     ],
+    // La boutique elle-même, capturée en ligne le 17 novembre 2026 : les
+    // vraies couvertures, les vrais prix, le vrai rayonnage. Elle remplace la
+    // plaque de marque, qui montrait le logo d'une boutique au lieu de la
+    // boutique — or ce qui se vend ici, c'est qu'elle existe et qu'elle tourne.
     cover: "/work/full-mesh.webp",
-    // 1000x1250, soit exactement le 4:5 de la plaque de galerie : `contain`
-    // la remplit donc presque entièrement, sans jamais la recadrer ailleurs.
-    coverFit: "contain",
+    // 800x1000, soit exactement le 4:5 de la plaque : `cover` la remplit bord
+    // à bord sans rien recadrer.
+    coverFit: "cover",
+    // ⚠️ PAS d'ancrage haut ici, contrairement aux deux autres captures de
+    // site. Le haut de cette page est un en-tête blanc et une phrase de
+    // présentation ; ce qu'il faut montrer dans un bandeau, ce sont les
+    // couvertures et leurs prix, qui tombent au MILIEU de l'image. Le défaut
+    // `centre` les cadre exactement. La règle d'ancrage se décide donc page
+    // par page, en regardant — pas en appliquant la même valeur partout.
     /**
      * ⚠️ AUCUN PRIX DE PRODUIT DANS CES CHIFFRES, ET C'EST DÉLIBÉRÉ.
      *

@@ -55,7 +55,7 @@ export function LangSwitch({ className }: { className?: string }) {
             aria-current={lang === courante ? "true" : undefined}
             className={cn(
               "label transition-colors duration-300",
-              lang === courante ? "text-bone" : "text-steel hover:text-fog",
+              lang === courante ? "text-bone" : "text-fog hover:text-bone",
             )}
           >
             {lang.toUpperCase()}

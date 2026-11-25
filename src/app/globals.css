@@ -12,9 +12,20 @@
   --color-carbon: #0a0a0c;
   --color-graphite: #121215;
   --color-ash: #1c1c20;
+  /* ⚠️ STEEL EST UNE SURFACE, JAMAIS UNE COULEUR DE TEXTE LISIBLE.
+     Sur le fond #050506 il donne 1,4:1 — AA en exige 4,5:1 pour du texte
+     courant. `border-steel` : oui, c'est son emploi. `text-steel` : seulement
+     sur ce qui ne porte AUCUNE information — un séparateur « · », une barre
+     oblique, un glyphe déjà marqué `aria-hidden`. Dès qu'un libellé, une
+     unité, une mention légale ou un message d'erreur s'y trouve, il est
+     illisible, et il l'a été : vingt-deux occurrences ont dû être reprises le
+     17 novembre 2026. En cas de doute, `text-fog`. */
   --color-steel: #2a2a30;
 
   /* — Texte ————————————————————————————————————————————— */
+  /* fog : 5,00:1 sur void — le texte secondaire, et le PLANCHER du lisible.
+     bone : 13:1 — texte principal, et ce qu'on réserve à ce qui doit arrêter
+     l'œil, comme le message d'un formulaire qui refuse. */
   --color-fog: #7d7d86;
   --color-bone: #ececee;
 

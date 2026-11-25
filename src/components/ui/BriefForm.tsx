@@ -233,7 +233,7 @@ export function BriefForm() {
       </Magnetic>
 
       {!prete && etat === "saisie" && (
-        <p className="label mt-4 text-steel">{C.incomplete}</p>
+        <p className="label mt-4 text-bone">{C.incomplete}</p>
       )}
 
       {etat === "echec" && (

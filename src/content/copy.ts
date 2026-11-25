@@ -22,6 +22,7 @@
 import {
   actualitesEn,
   boutiqueEn,
+  methodeEn,
   communityEn,
   legalEn,
   vedettesEn,
@@ -43,6 +44,7 @@ import { actualites as actualitesFr, type ActualitesCopy } from "@/content/actua
 import { community as communityFr } from "@/content/community";
 import { legal as legalFr, type LegalCopy } from "@/content/legal";
 import { boutique as boutiqueFr, type BoutiqueCopy } from "@/content/boutique";
+import { methode as methodeFr, type MethodeCopy } from "@/content/methode";
 import { vedettes as vedettesFr, type VedettesCopy } from "@/content/vedettes";
 import { vitrine as vitrineFr, type VitrineCopy } from "@/content/vitrine";
 import { projects as projectsFr, statusLabel as statusLabelFr } from "@/content/projects";
@@ -151,6 +153,7 @@ export type Copy = {
   vitrine: VitrineCopy;
   vedettes: VedettesCopy;
   boutique: BoutiqueCopy;
+  methode: MethodeCopy;
   /** Sert aux titres de sections dépourvus de conteneur dédié. */
   labels: {
     openNoFee: string;
@@ -186,6 +189,7 @@ const FR: Copy = {
   vitrine: vitrineFr,
   vedettes: vedettesFr,
   boutique: boutiqueFr,
+  methode: methodeFr,
   annonce: {
     kicker: "Le groupe",
     titre: "Cinq activités, une seule maison",
@@ -228,6 +232,7 @@ const EN: Copy = {
   vitrine: vitrineEn,
   vedettes: vedettesEn,
   boutique: boutiqueEn,
+  methode: methodeEn,
   annonce: {
     kicker: "The group",
     titre: "Five activities, one house",
