@@ -44,8 +44,20 @@ export type Rayon = {
    * jaune, et elles ne sortent pas du rayon des guides.
    */
   teinte: string;
-  /** Les titres, tels qu'ils s'appellent sur la boutique. */
-  titres: readonly string[];
+  /**
+   * Les titres, tels qu'ils s'appellent sur la boutique, avec leur vraie
+   * couverture quand elle a été relevée.
+   *
+   * `image` est le fichier dans /public/boutique, récupéré depuis la boutique
+   * Chariow elle-même : c'est la couverture que le client verra en arrivant
+   * là-bas, donc la seule honnête à montrer ici. Les vignettes carrées ont été
+   * préférées aux bannières, qui portent un prix — et le prix d'un guide ne
+   * vit que sur la boutique, où il est à jour (voir `prixNote`).
+   *
+   * Sans `image`, la couverture est DESSINÉE à partir du titre : un guide
+   * ajouté demain s'affiche donc tout seul, sans attendre son visuel.
+   */
+  titres: readonly { titre: string; image?: string }[];
 };
 
 /** Les familles du filtre. `tout` n'est pas une famille, c'est l'absence de filtre. */
@@ -292,12 +304,12 @@ export const boutique: BoutiqueCopy = {
       titre: "Trouver des clients, et se faire payer",
       promesse: "Le passage de la compétence au revenu, là où presque tout le monde reste bloqué.",
       titres: [
-        "Trouver ses Premiers Clients sans Budget Publicitaire",
-        "Gagner ses Premiers Clients grâce à l'IA, Étape par Étape",
-        "Trouver des Clients et les Faire Payer",
-        "Se Faire Payer pour une Compétence",
-        "Vendre Efficacement sur WhatsApp",
-        "Copywriting : Écrire pour Vendre",
+        { titre: "Trouver ses Premiers Clients sans Budget Publicitaire", image: "/boutique/meshfull.webp" },
+        { titre: "Gagner ses Premiers Clients grâce à l'IA, Étape par Étape", image: "/boutique/gagner-ses-premiers-clients-grace-a-l-ia-etape.webp" },
+        { titre: "Trouver des Clients et les Faire Payer", image: "/boutique/vendre.webp" },
+        { titre: "Se Faire Payer pour une Compétence", image: "/boutique/metier-packfullmesh.webp" },
+        { titre: "Vendre Efficacement sur WhatsApp", image: "/boutique/vendre-efficacement-sur-whatsapp.webp" },
+        { titre: "Copywriting : Écrire pour Vendre", image: "/boutique/fulmes.webp" },
       ],
     },
     {
@@ -306,10 +318,10 @@ export const boutique: BoutiqueCopy = {
       titre: "Se lancer avec ce qu'on a",
       promesse: "Démarrer sans capital, sans local, sans attendre un financement qui ne viendra pas.",
       titres: [
-        "Créer une Entreprise avec Moins de 50 000 FCFA",
-        "Se Lancer quand on a Peu d'Argent",
-        "50 Petites Activités Rentables à Lancer en Afrique",
-        "Comprendre le Mobile Money pour son Business",
+        { titre: "Créer une Entreprise avec Moins de 50 000 FCFA", image: "/boutique/creer-une-entreprise-avec-moins-de-50-000-fcfa.webp" },
+        { titre: "Se Lancer quand on a Peu d'Argent", image: "/boutique/selancer.webp" },
+        { titre: "50 Petites Activités Rentables à Lancer en Afrique", image: "/boutique/fullmh.webp" },
+        { titre: "Comprendre le Mobile Money pour son Business", image: "/boutique/mesh.webp" },
       ],
     },
     {
@@ -318,10 +330,10 @@ export const boutique: BoutiqueCopy = {
       titre: "Faire travailler l'IA",
       promesse: "L'outil qui remplace le collaborateur qu'on ne peut pas encore embaucher.",
       titres: [
-        "Faire Travailler l'IA pour Toi",
-        "100 Prompts IA Prêts à l'Emploi pour Vendre Plus",
-        "Créer des Visuels Professionnels avec Canva et l'IA",
-        "Créer son CV Professionnel avec l'IA",
+        { titre: "Faire Travailler l'IA pour Toi", image: "/boutique/pack-ia-fullmesh.webp" },
+        { titre: "100 Prompts IA Prêts à l'Emploi pour Vendre Plus", image: "/boutique/full-mesh-shop.webp" },
+        { titre: "Créer des Visuels Professionnels avec Canva et l'IA", image: "/boutique/fullms.webp" },
+        { titre: "Créer son CV Professionnel avec l'IA", image: "/boutique/fullmeshss.webp" },
       ],
     },
     {
@@ -330,9 +342,9 @@ export const boutique: BoutiqueCopy = {
       titre: "Apprendre un métier en entier",
       promesse: "Un métier pris du premier geste jusqu'à la première vente.",
       titres: [
-        "Devenez Community Manager Débutant en 30 Jours",
-        "Vendre ses Produits Numériques sur Chariow",
-        "Résine Époxy : du Premier Moule à la Première Vente",
+        { titre: "Devenez Community Manager Débutant en 30 Jours", image: "/boutique/fullmesh-h.webp" },
+        { titre: "Vendre ses Produits Numériques sur Chariow", image: "/boutique/fullmesh.webp" },
+        { titre: "Résine Époxy : du Premier Moule à la Première Vente", image: "/boutique/resineepoxy.webp" },
       ],
     },
   ],

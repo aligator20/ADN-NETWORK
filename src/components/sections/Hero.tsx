@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useRef } from "react";
 
+import { BandeauTravaux } from "@/components/ui/BandeauTravaux";
 import { ScrambleText } from "@/components/ui/ScrambleText";
 import { SplitText } from "@/components/ui/SplitText";
 import { useCopy } from "@/hooks/useCopy";
@@ -213,6 +214,12 @@ export function Hero() {
               ))}
             </p>
           </div>
+
+          {/* La preuve avant l'argument : on voit ce qui a été fabriqué ici
+              sans avoir dérouler. Voir BandeauTravaux — elle ne tire que de
+              vraies réalisations, et s'arrête si le visiteur a demandé moins
+              d'animation. */}
+          <BandeauTravaux />
         </div>
       </div>
     </section>

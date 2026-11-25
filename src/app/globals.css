@@ -274,3 +274,18 @@
   from { opacity: 0; transform: translateY(14px) scale(.985); }
   to   { opacity: 1; transform: none; }
 }
+
+/* ── LA BANDE DES TRAVAUX ────────────────────────────────────────────────
+   Le ruban est écrit deux fois dans le DOM ; -50 % amène donc le second
+   exemplaire exactement là où commençait le premier, et la boucle est
+   invisible. Transformation seule : ni `left`, ni `margin`, rien qui force
+   un recalcul de mise en page à chaque image.
+
+   Pas de `prefers-reduced-motion` ici : c'est le composant qui retire
+   l'animation, parce qu'il doit aussi garder la bande VISIBLE et lisible —
+   une règle CSS qui se contenterait de mettre la durée à zéro laisserait le
+   ruban arrêté sur une position arbitraire. */
+@keyframes bandeau-defile {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}

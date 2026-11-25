@@ -41,23 +41,52 @@ import { cn, pad } from "@/lib/utils";
 const JAUNE = "#f5c518";
 
 /**
- * UNE COUVERTURE, COMPOSÉE PLUTÔT QUE PHOTOGRAPHIÉE.
+ * UNE COUVERTURE — LA VRAIE QUAND ON L'A, DESSINÉE SINON.
  *
- * Les dix-sept guides n'ont aucune image sur ce dépôt. Les lister en texte les
- * faisait passer pour une table des matières ; attendre dix-sept visuels
- * aurait repoussé le rayon à un jour indéterminé. La couverture est donc
- * DESSINÉE À PARTIR DU TITRE : dégradé de la teinte du rayon, tranche à
- * gauche, titre composé dans la fonte d'affichage.
+ * Le 25 novembre 2026, les vraies couvertures des dix-sept guides ont été
+ * relevées sur la boutique Chariow elle-même et déposées dans
+ * /public/boutique. C'est donc elles qui s'affichent : le visiteur voit ici
+ * exactement ce qu'il trouvera là-bas, ce qu'aucune composition ne peut
+ * imiter. Les vignettes CARRÉES ont été prises plutôt que les bannières,
+ * parce que les bannières portent un prix — et le prix d'un guide ne vit que
+ * sur la boutique, où il est à jour.
  *
- * C'est la même règle que la galerie des réalisations, qui compose une plaque
- * teintée pour un projet sans photo. Aucun fichier à produire, rien à
- * compresser, et un titre corrigé redessine sa couverture tout seul.
+ * SANS `image`, la couverture reste DESSINÉE À PARTIR DU TITRE : dégradé de
+ * la teinte du rayon, tranche à gauche, titre composé. C'est ce qui permet
+ * d'ajouter un guide aujourd'hui et son visuel la semaine prochaine, sans que
+ * le rayon attende. Ne pas retirer cette branche : elle est le filet.
  *
- * Le titre est posé EN BAS, là où le dégradé a rejoint le noir : c'est ce qui
- * garantit sa lisibilité quelle que soit la teinte du rayon — un texte clair
- * sur le jaune FullMesh serait illisible.
+ * Le titre dessiné est posé EN BAS, là où le dégradé a rejoint le noir : un
+ * texte clair sur le jaune FullMesh serait illisible.
  */
-function Couverture({ titre, teinte, rang }: { titre: string; teinte: string; rang: number }) {
+function Couverture({
+  titre,
+  teinte,
+  rang,
+  image,
+}: {
+  titre: string;
+  teinte: string;
+  rang: number;
+  image?: string;
+}) {
+  if (image) {
+    return (
+      <span aria-hidden className="relative block aspect-square overflow-hidden bg-carbon">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Le même filet signal que les plaques du portfolio : c'est ce qui
+            fait qu'une image appartient à ce site et pas à un autre. */}
+        <span aria-hidden className="absolute inset-x-0 top-0 block h-px" style={{ background: teinte }} />
+      </span>
+    );
+  }
   return (
     <span
       aria-hidden
@@ -236,7 +265,7 @@ export function BoutiqueView() {
      combien il en reste — un rayon vide se verrait tout de suite. */
   const livres = boutique.rayons
     .filter((r) => rayon === "tout" || r.id === rayon)
-    .flatMap((r) => r.titres.map((titre) => ({ titre, teinte: r.teinte })));
+    .flatMap((r) => r.titres.map((t) => ({ titre: t.titre, image: t.image, teinte: r.teinte })));
 
   const visibles = articles.filter((a) => famille === "tout" || a.famille === famille);
   const choisis = articles.filter((a) => selection.contient(a.cle));
@@ -729,7 +758,7 @@ export function BoutiqueView() {
                     className="group block"
                   >
                     <span className="block transition-transform duration-500 ease-expo group-hover:-translate-y-1.5">
-                      <Couverture titre={l.titre} teinte={l.teinte} rang={i + 1} />
+                      <Couverture titre={l.titre} teinte={l.teinte} rang={i + 1} image={l.image} />
                     </span>
                     <span className="mt-3 flex items-baseline justify-between gap-2">
                       <span className="label text-fog transition-colors duration-300 group-hover:text-bone">
